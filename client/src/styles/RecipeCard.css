@@ -1,0 +1,65 @@
+.recipe-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
+  gap: 8px; /* This sets the space between the grid items */
+  padding: 2px; /* Optional: padding around the grid */
+}
+
+.recipe-card {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-style: solid;
+  border-width: 1px;
+  box-sizing: border-box;
+}
+
+.recipe-card-image-container-portrait,
+.recipe-card-image-container-landscape {
+  overflow: hidden;
+  height: 200px;
+  width: 100%;
+  background-color: blue;
+}
+
+.recipe-card-image-portrait {
+  width: 300px;
+  height: auto;
+}
+
+.recipe-card-image-landscape {
+  width: 400px;
+  height: auto;
+}
+
+.recipe-card-bottom {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: left;
+  margin-left: 1.5rem;
+}
+
+.recipe-card-title-likes {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  position: relative;
+  margin: 15px 0;
+}
+
+.recipe-card-title {
+  width: 70%;
+  margin: 0;
+}
+
+.recipe-card-likes {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card-description {
+  width: 75%;
+  margin: 0;
+}
