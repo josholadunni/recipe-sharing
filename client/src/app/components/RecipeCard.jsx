@@ -1,6 +1,7 @@
+"use client";
 import React from "react";
 import { useState } from "react";
-import "../styles/RecipeCard.css";
+import "../../styles/RecipeCard.css";
 
 const RecipeCard = (props) => {
   const [orientation, setOrientation] = useState("portrait");

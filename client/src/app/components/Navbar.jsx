@@ -1,4 +1,5 @@
-import "../styles/Navbar.css";
+"use client";
+
 import { useContext } from "react";
 import { AuthContext } from "./Auth";
 
