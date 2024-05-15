@@ -67,8 +67,10 @@ const popularRecipes = [
 export default function Home() {
   return (
     <div>
-      <h1>Recipe Sharer</h1>
-      <h2>Featured Recipes</h2>
+      <h1 className="text-center text-3xl font-medium pb-3 mt-5">
+        Recipe Sharer
+      </h1>
+      <h2 className="text-center text-lg my-4">Featured Recipes</h2>
       <div className="recipe-grid">
         {featuredRecipes.map((recipe) => {
           return (
