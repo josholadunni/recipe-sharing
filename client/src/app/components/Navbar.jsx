@@ -1,14 +1,11 @@
-"use client";
-
 function Navbar() {
   return (
-    <nav>
-      <ul>
+    <nav className="pt-5">
+      <ul className="text-center">
         <li>Home</li>
         <li>Browse</li>
         <li>Search</li>
-        <li>"Login"</li>
-        <li>Account</li>
+        <li>Login</li>
       </ul>
     </nav>
   );
