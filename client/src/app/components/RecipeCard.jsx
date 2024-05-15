@@ -6,29 +6,32 @@ import "../../styles/RecipeCard.css";
 
 const RecipeCard = (props) => {
   return (
-    <div className="recipe-card-container">
-      <div className="recipe-card-img">
+    <div className="flex flex-col shadow-lg w-72">
+      <div className="relative h-60">
         <Image
           src={"/images/" + props.imgFileName}
           alt={props.title + " recipe"}
           fill={true}
-          style={{ objectFit: "cover" }}
+          className="object-cover"
         />
       </div>
-      <div className="recipe-card-bottom">
-        <div className="recipe-card-title-likes">
-          <h2 className="recipe-card-title">{props.title}</h2>
-          <div className="recipe-card-likes">
-            <button>Like</button>
-            100 Likes
-          </div>
+      <div className="flex flex-col p-4 flex-none">
+        <h2 className="text-lg font-bold mb-2">{props.title}</h2>
+        <div className="mt-auto">
+          <button className=" bg-white text-black border border-black text-white rounded hover:bg-black hover:text-white">
+            <span className="p-6">Like</span>
+          </button>
+          <span className="ml-2 ">100 Likes</span>
         </div>
-        <p className="recipe-card-description">{props.description}</p>
-        <p>
-          {props.categories.map((category) => {
-            return `${category} `;
-          })}
-        </p>
+
+        <p className="mt-4">{props.description}</p>
+        <div className="mt-auto">
+          <p className="mt-2">
+            {props.categories.map((category) => {
+              return `${category} `;
+            })}
+          </p>
+        </div>
       </div>
     </div>
   );
