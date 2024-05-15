@@ -5,31 +5,15 @@
   padding: 2px; /* Optional: padding around the grid */
 }
 
-.recipe-card {
+.recipe-card-img {
   width: 100%;
-  height: auto;
+  height: 400px;
   display: block;
   border-style: solid;
   border-width: 1px;
   box-sizing: border-box;
-}
-
-.recipe-card-image-container-portrait,
-.recipe-card-image-container-landscape {
+  position: relative;
   overflow: hidden;
-  height: 200px;
-  width: 100%;
-  background-color: blue;
-}
-
-.recipe-card-image-portrait {
-  width: 300px;
-  height: auto;
-}
-
-.recipe-card-image-landscape {
-  width: 400px;
-  height: auto;
 }
 
 .recipe-card-bottom {
