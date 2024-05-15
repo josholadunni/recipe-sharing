@@ -1,8 +1,4 @@
-import React, { useContext } from "react";
-import { AuthContext } from "./Auth";
-
 export default function LogIn() {
-  const { setIsLoggedIn } = useContext(AuthContext);
   return (
     <div>
       <h1>Log In</h1>

@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import { useState } from "react";
 import "../../styles/RecipeCard.css";
 
@@ -7,6 +8,7 @@ const RecipeCard = (props) => {
   const [orientation, setOrientation] = useState("portrait");
 
   const handleImageLoad = (event) => {
+    console.log("Image loaded");
     const { naturalWidth, naturalHeight } = event.target;
     const newOrientation =
       naturalWidth - 100 > naturalHeight ? "landscape" : "portrait";
@@ -17,12 +19,14 @@ const RecipeCard = (props) => {
     <div className="recipe-card-container">
       <div className={`recipe-card`}>
         <div className={`recipe-card-image-container-${orientation}`}>
-          <img
+          <Image
+            width={300}
+            height={300}
             className={`recipe-card-image-${orientation}`}
             src={"/images/" + props.imgFileName}
             alt={props.title + " recipe"}
-            onLoad={handleImageLoad}
-          ></img>
+            onLoadingComplete={handleImageLoad}
+          />
         </div>
         <div className="recipe-card-bottom">
           <div className="recipe-card-title-likes">
