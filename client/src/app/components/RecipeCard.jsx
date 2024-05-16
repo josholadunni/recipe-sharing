@@ -18,7 +18,7 @@ const RecipeCard = (props) => {
       <div className="flex flex-col p-4 flex-none">
         <h2 className="text-lg font-bold mb-2">{props.title}</h2>
         <div className="mt-auto">
-          <button className=" bg-white text-black border border-black text-white rounded hover:bg-black hover:text-white">
+          <button className=" bg-white text-black border border-black rounded hover:bg-black hover:text-white">
             <span className="p-6">Like</span>
           </button>
           <span className="ml-2 ">100 Likes</span>
