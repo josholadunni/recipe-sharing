@@ -2,6 +2,10 @@ import React from "react";
 import RecipeCard from "./components/RecipeCard.jsx";
 import "../styles/Home.css";
 
+import sequelize from "./lib/db.js";
+import Recipe from "./lib/models/Recipe.js";
+import User from "./lib/models/User.js";
+
 const featuredRecipes = [
   {
     id: 1,
@@ -64,7 +68,7 @@ const popularRecipes = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
   return (
     <div>
       <h1 className="text-center text-3xl font-medium pb-3 mt-5">
