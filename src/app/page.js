@@ -1,6 +1,7 @@
 import React from "react";
 import RecipeCard from "./components/RecipeCard.jsx";
 import "../styles/Home.css";
+import PopularRecipes from "./components/Home/PopularRecipes.jsx";
 
 import sequelize from "./lib/db.js";
 import Recipe from "./lib/models/Recipe.js";
@@ -37,36 +38,36 @@ const featuredRecipes = [
   },
 ];
 
-const popularRecipes = [
-  {
-    id: 1,
-    title: "Tasty Tacos",
-    imgFileName: "IMG_0794.jpeg",
-    description: "Spicy tacos from Mexico",
-    categories: ["Mexican", "Meat", "Spicy"],
-  },
-  {
-    id: 2,
-    title: "Homemade Pizza",
-    imgFileName: "IMG_0795.jpeg",
-    description: "Cheap and customisable",
-    categories: ["Italian"],
-  },
-  {
-    id: 3,
-    title: "Simple Salad",
-    imgFileName: "IMG_0796.jpeg",
-    description: "Rustle this up in 5 minutes and enjoy",
-    categories: ["Italian"],
-  },
-  {
-    id: 4,
-    title: "Chocolate Brownies",
-    imgFileName: "IMG_0797.webp",
-    description: "Best warm and served with vanilla ice cream",
-    categories: ["Dessert", "Chocolate"],
-  },
-];
+// const popularRecipes = [
+//   {
+//     id: 1,
+//     title: "Tasty Tacos",
+//     imgFileName: "IMG_0794.jpeg",
+//     description: "Spicy tacos from Mexico",
+//     categories: ["Mexican", "Meat", "Spicy"],
+//   },
+//   {
+//     id: 2,
+//     title: "Homemade Pizza",
+//     imgFileName: "IMG_0795.jpeg",
+//     description: "Cheap and customisable",
+//     categories: ["Italian"],
+//   },
+//   {
+//     id: 3,
+//     title: "Simple Salad",
+//     imgFileName: "IMG_0796.jpeg",
+//     description: "Rustle this up in 5 minutes and enjoy",
+//     categories: ["Italian"],
+//   },
+//   {
+//     id: 4,
+//     title: "Chocolate Brownies",
+//     imgFileName: "IMG_0797.webp",
+//     description: "Best warm and served with vanilla ice cream",
+//     categories: ["Dessert", "Chocolate"],
+//   },
+// ];
 
 export default async function Home() {
   return (
@@ -89,19 +90,7 @@ export default async function Home() {
         })}
       </div>
       <h2>Popular Recipes</h2>
-      <div className="recipe-grid">
-        {popularRecipes.map((recipe) => {
-          return (
-            <RecipeCard
-              key={recipe.id}
-              title={recipe.title}
-              imgFileName={recipe.imgFileName}
-              description={recipe.description}
-              categories={recipe.categories}
-            />
-          );
-        })}
-      </div>
+      <PopularRecipes />
     </div>
   );
 }
