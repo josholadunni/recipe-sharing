@@ -10,6 +10,8 @@ const sequelize = new Sequelize("recipe_sharing", "PLACEHOLDER_DB_DIALECT", "hph
 
 export default sequelize;
 
+export async function fetchPopularRecipes() {}
+
 // import config from "../../../config/config";
 
 // const env = process.env.NODE_ENV || "development";
