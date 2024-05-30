@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "next": "latest",
+    "next.js": "^1.0.3",
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",
     "react": "^18",

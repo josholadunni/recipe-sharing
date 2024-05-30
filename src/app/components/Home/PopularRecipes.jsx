@@ -2,7 +2,7 @@ import React from "react";
 import Recipe from "../../lib/models/Recipe.js";
 
 export default async function PopularRecipes() {
-  const popularRecipes = await Recipe.findAll();
+  //   const popularRecipes =
   console.log(popularRecipes);
   return (
     <div className="recipe-grid">

@@ -32,6 +32,10 @@ const Recipe = sequelize.define(
       allowNull: true,
       autoIncrement: false,
     },
+    isDummy: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
   },
   {
     timestamps: true,

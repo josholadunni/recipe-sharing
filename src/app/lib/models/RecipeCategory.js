@@ -28,4 +28,29 @@ RecipeCategory.associate = () => {
   });
 };
 
+export async function loadCategories() {
+  const categories = [
+    "italian",
+    "vegetarian",
+    "dessert",
+    "american",
+    "lunch",
+    "brunch",
+  ];
+
+  const mappedCategories = await Promise.all(
+    categories.map(async (category) => {
+      const existingCategory = await RecipeCategory.findOne({
+        where: { name: category },
+      });
+      if (!existingCategory) {
+        return await RecipeCategory.create({ name: category });
+      }
+      return existingCategory;
+    })
+  );
+
+  return mappedCategories;
+}
+
 export default RecipeCategory;
