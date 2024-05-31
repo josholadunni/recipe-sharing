@@ -29,7 +29,7 @@ export default async function AddRecipes() {
             <div class="py-2 flex flex-col w-60 mx-auto">
               <label for="rcslect">Recipe Category</label>
               <br></br>
-              <select class="border-2" name="rcselect">
+              <select class="border-2" name="rcselect" required>
                 {categoryNames.map((category, key) => {
                   return (
                     <option key={key} value={category}>
@@ -49,14 +49,15 @@ export default async function AddRecipes() {
               label="Recipe Description"
               name="rdescription"
               type="text"
-              placeholder="Recipe description"
+              placeholder="Recipe Description"
             />
             <Input
               label="Short Recipe Description"
               name="srdescription"
               type="text"
-              placeholder="Recipe short description"
+              placeholder="Recipe short Description"
             />
+            <Input type="submit" value="submit" />
           </div>
         </form>
       </div>
