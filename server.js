@@ -14,6 +14,9 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const app = express();
 
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+
   Recipe.associate();
   RecipeCategory.associate();
 
@@ -32,8 +35,22 @@ app.prepare().then(() => {
     return handle(req, res);
   });
 
-  app.post("/submit-recipe", (req, res) => {
-    Recipe.sync();
+  app.post("/submit-recipe", async (req, res) => {
+    // Recipe.sync();
+    console.log(req.body);
+    try {
+      await Recipe.create({
+        name: req.body.rname,
+        imageURL: req.body.iurl,
+        description: req.body.rdescription,
+        short_description: req.body.srdescription,
+        isDummy: true,
+      });
+      console.log(`${req.body.rname} recipe created!`);
+      res.redirect("add-recipe");
+    } catch (error) {
+      console.error("Couldn't create recipe ", error);
+    }
   });
 
   const PORT = process.env.PORT || 3000;
