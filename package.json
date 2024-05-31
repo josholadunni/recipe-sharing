@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "latest",
+    "next": "^14.2.3",
     "next.js": "^1.0.3",
     "pg": "^8.11.5",
     "pg-hstore": "^2.3.4",

@@ -3,10 +3,10 @@ import Recipe from "../../lib/models/Recipe.js";
 
 export default async function PopularRecipes() {
   //   const popularRecipes =
-  console.log(popularRecipes);
+  console.log();
   return (
     <div className="recipe-grid">
-      return {popularRecipes};
+      return {};
       {/* //   <RecipeCard
         //     key={recipe.id}
         //     title={recipe.title}

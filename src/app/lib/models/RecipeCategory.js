@@ -28,7 +28,12 @@ RecipeCategory.associate = () => {
   });
 };
 
-export async function loadCategories() {
+export async function fetchCategories() {
+  RecipeCategory.sync();
+  return await RecipeCategory.findAll();
+}
+
+export async function createCategories() {
   const categories = [
     "italian",
     "vegetarian",

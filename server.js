@@ -5,7 +5,7 @@ import User from "./src/app/lib/models/User.js";
 import Recipe from "./src/app/lib/models/Recipe.js";
 import RecipeCategory from "./src/app/lib/models/RecipeCategory.js";
 import RecipeRecipeCategory from "./src/app/lib/models/RecipeRecipeCategory.js";
-import { loadCategories } from "./src/app/lib/models/RecipeCategory.js";
+import { createCategories } from "./src/app/lib/models/RecipeCategory.js";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -20,7 +20,7 @@ app.prepare().then(() => {
   sequelize
     .sync()
     .then(() => {
-      loadCategories();
+      // createCategories();
       console.log("Database & tables created!");
     })
     .catch((error) => {
@@ -30,6 +30,10 @@ app.prepare().then(() => {
   // All other Next.js requests
   app.get("*", (req, res) => {
     return handle(req, res);
+  });
+
+  app.post("/submit-recipe", (req, res) => {
+    Recipe.sync();
   });
 
   const PORT = process.env.PORT || 3000;
