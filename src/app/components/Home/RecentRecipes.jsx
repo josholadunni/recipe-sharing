@@ -1,5 +1,7 @@
 import React from "react";
 import RecipeCard from "../RecipeCard.jsx";
+import Recipe from "@/app/lib/models/Recipe.js";
+import RecipeCategory from "@/app/lib/models/RecipeCategory.js";
 import { fetchRecipes } from "@/app/lib/models/Recipe.js";
 
 const featuredRecipes = [
@@ -33,9 +35,15 @@ const featuredRecipes = [
   },
 ];
 
-const allRecipes = await fetchRecipes();
+const allRecipes = await Recipe.findAll({
+  include: [
+    {
+      model: RecipeCategory,
+    },
+  ],
+});
 
-console.log(allRecipes);
+// console.log(allRecipes);
 
 export default function RecentRecipes() {
   return (
