@@ -25,6 +25,7 @@ app.prepare().then(() => {
     .then(() => {
       // createCategories();
       console.log("Database & tables created!");
+      // console.log(Object.keys(Recipe.prototype)); //Check the methods assigned to the Recipe model
     })
     .catch((error) => {
       console.error("Unable to create the table : ", error);
@@ -36,16 +37,24 @@ app.prepare().then(() => {
   });
 
   app.post("/submit-recipe", async (req, res) => {
-    // Recipe.sync();
-    console.log(req.body);
+    Recipe.sync();
     try {
-      await Recipe.create({
+      const newRecipe = await Recipe.create({
         name: req.body.rname,
         imageURL: req.body.iurl,
         description: req.body.rdescription,
         short_description: req.body.srdescription,
         isDummy: true,
       });
+      const categories = await RecipeCategory.findAll({
+        where: { name: req.body.rcselect },
+      });
+      try {
+        await newRecipe.addRecipeCategories(categories);
+      } catch (error) {
+        console.error("Couldn't assign category ", error);
+      }
+
       console.log(`${req.body.rname} recipe created!`);
       res.redirect("add-recipe");
     } catch (error) {

@@ -11,7 +11,6 @@ import Input from "../components/Input.jsx";
 
 export default async function AddRecipes() {
   const categories = await fetchCategories();
-
   const categoryNames = categories.map((category) => category.name);
 
   return (
