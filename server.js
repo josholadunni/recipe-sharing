@@ -1,10 +1,8 @@
 import express from "express";
 import next from "next";
 import sequelize from "./src/app/lib/db.js";
-import User from "./src/app/lib/models/User.js";
 import Recipe from "./src/app/lib/models/Recipe.js";
 import RecipeCategory from "./src/app/lib/models/RecipeCategory.js";
-import RecipeRecipeCategory from "./src/app/lib/models/RecipeRecipeCategory.js";
 import { createCategories } from "./src/app/lib/models/RecipeCategory.js";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -21,9 +19,9 @@ app.prepare().then(() => {
   RecipeCategory.associate();
 
   sequelize
-    .sync()
+    .sync({ force: true })
     .then(() => {
-      // createCategories();
+      createCategories();
       console.log("Database & tables created!");
       // console.log(Object.keys(Recipe.prototype)); //Check the methods assigned to the Recipe model
     })

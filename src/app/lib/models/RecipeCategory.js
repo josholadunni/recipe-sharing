@@ -22,6 +22,7 @@ const RecipeCategory = sequelize.define(
 );
 
 RecipeCategory.associate = () => {
+  console.log("Associating RecipeCategory with Recipe");
   RecipeCategory.belongsToMany(Recipe, {
     through: RecipeRecipeCategory,
     foreignKey: "categoryId",
