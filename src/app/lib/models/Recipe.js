@@ -49,4 +49,9 @@ Recipe.associate = () => {
   });
 };
 
+export async function fetchRecipes() {
+  Recipe.sync();
+  return await Recipe.findAll();
+}
+
 export default Recipe;
