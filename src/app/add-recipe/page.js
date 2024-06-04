@@ -1,11 +1,6 @@
 import React from "react";
 
-import sequelize from "../lib/db.js";
-import Recipe from "../lib/models/Recipe.js";
-import RecipeCategory, {
-  fetchCategories,
-} from "../lib/models/RecipeCategory.js";
-import User from "../lib/models/User.js";
+import { fetchCategories } from "../lib/models/RecipeCategory.js";
 
 import Input from "../components/Input.jsx";
 
