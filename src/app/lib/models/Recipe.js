@@ -1,7 +1,5 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db.js";
-import RecipeCategory from "./RecipeCategory.js";
-import RecipeRecipeCategory from "./RecipeRecipeCategory.js";
 
 const Recipe = sequelize.define(
   "Recipe",
@@ -41,14 +39,6 @@ const Recipe = sequelize.define(
     timestamps: true,
   }
 );
-
-Recipe.associate = () => {
-  console.log("Associating Recipe with RecipeCategory");
-  Recipe.belongsToMany(RecipeCategory, {
-    through: RecipeRecipeCategory,
-    foreignKey: "recipeId",
-  });
-};
 
 export async function fetchRecipes() {
   Recipe.sync();

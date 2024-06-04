@@ -45,7 +45,7 @@ export default async function Home() {
         <RecentRecipes />
       </div>
       <h2>Popular Recipes</h2>
-      <PopularRecipes />
+      {/* <PopularRecipes /> */}
     </div>
   );
 }

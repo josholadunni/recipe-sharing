@@ -4,6 +4,7 @@ import sequelize from "./src/app/lib/db.js";
 import Recipe from "./src/app/lib/models/Recipe.js";
 import RecipeCategory from "./src/app/lib/models/RecipeCategory.js";
 import { createCategories } from "./src/app/lib/models/RecipeCategory.js";
+import RecipeRecipeCategory from "./src/app/lib/models/RecipeRecipeCategory.js";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -15,8 +16,8 @@ app.prepare().then(() => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  Recipe.associate();
-  RecipeCategory.associate();
+  Recipe.belongsToMany(RecipeCategory, { through: RecipeRecipeCategory });
+  RecipeCategory.belongsToMany(Recipe, { through: RecipeRecipeCategory });
 
   sequelize
     .sync({ force: true })
