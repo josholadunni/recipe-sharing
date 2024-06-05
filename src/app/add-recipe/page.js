@@ -7,7 +7,6 @@ import Input from "../components/Input.jsx";
 export default async function AddRecipes() {
   const categories = await fetchCategories();
   const categoryNames = categories.map((category) => category.name);
-  console.log(categories);
 
   return (
     <div>
@@ -21,10 +20,10 @@ export default async function AddRecipes() {
               type="text"
               placeholder="Recipe Name"
             />
-            <div class="py-2 flex flex-col w-60 mx-auto">
-              <label for="rcslect">Recipe Category</label>
+            <div className="py-2 flex flex-col w-60 mx-auto">
+              <label htmlFor="rcslect">Recipe Category</label>
               <br></br>
-              <select class="border-2" name="rcselect" required>
+              <select className="border-2" name="rcselect" required>
                 {categoryNames.map((category, key) => {
                   return (
                     <option key={key} value={category}>

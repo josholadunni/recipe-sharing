@@ -4,31 +4,27 @@ import sequelize from "./src/app/lib/db.js";
 import Recipe from "./src/app/lib/models/Recipe.js";
 import RecipeCategory from "./src/app/lib/models/RecipeCategory.js";
 import { createCategories } from "./src/app/lib/models/RecipeCategory.js";
-import RecipeRecipeCategory from "./src/app/lib/models/RecipeRecipeCategory.js";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+sequelize
+  .sync()
+  .then(() => {
+    createCategories();
+    console.log("Database & tables created!");
+    // console.log(Object.keys(Recipe.prototype)); //Check the methods assigned to the Recipe model
+  })
+  .catch((error) => {
+    console.error("Unable to create the table : ", error);
+  });
 
 app.prepare().then(() => {
   const app = express();
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-
-  Recipe.belongsToMany(RecipeCategory, { through: RecipeRecipeCategory });
-  RecipeCategory.belongsToMany(Recipe, { through: RecipeRecipeCategory });
-
-  sequelize
-    .sync({ force: true })
-    .then(() => {
-      createCategories();
-      console.log("Database & tables created!");
-      // console.log(Object.keys(Recipe.prototype)); //Check the methods assigned to the Recipe model
-    })
-    .catch((error) => {
-      console.error("Unable to create the table : ", error);
-    });
 
   // All other Next.js requests
   app.get("*", (req, res) => {
