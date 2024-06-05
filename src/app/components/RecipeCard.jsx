@@ -1,10 +1,13 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useState } from "react";
 import "../../styles/RecipeCard.css";
 
 const RecipeCard = (props) => {
+  console.log(props);
+  const categories = props.categories.map((category) => {
+    return <span key={category}>{category}</span>;
+  });
   return (
     <div className="flex flex-col shadow-lg w-72">
       <div className="relative h-60">
@@ -26,11 +29,7 @@ const RecipeCard = (props) => {
 
         <p className="mt-4">{props.description}</p>
         <div className="mt-auto">
-          <p className="mt-2">
-            {props.categories.map((category) => {
-              return `${category} `;
-            })}
-          </p>
+          <p className="mt-2">{categories}</p>
         </div>
       </div>
     </div>

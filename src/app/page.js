@@ -40,7 +40,7 @@ export default async function Home() {
       <h1 className="text-center text-3xl font-medium pb-3 mt-5">
         Recipe Sharer
       </h1>
-      <h2 className="text-center text-lg my-4">Featured Recipes</h2>
+      <h2 className="text-center text-lg my-4">Recent Recipes</h2>
       <div>
         <RecentRecipes />
       </div>
