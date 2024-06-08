@@ -21,9 +21,29 @@ export default async function AddRecipes() {
               placeholder="Recipe Name"
             />
             <div className="py-2 flex flex-col w-60 mx-auto">
-              <label htmlFor="rcslect">Recipe Category</label>
+              <p>Recipe Category</p>
+              {categoryNames.map((category, key) => {
+                console.log({ category });
+                return (
+                  <div>
+                    <label htmlFor={category} key={key}>
+                      {category}
+                    </label>
+                    <input
+                      className="float-right"
+                      type="checkbox"
+                      key={key}
+                      id={`${category}${key}`}
+                      name="rcselect"
+                      value={category}
+                    ></input>
+                  </div>
+                );
+              })}
+
+              {/* <label htmlFor="rcslect">Recipe Category</label>
               <br></br>
-              <select className="border-2" name="rcselect" required>
+              <select className="border-2" name="rcselect" required multiple>
                 {categoryNames.map((category, key) => {
                   return (
                     <option key={key} value={category}>
@@ -31,7 +51,7 @@ export default async function AddRecipes() {
                     </option>
                   );
                 })}
-              </select>
+              </select> */}
             </div>
             <Input
               label="Image URL"
