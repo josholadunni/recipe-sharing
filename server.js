@@ -3,18 +3,22 @@ import next from "next";
 import sequelize from "./src/app/lib/db.js";
 import Recipe from "./src/app/lib/models/Recipe.js";
 import RecipeCategory from "./src/app/lib/models/RecipeCategory.js";
+import RecipeRecipeCategory from "./src/app/lib/models/RecipeRecipeCategory.js";
 import { createCategories } from "./src/app/lib/models/RecipeCategory.js";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
+Recipe.belongsToMany(RecipeCategory, { through: RecipeRecipeCategory });
+RecipeCategory.belongsToMany(Recipe, { through: RecipeRecipeCategory });
+
 sequelize
   .sync()
   .then(() => {
     createCategories();
     console.log("Database & tables created!");
-    // console.log(Object.keys(Recipe.prototype)); //Check the methods assigned to the Recipe model
+    console.log(Object.keys(Recipe.prototype)); //Check the methods assigned to the Recipe model
   })
   .catch((error) => {
     console.error("Unable to create the table : ", error);
@@ -45,9 +49,11 @@ app.prepare().then(() => {
         where: { name: req.body.rcselect },
       });
       try {
+        console.log("CATEGORIES ARE:" + categories);
         await newRecipe.addRecipeCategories(categories);
       } catch (error) {
         console.error("Couldn't assign category ", error);
+        console.log(req.body);
       }
 
       console.log(`${req.body.rname} recipe created!`);

@@ -42,18 +42,6 @@ const allRecipes = await Recipe.findAll({
   include: RecipeCategory,
 });
 
-// console.log(featuredRecipes);
-// console.log(allRecipes[0].RecipeCategories[0].name);
-// console.log(allRecipes[0].dataValues);
-
-// let categoryNames = [];
-
-// allRecipes.map((recipe) => {
-//   recipe.RecipeCategories.map((category) => {
-//     categoryNames.push(category.name);
-//   });
-// });
-
 const renderedRecipeCards = allRecipes.map((recipe) => {
   const categories = recipe.RecipeCategories.map((category) => category.name);
   return (

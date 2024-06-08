@@ -6,7 +6,7 @@ import "../../styles/RecipeCard.css";
 const RecipeCard = (props) => {
   console.log(props);
   const categories = props.categories.map((category) => {
-    return <span key={category}>{category}</span>;
+    return <span key={category}>{category} </span>;
   });
   return (
     <div className="flex flex-col shadow-lg w-72">
