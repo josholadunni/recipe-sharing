@@ -4,7 +4,6 @@ import Image from "next/image";
 import "../../styles/RecipeCard.css";
 
 const RecipeCard = (props) => {
-  console.log(props);
   const categories = props.categories.map((category) => {
     return <span key={category}>{category} </span>;
   });
