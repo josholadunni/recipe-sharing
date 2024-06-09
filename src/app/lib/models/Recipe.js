@@ -40,9 +40,4 @@ const Recipe = sequelize.define(
   }
 );
 
-export async function fetchRecipes() {
-  Recipe.sync();
-  return await Recipe.findAll();
-}
-
 export default Recipe;
