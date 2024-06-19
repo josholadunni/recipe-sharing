@@ -4,6 +4,9 @@ import { Recipe } from "./models";
 import { RecipeCategory } from "./models";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import Like from "./models/Like";
+import { signIn } from "../../../auth";
+import { AuthError } from "next-auth";
 
 export async function createRecipe(formData) {
   await Recipe.sync();
@@ -30,4 +33,37 @@ export async function createRecipe(formData) {
   }
   revalidatePath("/");
   redirect("/");
+}
+export async function createLike(e) {
+  try {
+    const recipe = await Recipe.findByPk(e.id);
+
+    if (!recipe) {
+      throw new Error("Recipe not found");
+    }
+    const newLike = await Like.create({
+      RecipeId: recipe.id,
+    });
+
+    console.log("New like added:", newLike);
+  } catch (error) {
+    console.error("Error adding like:", error);
+  }
+  revalidatePath("/");
+}
+
+export async function authenticate(prevState, formData) {
+  try {
+    await signIn("credentials", formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
 }
