@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import Like from "./models/Like";
 import { signIn } from "../../../auth";
 import { AuthError } from "next-auth";
+import User from "./models/User";
 
 export async function createRecipe(formData) {
   await Recipe.sync();
@@ -34,6 +35,25 @@ export async function createRecipe(formData) {
   revalidatePath("/");
   redirect("/");
 }
+
+export async function createUser(formData) {
+  await User.sync();
+  try {
+    const inputPassword = formData.get("password");
+    const inputConfirmPassword = formData.get("confirm-password");
+
+    if (inputPassword === inputConfirmPassword) {
+      const user = await User.create({
+        username: formData.get("username"),
+        email: formData.get("email"),
+        password: formData.get("password"),
+      });
+    }
+  } catch (error) {
+    console.error("Couldn't create user", error);
+  }
+}
+
 export async function createLike(e) {
   try {
     const recipe = await Recipe.findByPk(e.id);
