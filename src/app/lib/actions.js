@@ -8,6 +8,7 @@ import Like from "./models/Like";
 import { signIn } from "../../../auth";
 import { AuthError } from "next-auth";
 import User from "./models/User";
+import bcrypt from "bcrypt";
 
 export async function createRecipe(formData) {
   await Recipe.sync();
@@ -37,17 +38,25 @@ export async function createRecipe(formData) {
 }
 
 export async function createUser(formData) {
+  const saltRounds = 10;
   await User.sync();
   try {
+    const salt = await bcrypt.genSalt(saltRounds);
+
     const inputPassword = formData.get("password");
     const inputConfirmPassword = formData.get("confirm-password");
 
+    const hashedPassword = await bcrypt.hash(inputPassword, salt);
+
     if (inputPassword === inputConfirmPassword) {
-      const user = await User.create({
+      await User.create({
         username: formData.get("username"),
         email: formData.get("email"),
-        password: formData.get("password"),
+        password: hashedPassword,
       });
+      console.log("User registered sucecssfully");
+    } else {
+      console.error("Couldn't register user - passwords don't match");
     }
   } catch (error) {
     console.error("Couldn't create user", error);
