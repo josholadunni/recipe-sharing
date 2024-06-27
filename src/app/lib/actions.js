@@ -54,12 +54,18 @@ export async function createUser(formData) {
         email: formData.get("email"),
         password: hashedPassword,
       });
-      console.log("User registered sucecssfully");
+      console.log("User registered successfully");
+      return { success: true, message: "User registered successfully" };
     } else {
       console.error("Couldn't register user - passwords don't match");
+      return {
+        success: false,
+        message: "Couldn't register user - passwords don't match",
+      };
     }
   } catch (error) {
-    console.error("Couldn't create user", error);
+    console.error("Error creating user", error);
+    return { success: false, message: "Error creating user" };
   }
 }
 
