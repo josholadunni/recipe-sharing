@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import { authConfig } from "./auth.config";
 
+console.log("Running middleware");
+
 export default NextAuth(authConfig).auth;
 
 export const config = {
