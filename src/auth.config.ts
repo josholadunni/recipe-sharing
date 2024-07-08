@@ -7,13 +7,14 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-
-      const protectedRoutes = ["/profile", "/settings", "/dashboard"];
-      if (protectedRoutes.some((route) => nextUrl.pathname.startsWith(route))) {
-        return isLoggedIn;
+      const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
+      if (isOnDashboard) {
+        if (isLoggedIn) return true;
+        return false;
+      } else if (isLoggedIn) {
+        return Response.redirect(new URL("/dashboard", nextUrl));
       }
-
-      return true; // Allow access to public pages
+      return true;
     },
   },
   providers: [], // Add providers with an empty array for now
