@@ -5,7 +5,7 @@ import { RecipeCategory } from "./models";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import Like from "./models/Like";
-import { signIn } from "../../../auth";
+import { signIn } from "../../auth";
 import { AuthError } from "next-auth";
 import User from "./models/User";
 import bcrypt from "bcrypt";
