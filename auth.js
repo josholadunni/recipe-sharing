@@ -1,18 +1,18 @@
 import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
+import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
-import User from "@/app/lib/models/User";
 import bcrypt from "bcrypt";
+import User from "@/app/lib/models/User";
 
-async function getUser(email) {
+async function getUser(inputEmail) {
   try {
     const user = await User.findAll({
       where: {
-        email: email,
+        email: inputEmail,
       },
     });
-    return user[0];
+    return user.rows[0];
   } catch (error) {
     console.error("Failed to fetch user:", error);
     throw new Error("Failed to fetch user.");
