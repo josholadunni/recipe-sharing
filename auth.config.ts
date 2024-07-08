@@ -1,4 +1,4 @@
-import type { NextAuthConfig } from "next-auth/index";
+import type { NextAuthConfig } from "next-auth";
 
 export const authConfig = {
   pages: {
@@ -6,19 +6,11 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      console.log("authorized running");
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
-      if (isLoggedIn) {
-        console.log("logged in");
-      } else {
-        console.log("not logged in");
-      }
       if (isOnDashboard) {
-        console.log("on dashboard");
         if (isLoggedIn) return true;
-        console.log("not logged in");
-        return Response.redirect(new URL("/login", nextUrl)); // Redirect unauthenticated users to login page
+        return false;
       } else if (isLoggedIn) {
         return Response.redirect(new URL("/dashboard", nextUrl));
       }
