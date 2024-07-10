@@ -12,7 +12,7 @@ async function getUser(inputEmail) {
         email: inputEmail,
       },
     });
-    return user.rows[0];
+    return user[0];
   } catch (error) {
     console.error("Failed to fetch user:", error);
     throw new Error("Failed to fetch user.");

@@ -82,17 +82,26 @@ export async function createLike(e) {
 }
 
 export async function authenticate(prevState, formData) {
+  console.log("Server: Authentication attempt");
   try {
-    await signIn("credentials", formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return "Invalid credentials.";
-        default:
-          return "Something went wrong.";
-      }
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      console.error("Server: Authentication error", result.error);
+      return { success: false, message: result.error };
     }
-    throw error;
+
+    console.log("Server: Authentication successful");
+    return { success: true, message: "Login successful" };
+  } catch (error) {
+    console.error("Server: Authentication error", error);
+    return { success: false, message: "Authentication failed" };
   }
 }

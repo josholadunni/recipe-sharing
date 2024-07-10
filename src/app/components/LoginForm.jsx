@@ -4,12 +4,26 @@ import React from "react";
 import Input from "../components/Input.jsx";
 import { useActionState } from "react";
 import { authenticate } from "../lib/actions.js";
+import { useRouter } from "next/navigation.js";
 
 export default function LoginForm() {
-  const [errorMessage, formAction, isPending] = useActionState(
-    authenticate,
-    undefined
-  );
+  const [state, formAction] = useActionState(authenticate, {
+    success: false,
+    message: "",
+  });
+  const router = useRouter();
+
+  console.log("Render - state: " + state);
+
+  React.useEffect(() => {
+    if (state?.success) {
+      console.log("Client: Success, preparing to redirect");
+      setTimeout(() => {
+        console.log("Client: Redirecting to dashbaord");
+        router.push("/dashboard");
+      }, 2000);
+    }
+  }, [state, router]);
   return (
     <div>
       <form action={formAction} className="space-y-3">
@@ -34,11 +48,14 @@ export default function LoginForm() {
             aria-live="polite"
             aria-atomic="true"
           >
-            {errorMessage && (
-              <>
-                {/* <ExclamationCircleIcon className="h-5 w-5 text-red-500" /> */}
-                <p className="text-sm text-red-500">{errorMessage}</p>
-              </>
+            {state?.message && (
+              <p
+                className={`text-sm ${
+                  state.success ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {state.message}
+              </p>
             )}
           </div>
         </div>
