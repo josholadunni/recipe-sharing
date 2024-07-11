@@ -9,7 +9,6 @@ export default function Form(props) {
 
   return (
     <div>
-      <h1 className="text-center text-3xl font-medium pb-3 mt-5">Add Recipe</h1>
       <div>
         <form action={createRecipe}>
           <div>
