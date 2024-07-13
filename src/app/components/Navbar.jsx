@@ -1,8 +1,25 @@
+"use client";
+
 import Link from "next/link";
-import { signOut } from "@/auth";
+import { logOut } from "@/app/lib/actions";
 import { useRouter } from "next/navigation.js";
-// const router = useRouter();
+import { useFormState } from "react-dom";
+import React from "react";
+
 function Navbar() {
+  const router = useRouter();
+  const [state, formAction] = useFormState(logOut, { isLoggedOut: false });
+  console.log("Initial state:", { ...state });
+
+  React.useEffect(() => {
+    console.log("Render - state: " + state);
+    if (state?.isLoggedOut) {
+      console.log("Client: Success, preparing to redirect");
+      console.log("Client: Redirecting to home");
+      router.push("/");
+    }
+  }, [state, router]);
+
   return (
     <div>
       <nav className="pt-5">
@@ -14,16 +31,7 @@ function Navbar() {
           <li>Login</li>
           <li>
             {" "}
-            <form
-              action={async () => {
-                "use server";
-                const data = await signOut({
-                  redirect: false,
-                  callbackUrl: "/",
-                });
-                router.push(data.callbackUrl);
-              }}
-            >
+            <form action={formAction}>
               <button className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
                 <div className="hidden md:block">Sign Out</div>
               </button>

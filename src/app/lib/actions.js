@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import Like from "./models/Like";
 import { signIn } from "../../auth";
+import { signOut } from "../../auth";
 import { AuthError } from "next-auth";
 import User from "./models/User";
 import bcrypt from "bcrypt";
@@ -112,4 +113,12 @@ export async function authenticate(prevState, formData) {
     console.error("Server: Authentication error", error);
     return { success: false, message: "Authentication failed" };
   }
+}
+
+export async function logOut() {
+  await signOut({
+    redirect: false,
+  });
+  console.log("Server: logging out");
+  return { isLoggedOut: true };
 }
