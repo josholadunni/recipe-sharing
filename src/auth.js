@@ -3,7 +3,6 @@ import { authConfig } from "./auth.config";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import User from "@/app/lib/models/User";
 
 async function getUser(inputEmail) {
   try {

@@ -9,6 +9,14 @@ import { signIn } from "../../auth";
 import { AuthError } from "next-auth";
 import User from "./models/User";
 import bcrypt from "bcrypt";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth.config";
+
+export async function currentSession() {
+  const data = await getServerSession(authConfig);
+
+  console.log(data);
+}
 
 export async function createRecipe(formData) {
   await Recipe.sync();
