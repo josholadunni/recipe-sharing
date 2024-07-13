@@ -3,7 +3,6 @@
 import React from "react";
 import Input from "../components/Input.jsx";
 import { createRecipe } from "../lib/actions.js";
-import { useSession } from "next-auth/react";
 
 export default function Form(props) {
   const categoryNames = props.categoryNames;
