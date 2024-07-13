@@ -2,20 +2,20 @@
 
 import React from "react";
 import Input from "../components/Input.jsx";
-import { useActionState } from "react";
+// import { useActionState } from "react";
 import { authenticate } from "../lib/actions.js";
 import { useRouter } from "next/navigation.js";
+import { useFormState } from "react-dom";
 
 export default function LoginForm() {
-  const [state, formAction] = useActionState(authenticate, {
+  const [state, formAction] = useFormState(authenticate, {
     success: false,
     message: "",
   });
   const router = useRouter();
 
-  console.log("Render - state: " + state);
-
   React.useEffect(() => {
+    console.log("Render - state: " + state);
     if (state?.success) {
       console.log("Client: Success, preparing to redirect");
       setTimeout(() => {
