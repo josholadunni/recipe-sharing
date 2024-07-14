@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import Like from "./models/Like";
 import { signIn } from "../auth.js";
-import { signOut } from "../auth";
+import { signOut } from "../auth.js";
 import { AuthError } from "next-auth";
 import User from "./models/User";
 import bcrypt from "bcrypt";
@@ -107,6 +107,7 @@ export async function authenticate(prevState, formData) {
 }
 
 export async function logOut() {
+  console.log("LOGGING OUT");
   await signOut({
     redirect: false,
   });
