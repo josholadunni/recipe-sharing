@@ -23,6 +23,7 @@ export default function LoginForm() {
       setTimeout(() => {
         console.log("Client: Redirecting to dashbaord");
         router.push("/dashboard");
+        update();
       }, 2000);
     }
   }, [state, router]);
@@ -42,10 +43,7 @@ export default function LoginForm() {
             type="password"
             placeholder="Enter password"
           />
-          <button
-            onClick={() => update()}
-            className="mx-auto block border-solid border-black border-2 "
-          >
+          <button className="mx-auto block border-solid border-black border-2 ">
             Log In
           </button>
           <div

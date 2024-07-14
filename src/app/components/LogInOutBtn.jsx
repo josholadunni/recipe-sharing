@@ -8,7 +8,6 @@ import { logOut } from "../lib/actions";
 import { useRouter } from "next/navigation.js";
 
 export default function LogInOutBtn() {
-  console.log("Rendering log in out btn");
   const { data: session, status } = useSession();
   const [state, formAction] = useFormState(logOut, { isLoggedOut: false });
   const router = useRouter();
@@ -31,7 +30,7 @@ export default function LogInOutBtn() {
       setAuthStatus(
         <form action={formAction}>
           <button
-            onClick={() => update()}
+            // onClick={() => update()}
             type="submit"
             className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
           >
