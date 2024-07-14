@@ -26,15 +26,6 @@ function Navbar() {
           <li>
             <LogInOutBtn />
           </li>
-          <li>
-            <button
-              onClick={() => {
-                console.log(status);
-              }}
-            >
-              Show session
-            </button>
-          </li>
         </ul>
       </nav>
     </div>
