@@ -1,7 +1,7 @@
 import React from "react";
 import RecipeCard from "../RecipeCard.jsx";
-import fetchRecentRecipes from "@/app/lib/data";
-import { fetchRecipeLikes } from "@/app/lib/data";
+import fetchRecentRecipes from "../../../app/lib/data.js";
+import { fetchRecipeLikes } from "../../../app/lib/data.js";
 
 export default async function RecentRecipes() {
   const allRecipes = await fetchRecentRecipes();
