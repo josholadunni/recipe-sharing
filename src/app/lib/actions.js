@@ -5,13 +5,13 @@ import { RecipeCategory } from "./models";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import Like from "./models/Like";
-import { signIn } from "../../auth.js";
-import { signOut } from "../../auth";
+import { signIn } from "../auth.js";
+import { signOut } from "../auth";
 import { AuthError } from "next-auth";
 import User from "./models/User";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth.config";
+import { authConfig } from "../auth.config.ts";
 
 export async function currentSession() {
   const data = await getServerSession(authConfig);
