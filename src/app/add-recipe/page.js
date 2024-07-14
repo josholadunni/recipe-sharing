@@ -3,8 +3,6 @@ import { fetchCategories } from "../lib/models/RecipeCategory.js";
 import { createCategories } from "../lib/models/RecipeCategory.js";
 import Form from "../components/Form.jsx";
 import H1 from "../components/H1.jsx";
-import { auth } from "@/auth.js";
-import { getSession } from "@/auth.js";
 
 export default async function AddRecipes() {
   createCategories();

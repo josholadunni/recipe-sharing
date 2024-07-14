@@ -6,12 +6,14 @@ import Input from "../components/Input.jsx";
 import { authenticate } from "../lib/actions.js";
 import { useRouter } from "next/navigation.js";
 import { useFormState } from "react-dom";
+import { useSession } from "next-auth/react";
 
 export default function LoginForm() {
   const [state, formAction] = useFormState(authenticate, {
     success: false,
     message: "",
   });
+  const { update } = useSession();
   const router = useRouter();
 
   React.useEffect(() => {
@@ -40,7 +42,10 @@ export default function LoginForm() {
             type="password"
             placeholder="Enter password"
           />
-          <button className="mx-auto block border-solid border-black border-2 ">
+          <button
+            onClick={() => update()}
+            className="mx-auto block border-solid border-black border-2 "
+          >
             Log In
           </button>
           <div
