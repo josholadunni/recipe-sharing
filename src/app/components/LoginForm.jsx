@@ -13,18 +13,15 @@ export default function LoginForm() {
     success: false,
     message: "",
   });
-  const { update } = useSession();
+
   const router = useRouter();
 
   React.useEffect(() => {
     console.log("Render - state: " + state);
     if (state?.success) {
       console.log("Client: Success, preparing to redirect");
-      setTimeout(() => {
-        console.log("Client: Redirecting to dashbaord");
-        router.push("/dashboard");
-        update();
-      }, 2000);
+      router.push("/dashboard");
+      router.refresh();
     }
   }, [state, router]);
   return (
