@@ -11,7 +11,9 @@ export default function LogInOutBtn() {
   if (session) {
     return (
       <button
-        onClick={() => signOut()}
+        onClick={async () => {
+          signOut();
+        }}
         className="flex items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600"
       >
         Sign Out
