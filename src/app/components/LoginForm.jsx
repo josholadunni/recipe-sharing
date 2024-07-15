@@ -20,8 +20,8 @@ export default function LoginForm() {
     console.log("Render - state: " + state);
     if (state?.success) {
       console.log("Client: Success, preparing to redirect");
+      location.reload();
       router.push("/dashboard");
-      router.refresh();
     }
   }, [state, router]);
   return (
