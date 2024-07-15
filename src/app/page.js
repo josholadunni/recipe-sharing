@@ -4,6 +4,7 @@ import PopularRecipes from "./components/Home/PopularRecipes.jsx";
 import RecentRecipes from "./components/Home/RecentRecipes.jsx";
 import H1 from "./components/H1.jsx";
 import H2 from "./components/H2.jsx";
+import sequelize from "./lib/db";
 
 export default async function Home() {
   return (
