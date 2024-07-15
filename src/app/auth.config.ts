@@ -6,14 +6,19 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      let isLoggedIn = !!auth?.user;
-      let isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
+      const isLoggedIn = !!auth?.user;
+      const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
 
       if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL("/dashboard", nextUrl));
+        console.log(isLoggedIn);
+        return isLoggedIn; // Protect dashboard, redirect to login if not authenticated
+      }
+
+      // Allow authenticated users to access other pages
+      // Add any other protected routes here
+      const protectedRoutes = ["/add-recipe"];
+      if (protectedRoutes.some((route) => nextUrl.pathname.startsWith(route))) {
+        return isLoggedIn;
       }
 
       return true; // Allow access to public pages
