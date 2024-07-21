@@ -1,9 +1,6 @@
-import { Recipe, RecipeCategory, RecipeRecipeCategory } from "./models";
+import { Recipe, RecipeCategory, RecipeRecipeCategory, User } from "./models";
 
 import Like from "./models/Like";
-
-Recipe.belongsToMany(RecipeCategory, { through: RecipeRecipeCategory });
-RecipeCategory.belongsToMany(Recipe, { through: RecipeRecipeCategory });
 
 export default async function fetchRecentRecipes() {
   try {

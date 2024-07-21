@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db.js";
+import Recipe from "./Recipe.js";
+import Like from "./Like.js";
 
 const User = sequelize.define(
   "User",
@@ -26,5 +28,11 @@ const User = sequelize.define(
     timestamps: true,
   }
 );
+
+User.associate = () => {
+  User.hasMany(Recipe);
+  User.hasMany(Like);
+  User.belongsToMany(Recipe, { through: Like, as: "LikedRecipes" });
+};
 
 export default User;

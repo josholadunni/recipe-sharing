@@ -4,15 +4,23 @@ import RecipeCategory from "./RecipeCategory";
 import RecipeRecipeCategory from "./RecipeRecipeCategory";
 import Like from "./Like";
 import RecipeLike from "./RecipeLike";
-
-Recipe.belongsToMany(RecipeCategory, { through: RecipeRecipeCategory });
-RecipeCategory.belongsToMany(Recipe, { through: RecipeRecipeCategory });
-
-Recipe.hasMany(Like);
-Like.belongsTo(Recipe);
+import User from "./User";
 
 const syncModels = async () => {
   await sequelize.sync({ force: true });
 };
 
-export { syncModels, Recipe, RecipeCategory, RecipeRecipeCategory };
+const associateModels = async () => {
+  Like.associate();
+  Recipe.associate();
+  User.associate();
+  RecipeCategory.associate();
+};
+
+export {
+  syncModels,
+  associateModels,
+  Recipe,
+  RecipeCategory,
+  RecipeRecipeCategory,
+};

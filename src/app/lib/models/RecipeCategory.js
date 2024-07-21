@@ -1,5 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../db.js";
+import RecipeRecipeCategory from "./RecipeRecipeCategory.js";
+import Recipe from "./Recipe.js";
 
 const RecipeCategory = sequelize.define(
   "RecipeCategory",
@@ -48,5 +50,9 @@ export async function createCategories() {
 
   return mappedCategories;
 }
+
+RecipeCategory.associate = () => {
+  RecipeCategory.belongsToMany(Recipe, { through: RecipeRecipeCategory });
+};
 
 export default RecipeCategory;
