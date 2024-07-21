@@ -7,23 +7,20 @@ import { redirect } from "next/navigation";
 import Like from "./models/Like";
 import { signIn } from "../auth.js";
 import { signOut } from "../auth.js";
+import { AuthError } from "next-auth";
 import User from "./models/User";
 import bcrypt from "bcrypt";
-import { auth } from "../auth.js";
 
 export async function createRecipe(formData) {
+  await Recipe.sync();
+  await RecipeCategory.sync();
   try {
-    await Recipe.sync();
-    await RecipeCategory.sync();
-    const session = await auth();
-    console.log(session.user.email);
     const recipe = await Recipe.create({
       name: formData.get("rname"),
       imageURL: formData.get("iurl"),
       description: formData.get("rdescription"),
       short_description: formData.get("srdescription"),
       isDummy: true,
-      user: session.user.email,
     });
     const categories = await RecipeCategory.findAll({
       where: { name: formData.get("rcselect") },

@@ -34,10 +34,6 @@ const Recipe = sequelize.define(
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
-    user: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
   },
   {
     timestamps: true,

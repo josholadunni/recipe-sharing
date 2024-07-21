@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import Input from "./Input.jsx";
+import Input from "../components/Input.jsx";
 import { createRecipe } from "../lib/actions.js";
 
-export default function RecipeForm(props) {
+export default function Form(props) {
   const categoryNames = props.categoryNames;
 
   return (
