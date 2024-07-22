@@ -1,26 +1,38 @@
-import sequelize from "../db";
-import Recipe from "./Recipe";
-import RecipeCategory from "./RecipeCategory";
-import RecipeRecipeCategory from "./RecipeRecipeCategory";
-import Like from "./Like";
-import RecipeLike from "./RecipeLike";
-import User from "./User";
+import Sequelize from "sequelize";
+import sequelize from "../db.js";
 
-const syncModels = async () => {
-  await sequelize.sync({ force: true });
-};
+// import RecipeLike from "./RecipeLike";
 
-const associateModels = async () => {
-  Like.associate();
-  Recipe.associate();
-  User.associate();
-  RecipeCategory.associate();
-};
+import User from "./User.js";
+import Like from "./Like.js";
+import Recipe from "./Recipe.js";
+import RecipeCategory from "./RecipeCategory.js";
+import RecipeRecipeCategory from "./RecipeRecipeCategory.js";
+
+const models = { User, Recipe, RecipeCategory, RecipeRecipeCategory, Like };
+Object.keys(models).forEach((modelName) => {
+  if (models[modelName].associate) {
+    models[modelName].associate(models);
+  }
+});
 
 export {
-  syncModels,
-  associateModels,
+  sequelize,
+  Sequelize,
+  User,
   Recipe,
   RecipeCategory,
   RecipeRecipeCategory,
+  Like,
 };
+
+// const syncModels = async () => {
+//   await sequelize.sync({});
+// };
+
+// const associateModels = async () => {
+//   Like.associate();
+//   Recipe.associate();
+//   User.associate();
+//   RecipeCategory.associate();
+// };
