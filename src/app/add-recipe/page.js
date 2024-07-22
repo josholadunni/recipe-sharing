@@ -7,7 +7,7 @@ import { syncModels } from "../lib/models/index.js";
 // import { associateModels } from "../lib/models/index.js";
 
 export default async function AddRecipes() {
-  createCategories();
+  await createCategories();
   // associateModels();
   const categories = await fetchCategories();
   const categoryNames = categories.map((category) => category.name);
