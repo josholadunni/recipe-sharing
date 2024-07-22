@@ -10,6 +10,8 @@ import { signOut } from "../auth.js";
 import { AuthError } from "next-auth";
 import User from "./models/User";
 import bcrypt from "bcrypt";
+import { auth } from "../auth.js";
+import { findUserIdFromEmail } from "./data";
 
 export async function createRecipe(formData) {
   await Recipe.sync();
@@ -65,14 +67,18 @@ export async function createUser(formData) {
 }
 
 export async function createLike(e) {
+  const session = await auth();
+  const userId = await findUserIdFromEmail(session.user.email);
   try {
     const recipe = await Recipe.findByPk(e.id);
 
     if (!recipe) {
       throw new Error("Recipe not found");
     }
+
     const newLike = await Like.create({
       RecipeId: recipe.id,
+      UserId: userId,
     });
 
     console.log("New like added:", newLike);

@@ -1,5 +1,4 @@
 import { Recipe, RecipeCategory, RecipeRecipeCategory, User } from "./models";
-
 import Like from "./models/Like";
 
 export default async function fetchRecentRecipes() {
@@ -20,4 +19,11 @@ export async function fetchRecipeLikes() {
   } catch (error) {
     console.error("Couldn't fetch likes", error);
   }
+}
+
+export async function findUserIdFromEmail(email) {
+  const user = await User.findAll({
+    where: { email: email },
+  });
+  return user[0].dataValues.id;
 }
