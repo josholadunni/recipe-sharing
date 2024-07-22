@@ -4,10 +4,13 @@ import fetchRecentRecipes from "../../../app/lib/data.js";
 import { fetchRecipeLikes } from "../../../app/lib/data.js";
 
 export default async function RecentRecipes() {
+  let renderedRecipeCards = undefined;
+  let likeRecipeId = undefined;
   const allRecipes = await fetchRecentRecipes();
   const allLikes = await fetchRecipeLikes();
-  const likeRecipeId = allLikes.map((like) => like.dataValues.RecipeId);
-  let renderedRecipeCards = undefined;
+  if (allLikes) {
+    const likeRecipeId = allLikes.map((like) => like.dataValues.RecipeId);
+  }
   if (allRecipes) {
     renderedRecipeCards = allRecipes.map((recipe) => {
       const categories = recipe.RecipeCategories.map(
