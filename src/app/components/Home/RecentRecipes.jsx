@@ -9,7 +9,7 @@ export default async function RecentRecipes() {
   const allRecipes = await fetchRecentRecipes();
   const allLikes = await fetchRecipeLikes();
   if (allLikes) {
-    const likeRecipeId = allLikes.map((like) => like.dataValues.RecipeId);
+    likeRecipeId = allLikes.map((like) => like.dataValues.RecipeId);
   }
   if (allRecipes) {
     renderedRecipeCards = allRecipes.map((recipe) => {
