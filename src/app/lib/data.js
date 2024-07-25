@@ -27,3 +27,12 @@ export async function findUserIdFromEmail(email) {
   });
   return user[0].dataValues.id;
 }
+
+export async function findUsernameFromEmail(email) {
+  const user = await User.findAll({
+    where: { email: email },
+  });
+  console.log(user[0]);
+  console.log(user[0].dataValues.username);
+  return user[0].dataValues.username;
+}

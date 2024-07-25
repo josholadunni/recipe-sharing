@@ -12,16 +12,21 @@ import User from "./models/User";
 import bcrypt from "bcrypt";
 import { auth } from "../auth.js";
 import { findUserIdFromEmail } from "./data";
+import { findUsernameFromEmail } from "./data";
 
 export async function createRecipe(formData) {
   await Recipe.sync();
   await RecipeCategory.sync();
+  const session = await auth();
+  const username = await findUsernameFromEmail(session.user.email);
+
   try {
     const recipe = await Recipe.create({
       name: formData.get("rname"),
       imageURL: formData.get("iurl"),
       description: formData.get("rdescription"),
       short_description: formData.get("srdescription"),
+      username: username,
       isDummy: true,
     });
     const categories = await RecipeCategory.findAll({
