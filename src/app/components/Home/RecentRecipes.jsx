@@ -26,6 +26,7 @@ export default async function RecentRecipes() {
           description={recipe.short_description}
           likes={likeRecipeId.filter((like) => like === recipe.id).length}
           categories={categories}
+          username={recipe.username}
         />
       );
     });

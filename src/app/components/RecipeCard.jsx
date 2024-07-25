@@ -35,6 +35,7 @@ const RecipeCard = (props) => {
         <p className="mt-4">{props.description}</p>
         <div className="mt-auto">
           <p className="mt-2">{categories}</p>
+          <p>{props.username}</p>
         </div>
       </div>
     </div>

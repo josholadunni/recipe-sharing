@@ -34,6 +34,10 @@ const Recipe = sequelize.define(
       allowNull: true,
       autoIncrement: false,
     },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     isDummy: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
