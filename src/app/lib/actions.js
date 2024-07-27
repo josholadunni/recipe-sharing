@@ -13,36 +13,84 @@ import bcrypt from "bcrypt";
 import { auth } from "../auth.js";
 import { findUserIdFromEmail } from "./data";
 import { findUsernameFromEmail } from "./data";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-export async function createRecipe(formData) {
+const s3Client = new S3Client({
+  region: process.env.NEXT_AWS_S3_REGION,
+  credentials: {
+    accessKeyId: process.env.NEXT_AWS_S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.NEXT_AWS_S3_SECRET_ACCESS_KEY,
+  },
+});
+
+async function uploadFileToS3(file, fileName) {
+  const fileBuffer = file;
+
+  const params = {
+    Bucket: process.env.NEXT_AWS_S3_BUCKET_NAME,
+    Key: `images/${fileName}${Date.now()}`,
+    Body: fileBuffer,
+    ContentType: "image/jpg",
+  };
+
+  const command = new PutObjectCommand(params);
+  try {
+    const response = await s3Client.send(command);
+    console.log("File uploaded successfully:", response);
+    return fileName;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function createRecipe(prevState, formData) {
   await Recipe.sync();
   await RecipeCategory.sync();
   const session = await auth();
   const username = await findUsernameFromEmail(session.user.email);
 
   try {
-    const recipe = await Recipe.create({
-      name: formData.get("rname"),
-      imageURL: formData.get("iurl"),
-      description: formData.get("rdescription"),
-      short_description: formData.get("srdescription"),
-      username: username,
-      isDummy: true,
-    });
-    const categories = await RecipeCategory.findAll({
-      where: { name: formData.get("rcselect") },
-    });
-    try {
-      await recipe.addRecipeCategories(categories);
-    } catch (error) {
-      console.error("Couldn't assign category ", error);
+    const file = formData.get("file");
+
+    console.log(file);
+
+    if (file.size === 0) {
+      return {
+        status: "error",
+        message: "Please select a file.",
+      };
     }
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+    await uploadFileToS3(buffer, file.name);
+
+    // const recipe = await Recipe.create({
+    //   name: formData.get("rname"),
+    //   imageURL: formData.get("iurl"),
+    //   description: formData.get("rdescription"),
+    //   short_description: formData.get("srdescription"),
+    //   username: username,
+    //   isDummy: true,
+    // });
+    // const categories = await RecipeCategory.findAll({
+    //   where: { name: formData.get("rcselect") },
+    // });
+    // try {
+    //   await recipe.addRecipeCategories(categories);
+    // } catch (error) {
+    //   console.error("Couldn't assign category ", error);
+    // }
+    revalidatePath("/");
     console.log("Recipe created successfully");
+    return { status: "success", message: "File has been uploaded." };
   } catch (error) {
     console.error("Couldn't post recipe", error);
+    return {
+      status: "error",
+      message: "Failed to upload file.",
+    };
   }
-  revalidatePath("/");
-  redirect("/");
+  // redirect("/");
 }
 
 export async function createUser(formData) {
