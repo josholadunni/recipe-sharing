@@ -8,6 +8,12 @@ const nextConfig = {
         port: "",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "recipe-website-nextjs.s3.eu-west-2.amazonaws.com",
+        port: "",
+        pathname: "**",
+      },
     ],
   },
 };

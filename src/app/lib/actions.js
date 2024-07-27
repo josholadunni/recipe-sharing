@@ -28,7 +28,7 @@ async function uploadFileToS3(file, fileName) {
 
   const params = {
     Bucket: process.env.NEXT_AWS_S3_BUCKET_NAME,
-    Key: `images/${fileName}${Date.now()}`,
+    Key: `images/${fileName}`,
     Body: fileBuffer,
     ContentType: "image/jpg",
   };
@@ -52,8 +52,6 @@ export async function createRecipe(prevState, formData) {
   try {
     const file = formData.get("file");
 
-    console.log(file);
-
     if (file.size === 0) {
       return {
         status: "error",
@@ -61,25 +59,28 @@ export async function createRecipe(prevState, formData) {
       };
     }
 
+    const fileName = `${file.name}${Date.now()}`;
     const buffer = Buffer.from(await file.arrayBuffer());
-    await uploadFileToS3(buffer, file.name);
+    await uploadFileToS3(buffer, fileName);
 
-    // const recipe = await Recipe.create({
-    //   name: formData.get("rname"),
-    //   imageURL: formData.get("iurl"),
-    //   description: formData.get("rdescription"),
-    //   short_description: formData.get("srdescription"),
-    //   username: username,
-    //   isDummy: true,
-    // });
-    // const categories = await RecipeCategory.findAll({
-    //   where: { name: formData.get("rcselect") },
-    // });
-    // try {
-    //   await recipe.addRecipeCategories(categories);
-    // } catch (error) {
-    //   console.error("Couldn't assign category ", error);
-    // }
+    const recipe = await Recipe.create({
+      name: formData.get("rname"),
+      imageURL:
+        `https://recipe-website-nextjs.s3.eu-west-2.amazonaws.com/images/` +
+        fileName,
+      description: formData.get("rdescription"),
+      short_description: formData.get("srdescription"),
+      username: username,
+      isDummy: true,
+    });
+    const categories = await RecipeCategory.findAll({
+      where: { name: formData.get("rcselect") },
+    });
+    try {
+      await recipe.addRecipeCategories(categories);
+    } catch (error) {
+      console.error("Couldn't assign category ", error);
+    }
     revalidatePath("/");
     console.log("Recipe created successfully");
     return { status: "success", message: "File has been uploaded." };
@@ -90,7 +91,7 @@ export async function createRecipe(prevState, formData) {
       message: "Failed to upload file.",
     };
   }
-  // redirect("/");
+  redirect("/");
 }
 
 export async function createUser(formData) {
