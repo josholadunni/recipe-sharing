@@ -3,14 +3,19 @@
 import React from "react";
 import Input from "../components/Input.jsx";
 import { createRecipe } from "../lib/actions.js";
+import { useFormState } from "react-dom";
+import { SubmitButton } from "./SubmitButton.jsx";
+
+const initialState = { message: null };
 
 export default function Form(props) {
   const categoryNames = props.categoryNames;
+  const [state, formAction] = useFormState(createRecipe, initialState);
 
   return (
     <div>
       <div>
-        <form action={createRecipe}>
+        <form action={formAction}>
           <div>
             <Input
               label="Recipe Name"
@@ -47,12 +52,7 @@ export default function Form(props) {
                 })}
               </select> */}
             </div>
-            <Input
-              label="Image URL"
-              name="iurl"
-              type="text"
-              placeholder="Image URL"
-            />
+            <Input label="Image" name="file" type="file" accept="images/*" />
             <Input
               label="Recipe Description"
               name="rdescription"
@@ -65,9 +65,11 @@ export default function Form(props) {
               type="text"
               placeholder="Recipe short Description"
             />
-            <Input type="submit" value="submit" />
+            <SubmitButton />
           </div>
         </form>
+        {state?.status && <div>{state?.message}</div>}
+        {state?.errorMessage && <p>{state?.errorMessage}</p>}
       </div>
     </div>
   );
