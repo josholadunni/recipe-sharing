@@ -8,6 +8,12 @@ const nextConfig = {
         port: "",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "PLACEHOLDER_AWS_HOSTNAME",
+        port: "",
+        pathname: "**",
+      },
     ],
   },
 };
