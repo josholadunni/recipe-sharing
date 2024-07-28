@@ -12,7 +12,6 @@ import User from "./models/User";
 import bcrypt from "bcrypt";
 import { auth } from "../auth.js";
 import { findUserIdFromEmail } from "./data";
-import { findUsernameFromEmail } from "./data";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const s3Client = new S3Client({
@@ -46,8 +45,6 @@ async function uploadFileToS3(file, fileName) {
 export async function createRecipe(prevState, formData) {
   await Recipe.sync();
   await RecipeCategory.sync();
-  const session = await auth();
-  const username = await findUsernameFromEmail(session.user.email);
 
   try {
     const file = formData.get("file");
@@ -63,21 +60,25 @@ export async function createRecipe(prevState, formData) {
     const buffer = Buffer.from(await file.arrayBuffer());
     await uploadFileToS3(buffer, fileName);
 
-    const recipe = await Recipe.create({
+    const session = await auth();
+    const userId = await findUserIdFromEmail(session.user.email);
+    const user = await User.findByPk(userId);
+
+    const newRecipe = await user.createRecipe({
       name: formData.get("rname"),
       imageURL:
         `https://recipe-website-nextjs.s3.eu-west-2.amazonaws.com/images/` +
         fileName,
       description: formData.get("rdescription"),
       short_description: formData.get("srdescription"),
-      username: username,
+      username: user.username,
       isDummy: true,
     });
     const categories = await RecipeCategory.findAll({
       where: { name: formData.get("rcselect") },
     });
     try {
-      await recipe.addRecipeCategories(categories);
+      await newRecipe.addRecipeCategories(categories);
     } catch (error) {
       console.error("Couldn't assign category ", error);
     }
