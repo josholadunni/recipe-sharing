@@ -50,7 +50,7 @@ const Recipe = sequelize.define(
 
 Recipe.associate = () => {
   Recipe.belongsTo(User);
-  Recipe.hasMany(Like);
+  Recipe.hasMany(Like, { foreignKey: "RecipeId" });
   Recipe.belongsToMany(User, { through: Like });
   Recipe.belongsToMany(RecipeCategory, { through: RecipeRecipeCategory });
 };

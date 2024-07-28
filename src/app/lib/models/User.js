@@ -30,8 +30,8 @@ const User = sequelize.define(
 );
 
 User.associate = () => {
-  User.hasMany(Recipe);
-  User.hasMany(Like);
+  User.hasMany(Recipe, { foreignKey: "UserId" });
+  User.hasMany(Like, { foreignKey: "UserId" });
   User.belongsToMany(Recipe, { through: Like, as: "LikedRecipes" });
 };
 
