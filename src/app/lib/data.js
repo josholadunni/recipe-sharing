@@ -36,6 +36,26 @@ export async function fetchRecipeLikes() {
   }
 }
 
+export async function fetchRecipeById(id) {
+  try {
+    const recipe = await Recipe.findByPk(id);
+    return recipe;
+  } catch (error) {
+    console.error("Couldn't fetch recipe", error);
+  }
+}
+
+export async function fetchAllRecipeIds() {
+  try {
+    const recipeIds = await Recipe.findAll({
+      attributes: ["id"],
+    });
+    return recipeIds;
+  } catch (error) {
+    console.error("Couldn't fetch recipe IDs", error);
+  }
+}
+
 export async function findUserIdFromEmail(email) {
   const user = await User.findAll({
     where: { email: email },
