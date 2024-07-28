@@ -1,5 +1,5 @@
 import React from "react";
-import RecipeCard from "../RecipeCard.jsx";
+import RecipeCardWithDelete from "../RecipeCardWithDelete.jsx";
 import { fetchMyRecipes } from "../../lib/data.js";
 import { fetchRecipeLikes } from "../../lib/data.js";
 
@@ -18,7 +18,7 @@ export default async function MyRecipes() {
       );
       console.log(likeRecipeId);
       return (
-        <RecipeCard
+        <RecipeCardWithDelete
           key={recipe.id}
           id={recipe.id}
           title={recipe.name}
