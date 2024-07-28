@@ -95,6 +95,18 @@ export async function createRecipe(prevState, formData) {
   redirect("/");
 }
 
+export async function deleteRecipe(id) {
+  try {
+    const recipe = await Recipe.findByPk(id);
+    await recipe.destroy();
+    console.log("Recipe successfully deleted");
+    revalidatePath("/dashboard");
+    return { status: "success", message: "Recipe successfully deleted" };
+  } catch (error) {
+    return { status: "fail", message: "Recipe could not be deleted." };
+  }
+}
+
 export async function createUser(formData) {
   const saltRounds = 10;
   await User.sync();
