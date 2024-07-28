@@ -131,8 +131,7 @@ export async function createLike(e) {
       throw new Error("Recipe not found");
     }
 
-    const newLike = await Like.create({
-      RecipeId: recipe.id,
+    const newLike = await recipe.createLike({
       UserId: userId,
     });
 
