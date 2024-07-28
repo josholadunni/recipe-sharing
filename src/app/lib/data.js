@@ -15,10 +15,10 @@ export default async function fetchRecentRecipes() {
 
 export async function fetchMyRecipes() {
   const session = await auth();
-  console.log(session);
+  const currentUserId = await findUserIdFromEmail(session.user.email);
   try {
     const recipes = await Recipe.findAll({
-      where: username == session.user.username,
+      where: { UserId: currentUserId },
       include: RecipeCategory,
     });
     return recipes;
