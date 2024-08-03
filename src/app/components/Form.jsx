@@ -12,11 +12,13 @@ export default function Form(props) {
   const categoryNames = props.categoryNames;
   const [state, formAction] = useFormState(createRecipe, initialState);
 
+  const addIngredientField = () => {};
+
   return (
     <div>
       <div>
-        <form action={formAction}>
-          <div>
+        <form className="text-center" action={formAction}>
+          <div className="inline-block text-left ">
             <Input
               label="Recipe Name"
               name="rname"
@@ -65,7 +67,20 @@ export default function Form(props) {
               type="text"
               placeholder="Recipe short Description"
             />
-            <SubmitButton />
+
+            <Input
+              label="Ingredients"
+              name="ingredient1"
+              type="text"
+              placeholder="Ingredient 1"
+            />
+            <div className="text-right">
+              <button onClick={addIngredientField}>Add Ingredient</button>
+              <br></br>
+            </div>
+            <div className="text-center">
+              <SubmitButton />
+            </div>
           </div>
         </form>
         {state?.status && <div>{state?.message}</div>}

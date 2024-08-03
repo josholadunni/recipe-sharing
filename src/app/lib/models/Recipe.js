@@ -29,6 +29,10 @@ const Recipe = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    ingredients: {
+      type: DataTypes.JSON,
+      allowNull: false,
+    },
     likes: {
       type: DataTypes.INTEGER,
       allowNull: true,
