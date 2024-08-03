@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Input from "../components/Input.jsx";
 import { createRecipe } from "../lib/actions.js";
 import { useFormState } from "react-dom";
@@ -12,7 +12,12 @@ export default function Form(props) {
   const categoryNames = props.categoryNames;
   const [state, formAction] = useFormState(createRecipe, initialState);
 
-  const addIngredientField = () => {};
+  const [ingredients, setIngredients] = useState([{ id: 1 }]);
+
+  const addIngredientField = (event) => {
+    const newId = ingredients.length + 1;
+    setIngredients([...ingredients, { id: newId }]);
+  };
 
   return (
     <div>
@@ -67,17 +72,23 @@ export default function Form(props) {
               type="text"
               placeholder="Recipe short Description"
             />
-
-            <Input
-              label="Ingredients"
-              name="ingredient1"
-              type="text"
-              placeholder="Ingredient 1"
-            />
-            <div className="text-right">
-              <button onClick={addIngredientField}>Add Ingredient</button>
-              <br></br>
+            <div>
+              {ingredients.map((ingredient) => (
+                <Input
+                  key={ingredient.id}
+                  id={`ingredient-${ingredient.id}`}
+                  label={ingredient.id === 1 ? "Ingredients" : ""}
+                  name={`ingredient${ingredient.id}`}
+                  type="text"
+                  placeholder={`Ingredient ${ingredient.id}`}
+                />
+              ))}
+              <div className="text-right">
+                <span onClick={addIngredientField}>Add Ingredient</span>
+                <br></br>
+              </div>
             </div>
+
             <div className="text-center">
               <SubmitButton />
             </div>

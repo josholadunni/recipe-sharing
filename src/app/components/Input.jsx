@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Input(props) {
   return (
-    <div className="py-2 flex flex-col w-60 mx-auto">
+    <div id={props.id} className="py-2 flex flex-col w-60 mx-auto">
       <label htmlFor={props.name}>{props.label}</label>
       <br></br>
       <input
