@@ -29,7 +29,7 @@ export default function Form(props) {
   return (
     <div>
       <div>
-        <form className="text-center" action={formAction}>
+        <form autoComplete="off" className="text-center" action={formAction}>
           <div className="inline-block text-left ">
             <Input
               label="Recipe Name"
