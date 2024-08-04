@@ -33,6 +33,10 @@ const Recipe = sequelize.define(
       type: DataTypes.JSON,
       allowNull: false,
     },
+    method: {
+      type: DataTypes.JSON,
+      allowNull: false,
+    },
     likes: {
       type: DataTypes.INTEGER,
       allowNull: true,

@@ -19,6 +19,13 @@ export default function Form(props) {
     setIngredients([...ingredients, { id: newId }]);
   };
 
+  const [method, setMethodStep] = useState([{ id: 1 }]);
+
+  const addMethodField = () => {
+    const newId = method.length + 1;
+    setMethodStep([...method, { id: newId }]);
+  };
+
   return (
     <div>
       <div>
@@ -85,6 +92,22 @@ export default function Form(props) {
               ))}
               <div className="text-right">
                 <span onClick={addIngredientField}>Add Ingredient</span>
+                <br></br>
+              </div>
+            </div>
+            <div>
+              {method.map((methodStep) => (
+                <Input
+                  key={methodStep.id}
+                  id={`ingredient-${methodStep.id}`}
+                  label={methodStep.id === 1 ? "Method" : ""}
+                  name={`method`}
+                  type="text"
+                  placeholder={`Method Step ${methodStep.id}`}
+                />
+              ))}
+              <div className="text-right">
+                <span onClick={addMethodField}>Add Method Step</span>
                 <br></br>
               </div>
             </div>

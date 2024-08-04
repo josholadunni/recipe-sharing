@@ -72,6 +72,7 @@ export async function createRecipe(prevState, formData) {
       description: formData.get("rdescription"),
       short_description: formData.get("srdescription"),
       ingredients: formData.getAll("ingredient"),
+      method: formData.getAll("method"),
       username: user.username,
       isDummy: true,
     });
