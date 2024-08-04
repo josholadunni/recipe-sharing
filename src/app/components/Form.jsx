@@ -90,12 +90,17 @@ export default function Form(props) {
                   placeholder={`Ingredient ${ingredient.id}`}
                 />
               ))}
-              <div className="text-right">
-                <span onClick={addIngredientField}>Add Ingredient</span>
+              <div className="text-left">
+                <span
+                  className="text-sm bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-7"
+                  onClick={addIngredientField}
+                >
+                  Add Ingredient
+                </span>
                 <br></br>
               </div>
             </div>
-            <div>
+            <div className="mt-3">
               {method.map((methodStep) => (
                 <Input
                   key={methodStep.id}
@@ -106,8 +111,13 @@ export default function Form(props) {
                   placeholder={`Method Step ${methodStep.id}`}
                 />
               ))}
-              <div className="text-right">
-                <span onClick={addMethodField}>Add Method Step</span>
+              <div className="text-left">
+                <span
+                  className="text-sm bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-7"
+                  onClick={addMethodField}
+                >
+                  Add Method Step
+                </span>
                 <br></br>
               </div>
             </div>
