@@ -14,7 +14,7 @@ export default function Form(props) {
 
   const [ingredients, setIngredients] = useState([{ id: 1 }]);
 
-  const addIngredientField = (event) => {
+  const addIngredientField = () => {
     const newId = ingredients.length + 1;
     setIngredients([...ingredients, { id: newId }]);
   };
@@ -78,7 +78,7 @@ export default function Form(props) {
                   key={ingredient.id}
                   id={`ingredient-${ingredient.id}`}
                   label={ingredient.id === 1 ? "Ingredients" : ""}
-                  name={`ingredient${ingredient.id}`}
+                  name={`ingredient`}
                   type="text"
                   placeholder={`Ingredient ${ingredient.id}`}
                 />
@@ -100,3 +100,5 @@ export default function Form(props) {
     </div>
   );
 }
+
+/** TODO: - Link added ingredients fields to actions.js, so that new ingredient entries are added to the DB as a JSON object */
