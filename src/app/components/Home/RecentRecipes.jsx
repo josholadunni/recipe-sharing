@@ -16,7 +16,6 @@ export default async function RecentRecipes() {
       const categories = recipe.RecipeCategories.map(
         (category) => category.name
       );
-      console.log(categories);
       return (
         <RecipeCard
           key={recipe.id}

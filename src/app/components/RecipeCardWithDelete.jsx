@@ -5,6 +5,7 @@ import "../../styles/RecipeCard.css";
 import { createLike } from "../lib/actions";
 import { useState } from "react";
 import { deleteRecipe } from "../lib/actions";
+import Link from "next/link";
 
 const RecipeCard = (props) => {
   const categories = props.categories.map((category) => {
@@ -32,16 +33,20 @@ const RecipeCard = (props) => {
             {state?.message}
           </div>
         )}
-        <Image
-          src={props.imgFileName}
-          alt={props.title + " recipe"}
-          fill={true}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
-        />
+        <Link href={`/recipes/${props.id}`}>
+          <Image
+            src={props.imgFileName}
+            alt={props.title + " recipe"}
+            fill={true}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+          />
+        </Link>
       </div>
       <div className="flex flex-col p-4 flex-none">
-        <h2 className="text-lg font-bold mb-2">{props.title}</h2>
+        <Link href={`/recipes/${props.id}`}>
+          <h2 className="text-lg font-bold mb-2">{props.title}</h2>
+        </Link>
         <div className="mt-auto">
           <button
             onClick={() => createLike(props)}
