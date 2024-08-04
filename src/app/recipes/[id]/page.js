@@ -14,11 +14,33 @@ export async function generateStaticParams() {
 export default async function RecipePage(params) {
   const recipe = await fetchRecipeById(params.params.id);
 
-  console.log(recipe);
-
   if (!recipe) {
     return <div>Recipe not found</div>;
   }
+
+  console.log(recipe.ingredients);
+
+  const renderIngredients = () => {
+    const ingredients = recipe.ingredients;
+    return (
+      <ul>
+        {ingredients.map((ingredient) => (
+          <li>{ingredient}</li>
+        ))}
+      </ul>
+    );
+  };
+
+  const renderMethod = () => {
+    const method = recipe.method;
+    return (
+      <ul>
+        {method.map((methodStep) => (
+          <li>{methodStep}</li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <div>
@@ -32,6 +54,8 @@ export default async function RecipePage(params) {
           className="object-cover"
         />
       </div>
+      <div>{renderIngredients()}</div>
+      <div>{renderMethod()}</div>
     </div>
   );
 }
