@@ -71,9 +71,11 @@ export async function createRecipe(prevState, formData) {
         fileName,
       description: formData.get("rdescription"),
       short_description: formData.get("srdescription"),
+      ingredients: formData.getAll("ingredient"),
       username: user.username,
       isDummy: true,
     });
+    console.log(newRecipe.ingredients);
     const categories = await RecipeCategory.findAll({
       where: { name: formData.get("rcselect") },
     });
