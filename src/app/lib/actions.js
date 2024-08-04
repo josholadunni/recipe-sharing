@@ -81,7 +81,6 @@ export async function createRecipe(prevState, formData) {
       where: { name: formData.getAll("rcselect") },
     });
     try {
-      console.log(categories);
       await newRecipe.addRecipeCategories(categories);
     } catch (error) {
       console.error("Couldn't assign category ", error);
