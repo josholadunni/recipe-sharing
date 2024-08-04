@@ -34,6 +34,9 @@ export async function createCategories() {
     "american",
     "lunch",
     "brunch",
+    "dinner",
+    "breakfast",
+    "budget-friendly",
   ];
 
   const mappedCategories = await Promise.all(

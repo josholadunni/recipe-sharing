@@ -76,11 +76,12 @@ export async function createRecipe(prevState, formData) {
       username: user.username,
       isDummy: true,
     });
-    console.log(newRecipe.ingredients);
+
     const categories = await RecipeCategory.findAll({
-      where: { name: formData.get("rcselect") },
+      where: { name: formData.getAll("rcselect") },
     });
     try {
+      console.log(categories);
       await newRecipe.addRecipeCategories(categories);
     } catch (error) {
       console.error("Couldn't assign category ", error);
