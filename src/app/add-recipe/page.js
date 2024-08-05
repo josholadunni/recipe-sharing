@@ -7,7 +7,14 @@ import H1 from "../components/H1.jsx";
 export default async function AddRecipes() {
   await createCategories();
   const categories = await fetchCategories();
-  const categoryNames = categories.map((category) => category.name);
+  const categoryNames = categories
+    .map((category) => {
+      const categoryName = category.name;
+      const capitalized =
+        categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+      return capitalized;
+    })
+    .sort();
 
   return (
     <div>
