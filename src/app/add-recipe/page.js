@@ -11,7 +11,8 @@ export default async function AddRecipes() {
     .map((category) => {
       const categoryName = category.name;
       const capitalized =
-        categoryName.charAt(0).toUpperCase() + categoryName.slice(1);
+        categoryName.charAt(0).toUpperCase() +
+        categoryName.slice(1).toLowerCase();
       return capitalized;
     })
     .sort();

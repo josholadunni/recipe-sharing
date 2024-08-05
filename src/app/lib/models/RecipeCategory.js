@@ -45,7 +45,9 @@ export async function createCategories() {
         where: { name: category },
       });
       if (!existingCategory) {
-        return await RecipeCategory.create({ name: category });
+        const categoryName =
+          category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+        return await RecipeCategory.create({ name: categoryName });
       }
       return existingCategory;
     })

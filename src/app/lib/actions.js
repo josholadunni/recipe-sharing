@@ -95,7 +95,6 @@ export async function createRecipe(prevState, formData) {
       message: "Failed to upload file.",
     };
   }
-  redirect("/");
 }
 
 export async function deleteRecipe(id) {

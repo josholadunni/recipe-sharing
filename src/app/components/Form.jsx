@@ -5,6 +5,7 @@ import Input from "../components/Input.jsx";
 import { createRecipe } from "../lib/actions.js";
 import { useFormState } from "react-dom";
 import { SubmitButton } from "./SubmitButton.jsx";
+import { redirect } from "next/navigation.js";
 
 const initialState = { message: null };
 
@@ -129,6 +130,7 @@ export default function Form(props) {
         </form>
         {state?.status && <div>{state?.message}</div>}
         {state?.errorMessage && <p>{state?.errorMessage}</p>}
+        {state?.status === "success" && redirect("/")}
       </div>
     </div>
   );
