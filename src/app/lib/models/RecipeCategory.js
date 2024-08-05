@@ -41,12 +41,12 @@ export async function createCategories() {
 
   const mappedCategories = await Promise.all(
     categories.map(async (category) => {
+      const categoryName =
+        category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
       const existingCategory = await RecipeCategory.findOne({
-        where: { name: category },
+        where: { name: categoryName },
       });
       if (!existingCategory) {
-        const categoryName =
-          category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
         return await RecipeCategory.create({ name: categoryName });
       }
       return existingCategory;
