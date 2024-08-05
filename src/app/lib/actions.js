@@ -64,6 +64,14 @@ export async function createRecipe(prevState, formData) {
     const userId = await findUserIdFromEmail(session.user.email);
     const user = await User.findByPk(userId);
 
+    const ingredientFields = formData.getAll("ingredient");
+    const populatedIngredientFields = ingredientFields.filter(
+      (field) => field.value
+    );
+
+    const methodFields = formData.getAll("method");
+    const populatedMethodFields = methodFields.filter((field) => field.value);
+
     const newRecipe = await user.createRecipe({
       name: formData.get("rname"),
       imageURL:
@@ -71,8 +79,8 @@ export async function createRecipe(prevState, formData) {
         fileName,
       description: formData.get("rdescription"),
       short_description: formData.get("srdescription"),
-      ingredients: formData.getAll("ingredient"),
-      method: formData.getAll("method"),
+      ingredients: populatedIngredientFields,
+      method: populatedMethodFields,
       username: user.username,
       isDummy: true,
     });
