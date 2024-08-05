@@ -18,8 +18,6 @@ export default async function RecipePage(params) {
     return <div>Recipe not found</div>;
   }
 
-  console.log(recipe.ingredients);
-
   const renderIngredients = () => {
     const ingredients = recipe.ingredients;
     return (
