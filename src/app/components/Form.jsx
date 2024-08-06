@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../components/Input.jsx";
 import { createRecipe } from "../lib/actions.js";
 import { useFormState } from "react-dom";
@@ -26,6 +26,29 @@ export default function Form(props) {
     const newId = method.length + 1;
     setMethodStep([...method, { id: newId }]);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (
+        e.key === "Enter" &&
+        e.target.nodeName === "INPUT" &&
+        e.target.type === "text"
+      ) {
+        e.preventDefault();
+        if (e.target.name === "ingredient") {
+          addIngredientField();
+        } else if (e.target.name === "method") {
+          addMethodField();
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [addIngredientField, addMethodField]);
 
   return (
     <div>
