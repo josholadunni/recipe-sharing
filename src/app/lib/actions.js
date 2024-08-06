@@ -65,12 +65,11 @@ export async function createRecipe(prevState, formData) {
     const user = await User.findByPk(userId);
 
     const ingredientFields = formData.getAll("ingredient");
-    const populatedIngredientFields = ingredientFields.filter(
-      (field) => field.value
-    );
 
     const methodFields = formData.getAll("method");
-    const populatedMethodFields = methodFields.filter((field) => field.value);
+
+    console.log(ingredientFields);
+    console.log(methodFields);
 
     const newRecipe = await user.createRecipe({
       name: formData.get("rname"),
@@ -79,8 +78,8 @@ export async function createRecipe(prevState, formData) {
         fileName,
       description: formData.get("rdescription"),
       short_description: formData.get("srdescription"),
-      ingredients: populatedIngredientFields,
-      method: populatedMethodFields,
+      ingredients: ingredientFields,
+      method: methodFields,
       username: user.username,
       isDummy: true,
     });
