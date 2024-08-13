@@ -65,11 +65,7 @@ export async function createRecipe(prevState, formData) {
     const user = await User.findByPk(userId);
 
     const ingredientFields = formData.getAll("ingredient");
-
     const methodFields = formData.getAll("method");
-
-    console.log(ingredientFields);
-    console.log(methodFields);
 
     const newRecipe = await user.createRecipe({
       name: formData.get("rname"),
