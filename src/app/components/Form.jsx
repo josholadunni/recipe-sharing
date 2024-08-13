@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Input from "../components/Input.jsx";
+import ListInput from "../components/ListInput.jsx";
 import { createRecipe } from "../lib/actions.js";
 import { useFormState } from "react-dom";
 import { SubmitButton } from "./SubmitButton.jsx";
@@ -20,11 +21,20 @@ export default function Form(props) {
     setIngredients([...ingredients, { id: newId }]);
   };
 
+  const removeIngredientField = (id) => {
+    setIngredients(ingredients.filter((ingredient) => ingredient.id !== id));
+  };
+
   const [method, setMethodStep] = useState([{ id: 1 }]);
 
   const addMethodField = () => {
     const newId = method.length + 1;
     setMethodStep([...method, { id: newId }]);
+  };
+
+  const removeMethodField = (id) => {
+    console.log(id);
+    setMethodStep(method.filter((step) => step.id !== id));
   };
 
   useEffect(() => {
@@ -105,13 +115,14 @@ export default function Form(props) {
             />
             <div>
               {ingredients.map((ingredient) => (
-                <Input
+                <ListInput
                   key={ingredient.id}
                   id={`ingredient-${ingredient.id}`}
                   label={ingredient.id === 1 ? "Ingredients" : ""}
                   name={`ingredient`}
                   type="text"
-                  placeholder={`Ingredient ${ingredient.id}`}
+                  placeholder={"Enter Ingredient"}
+                  onRemove={() => removeIngredientField(ingredient.id)}
                 />
               ))}
               <div className="text-left">
@@ -126,13 +137,16 @@ export default function Form(props) {
             </div>
             <div className="mt-3">
               {method.map((methodStep) => (
-                <Input
+                <ListInput
                   key={methodStep.id}
                   id={`ingredient-${methodStep.id}`}
                   label={methodStep.id === 1 ? "Method" : ""}
                   name={`method`}
                   type="text"
-                  placeholder={`Method Step ${methodStep.id}`}
+                  placeholder={"Enter Method Step"}
+                  onRemove={() => {
+                    removeMethodField(methodStep.id);
+                  }}
                 />
               ))}
               <div className="text-left">
