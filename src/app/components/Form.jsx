@@ -22,7 +22,9 @@ export default function Form(props) {
   };
 
   const removeIngredientField = (id) => {
-    setIngredients(ingredients.filter((ingredient) => ingredient.id !== id));
+    if (id !== 1) {
+      setIngredients(ingredients.filter((ingredient) => ingredient.id !== id));
+    }
   };
 
   const [method, setMethodStep] = useState([{ id: 1 }]);
@@ -33,8 +35,9 @@ export default function Form(props) {
   };
 
   const removeMethodField = (id) => {
-    console.log(id);
-    setMethodStep(method.filter((step) => step.id !== id));
+    if (id !== 1) {
+      setMethodStep(method.filter((step) => step.id !== id));
+    }
   };
 
   useEffect(() => {
