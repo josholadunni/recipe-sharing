@@ -11,7 +11,7 @@ import { AuthError } from "next-auth";
 import User from "./models/User";
 import bcrypt from "bcrypt";
 import { auth } from "../auth.js";
-import { findUserIdFromEmail } from "./data";
+import { findUserIdFromEmail, findUsername } from "./data";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import z from "zod";
 
@@ -152,10 +152,11 @@ export async function createUser(prevState, formData) {
 
     const hashedPassword = await bcrypt.hash(validatedData.password, salt);
 
-    const findUserId = await findUserIdFromEmail(validatedData.email);
+    const emailExists = await findUserIdFromEmail(validatedData.email);
+    const usernameExists = await findUsername(validatedData.username);
 
-    if (findUserId === undefined) {
-      console.log(findUserId);
+    if (emailExists === undefined && usernameExists === undefined) {
+      console.log("Working");
       await User.create({
         username: validatedData.username,
         email: validatedData.email,
@@ -163,9 +164,13 @@ export async function createUser(prevState, formData) {
       });
       return { success: true, message: "Registered successfully!" };
     } else {
-      return { success: false, errors: ["Email already exists"] };
+      return {
+        success: false,
+        errors: [emailExists?.message, usernameExists?.message],
+      };
     }
   } catch (error) {
+    console.error(error);
     if (error instanceof z.ZodError) {
       const errors = {};
       error.errors.forEach((err) => {
@@ -188,7 +193,7 @@ export async function createLike(e) {
     }
 
     const newLike = await recipe.createLike({
-      UserId: userId,
+      UserId: userId.result,
     });
 
     console.log("New like added:", newLike);
