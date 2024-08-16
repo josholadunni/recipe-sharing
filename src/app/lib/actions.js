@@ -13,6 +13,7 @@ import bcrypt from "bcrypt";
 import { auth } from "../auth.js";
 import { findUserIdFromEmail } from "./data";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import z from "zod";
 
 const s3Client = new S3Client({
   region: process.env.NEXT_AWS_S3_REGION,
@@ -112,29 +113,61 @@ export async function deleteRecipe(id) {
   }
 }
 
-export async function createUser(formData) {
+export async function createUser(prevState, formData) {
+  const registrationSchema = z
+    .object({
+      username: z
+        .string()
+        .min(3, { message: "Username must be at least 3 characters long" })
+        .trim()
+        .toLowerCase(),
+      email: z
+        .string()
+        .email({ message: "Invalid email address" })
+        .trim()
+        .toLowerCase(),
+      password: z
+        .string()
+        .min(8, { message: "Password must be at least 8 characters long" })
+        .trim(),
+      confirmPassword: z.string().trim(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    });
+
   const saltRounds = 10;
   await User.sync();
+
   try {
+    const validatedData = registrationSchema.parse({
+      username: formData.get("username"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirm-password"),
+    });
+
     const salt = await bcrypt.genSalt(saltRounds);
 
-    const inputPassword = formData.get("password");
-    const inputConfirmPassword = formData.get("confirm-password");
+    const hashedPassword = await bcrypt.hash(validatedData.password, salt);
 
-    const hashedPassword = await bcrypt.hash(inputPassword, salt);
-
-    if (inputPassword === inputConfirmPassword) {
-      await User.create({
-        username: formData.get("username"),
-        email: formData.get("email"),
-        password: hashedPassword,
-      });
-      console.log("User registered sucecssfully");
-    } else {
-      console.error("Couldn't register user - passwords don't match");
-    }
+    await User.create({
+      username: validatedData.username,
+      email: validatedData.email,
+      password: hashedPassword,
+    });
+    return { success: true, message: "Registered successfully!" };
+    console.log("User registered sucecssfully");
   } catch (error) {
-    console.error("Couldn't create user", error);
+    if (error instanceof z.ZodError) {
+      const errors = {};
+      error.errors.forEach((err) => {
+        errors[err.path[0]] = err.message;
+      });
+      return { success: false, errors };
+    }
+    return { success: false, errors: { form: "An unexpected error occurred" } };
   }
 }
 

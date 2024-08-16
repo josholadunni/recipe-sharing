@@ -1,11 +1,32 @@
+"use client";
+
 import React from "react";
 import Input from "./Input.jsx";
 import { createUser } from "../lib/actions.js";
+import { useFormState } from "react-dom";
 
 export default function RegisterForm() {
+  const [state, formAction] = useFormState(createUser, {
+    success: false,
+    errors: {},
+  });
+
+  const renderErrors = (errors) => {
+    if (!errors || Object.keys(errors).length === 0) return null;
+    return (
+      <ul>
+        {Object.entries(errors).map(([field, message]) => (
+          <li key={field} className="text-red-500">
+            {message}
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <div>
-      <form action={createUser}>
+      <form action={formAction}>
         <div>
           <Input
             label="Username"
@@ -34,6 +55,8 @@ export default function RegisterForm() {
           <button className="mx-auto block border-solid border-black border-2 ">
             Sign Up
           </button>
+          <p>{state?.errors && renderErrors(state.errors)}</p>
+          <p>{state?.success && state.message}</p>
         </div>
       </form>
     </div>

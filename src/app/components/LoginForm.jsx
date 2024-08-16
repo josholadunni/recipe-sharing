@@ -6,7 +6,6 @@ import Input from "../components/Input.jsx";
 import { authenticate } from "../lib/actions.js";
 import { useRouter } from "next/navigation.js";
 import { useFormState } from "react-dom";
-import { useSession } from "next-auth/react";
 
 export default function LoginForm() {
   const [state, formAction] = useFormState(authenticate, {
@@ -17,7 +16,6 @@ export default function LoginForm() {
   const router = useRouter();
 
   React.useEffect(() => {
-    console.log("Render - state: " + state);
     if (state?.success) {
       console.log("Client: Success, preparing to redirect");
       location.reload();
