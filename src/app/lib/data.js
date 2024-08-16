@@ -60,8 +60,22 @@ export async function findUserIdFromEmail(email) {
   const user = await User.findAll({
     where: { email: email },
   });
-  if (user.length > 1) {
-    return user[0].dataValues.id;
+  if (user.length > 0) {
+    return { result: user[0].dataValues.id, message: "Email already exists" };
+  } else {
+    return undefined;
+  }
+}
+
+export async function findUsername(username) {
+  const user = await User.findAll({
+    where: { username: username },
+  });
+  if (user.length > 0) {
+    return {
+      result: user[0].dataValues.username,
+      message: "Username already exists",
+    };
   } else {
     return undefined;
   }
@@ -71,7 +85,5 @@ export async function findUsernameFromEmail(email) {
   const user = await User.findAll({
     where: { email: email },
   });
-  console.log(user[0]);
-  console.log(user[0].dataValues.username);
   return user[0].dataValues.username;
 }
