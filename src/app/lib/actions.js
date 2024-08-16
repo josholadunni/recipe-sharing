@@ -152,13 +152,19 @@ export async function createUser(prevState, formData) {
 
     const hashedPassword = await bcrypt.hash(validatedData.password, salt);
 
-    await User.create({
-      username: validatedData.username,
-      email: validatedData.email,
-      password: hashedPassword,
-    });
-    return { success: true, message: "Registered successfully!" };
-    console.log("User registered sucecssfully");
+    const findUserId = await findUserIdFromEmail(validatedData.email);
+
+    if (findUserId === undefined) {
+      console.log(findUserId);
+      await User.create({
+        username: validatedData.username,
+        email: validatedData.email,
+        password: hashedPassword,
+      });
+      return { success: true, message: "Registered successfully!" };
+    } else {
+      return { success: false, errors: ["Email already exists"] };
+    }
   } catch (error) {
     if (error instanceof z.ZodError) {
       const errors = {};
