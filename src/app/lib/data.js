@@ -60,7 +60,11 @@ export async function findUserIdFromEmail(email) {
   const user = await User.findAll({
     where: { email: email },
   });
-  return user[0].dataValues.id;
+  if (user.length > 1) {
+    return user[0].dataValues.id;
+  } else {
+    return undefined;
+  }
 }
 
 export async function findUsernameFromEmail(email) {
