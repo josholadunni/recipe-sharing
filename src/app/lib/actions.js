@@ -63,7 +63,7 @@ export async function createRecipe(prevState, formData) {
 
     const session = await auth();
     const userId = await findUserIdFromEmail(session.user.email);
-    const user = await User.findByPk(userId);
+    const user = await User.findByPk(userId.result);
 
     const ingredientFields = formData.getAll("ingredient");
     const methodFields = formData.getAll("method");
