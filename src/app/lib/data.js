@@ -107,3 +107,10 @@ export async function fetchRecipesByCategoryId(id) {
     ],
   });
 }
+
+export async function fetchCategoryIdByCategoryName(name) {
+  const id = await RecipeCategory.findOne({
+    where: { name: name },
+  });
+  return id;
+}
