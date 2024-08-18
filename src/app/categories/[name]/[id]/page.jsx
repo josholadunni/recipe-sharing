@@ -1,6 +1,8 @@
-export default function CategoryPage(params) {
-  console.log(params);
+import { fetchRecipesByCategoryId } from "../../../lib/data";
+export default async function CategoryPage(params) {
+  const { name, id } = params.params;
 
-  return <h1>Category: {params.params.name}</h1>;
+  console.log(await fetchRecipesByCategoryId(id));
+
+  return <h1>Category: {name}</h1>;
 }
-4;
