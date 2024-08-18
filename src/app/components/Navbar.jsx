@@ -3,10 +3,8 @@
 import Link from "next/link";
 import LogInOutBtn from "../components/LogInOutBtn.jsx";
 import React from "react";
-import { useSession } from "next-auth/react";
 
 function Navbar() {
-  const { data: session, status } = useSession();
   return (
     <div>
       <nav className="pt-5">

@@ -13,6 +13,15 @@ export default async function fetchRecentRecipes() {
   }
 }
 
+export async function fetchRecipeCategories() {
+  try {
+    const categories = await RecipeCategory.findAll();
+    return categories;
+  } catch (error) {
+    console.error("Couldn't fetch categories", error);
+  }
+}
+
 export async function fetchMyRecipes() {
   const session = await auth();
   const currentUserId = await findUserIdFromEmail(session.user.email);
