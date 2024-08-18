@@ -96,3 +96,14 @@ export async function findUsernameFromEmail(email) {
   });
   return user[0].dataValues.username;
 }
+
+export async function fetchRecipesByCategoryId(id) {
+  return await Recipe.findAll({
+    include: [
+      {
+        model: RecipeCategory,
+        where: { id: id },
+      },
+    ],
+  });
+}
