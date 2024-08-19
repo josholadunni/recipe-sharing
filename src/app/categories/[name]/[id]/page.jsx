@@ -2,6 +2,7 @@ import { fetchRecipesByCategoryId } from "../../../lib/data";
 import RecipeCard from "../../../components/RecipeCard";
 import H1 from "../../../components/H1";
 import { fetchRecipeLikes } from "../../../lib/data";
+import { capitalizeFirstLetter } from "../../../lib/utils";
 
 export default async function CategoryPage(params) {
   let likeRecipeId = undefined;
@@ -38,7 +39,7 @@ export default async function CategoryPage(params) {
 
   return (
     <>
-      <H1 text={`${name} Recipes`}></H1>
+      <H1 text={`${capitalizeFirstLetter(name)} Recipes`}></H1>
       {renderedRecipes}
     </>
   );
