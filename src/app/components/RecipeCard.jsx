@@ -7,7 +7,16 @@ import Link from "next/link";
 
 const RecipeCard = (props) => {
   const categories = props.categories.map((category) => {
-    return <span key={category}>{category} </span>;
+    const categoryId = category[1];
+    const categoryName = category[0];
+    return (
+      <Link
+        className="mr-2"
+        href={`categories/${categoryName.toLowerCase()}/${categoryId}`}
+      >
+        {categoryName}
+      </Link>
+    );
   });
 
   return (
