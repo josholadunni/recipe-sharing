@@ -13,9 +13,10 @@ export default async function RecentRecipes() {
   }
   if (allRecipes) {
     renderedRecipeCards = allRecipes.map((recipe) => {
-      const categories = recipe.RecipeCategories.map(
-        (category) => category.name
-      );
+      const categories = recipe.RecipeCategories.map((category) => [
+        category.name,
+        category.id,
+      ]);
       return (
         <RecipeCard
           key={recipe.id}

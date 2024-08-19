@@ -27,7 +27,7 @@ export async function fetchMyRecipes() {
   const currentUserId = await findUserIdFromEmail(session.user.email);
   try {
     const recipes = await Recipe.findAll({
-      where: { UserId: currentUserId },
+      where: { UserId: currentUserId.result },
       include: RecipeCategory,
     });
     return recipes;
