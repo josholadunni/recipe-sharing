@@ -98,14 +98,35 @@ export async function findUsernameFromEmail(email) {
 }
 
 export async function fetchRecipesByCategoryId(id) {
-  return await Recipe.findAll({
-    include: [
-      {
-        model: RecipeCategory,
-        where: { id: id },
+  try {
+    const recipeIds = await Recipe.findAll({
+      attributes: ["id"],
+      include: [
+        {
+          model: RecipeCategory,
+          where: { id: id },
+          through: { attributes: [] },
+        },
+      ],
+    }).then((recipes) => recipes.map((recipe) => recipe.id));
+
+    const recipes = await Recipe.findAll({
+      where: {
+        id: recipeIds,
       },
-    ],
-  });
+      include: [
+        {
+          model: RecipeCategory,
+          through: { attributes: [] },
+        },
+      ],
+    });
+
+    return recipes;
+  } catch (error) {
+    console.error("Couldn't fetch recipes", error);
+    throw error;
+  }
 }
 
 export async function fetchCategoryIdByCategoryName(name) {
@@ -113,4 +134,11 @@ export async function fetchCategoryIdByCategoryName(name) {
     where: { name: name },
   });
   return id;
+}
+
+export async function fetchRecipeCategoriesByRecipeId(id) {
+  const categories = await RecipeRecipeCategory.findAll({
+    where: { RecipeId: id },
+  });
+  return categories;
 }

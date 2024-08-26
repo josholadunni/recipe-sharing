@@ -3,6 +3,7 @@ import RecipeCard from "../../../components/RecipeCard";
 import H1 from "../../../components/H1";
 import { fetchRecipeLikes } from "../../../lib/data";
 import { capitalizeFirstLetter } from "../../../lib/utils";
+import { fetchRecipeCategoriesByRecipeId } from "../../../lib/data";
 
 export default async function CategoryPage(params) {
   let likeRecipeId = undefined;
@@ -18,10 +19,13 @@ export default async function CategoryPage(params) {
 
   if (recipeList) {
     renderedRecipes = recipeList.map((recipe) => {
-      const categories = recipe.RecipeCategories.map(
-        (category) => category.name
-      );
-      // console.log(recipe.dataValues.name);
+      const categories = recipe.RecipeCategories.map((category) => [
+        category.name,
+        category.id,
+      ]);
+
+      // console.log(categories);
+
       return (
         <RecipeCard
           key={recipe.dataValues.id}
