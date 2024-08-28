@@ -23,8 +23,8 @@ export default async function RecipePage(params) {
     const ingredients = recipe.ingredients;
     return (
       <ul>
-        {ingredients.map((ingredient) => (
-          <li>{ingredient}</li>
+        {ingredients.map((ingredient, index) => (
+          <li key={index}>{ingredient}</li>
         ))}
       </ul>
     );
@@ -34,8 +34,8 @@ export default async function RecipePage(params) {
     const method = recipe.method;
     return (
       <ul>
-        {method.map((methodStep) => (
-          <li>{methodStep}</li>
+        {method.map((methodStep, index) => (
+          <li key={index}>{methodStep}</li>
         ))}
       </ul>
     );
