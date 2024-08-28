@@ -27,6 +27,7 @@ export default async function RecentRecipes() {
           likes={likeRecipeId.filter((like) => like === recipe.id).length}
           categories={categories}
           username={recipe.username}
+          slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
         />
       );
     });

@@ -13,6 +13,17 @@ export default async function fetchRecentRecipes() {
   }
 }
 
+export async function fetchAllRecipes() {
+  try {
+    const recipes = await Recipe.findAll({
+      include: RecipeCategory,
+    });
+    return recipes;
+  } catch (error) {
+    console.error("Couldn't fetch recipes", error);
+  }
+}
+
 export async function fetchRecipeCategories() {
   try {
     const categories = await RecipeCategory.findAll();

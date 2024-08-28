@@ -21,7 +21,7 @@ const RecipeCard = (props) => {
 
   return (
     <div className="flex flex-col shadow-lg w-72">
-      <Link href={`/recipes/${props.id}`}>
+      <Link href={`/recipes/${props.slug}/${props.id}`}>
         <div className="relative h-60">
           <Image
             src={props.imgFileName}
