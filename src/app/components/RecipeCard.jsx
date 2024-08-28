@@ -33,7 +33,7 @@ const RecipeCard = (props) => {
         </div>
       </Link>
       <div className="flex flex-col p-4 flex-none">
-        <Link href={`/recipes/${props.id}`}>
+        <Link href={`/recipes/${props.slug}/${props.id}`}>
           <h2 className="text-lg font-bold mb-2">{props.title}</h2>
         </Link>
         <div className="mt-auto">
