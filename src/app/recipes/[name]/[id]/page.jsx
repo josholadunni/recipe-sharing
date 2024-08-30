@@ -3,20 +3,14 @@ import H1 from "../../../components/H1";
 import Image from "next/image";
 
 export async function generateStaticParams() {
-  const recipe = await fetchRecipeById(params.id);
-  return [
-    {
-      name: recipe.dataValues.name
-        .toString()
-        .replace(/\s+/g, "-")
-        .toLowerCase(),
-      id: recipe.dataValues.id.toString(),
-    },
-  ];
+  const recipes = await fetchAllRecipes();
+  return recipes.map((recipe) => ({
+    name: recipe.dataValues.name.toString().replace(/\s+/g, "-").toLowerCase(),
+    id: recipe.dataValues.id.toString(),
+  }));
 }
 
 export default async function RecipePage(params) {
-  console.log(params);
   const { name, id } = params.params;
   const recipe = await fetchRecipeById(id);
 
