@@ -87,6 +87,26 @@ export async function findUserIdFromEmail(email) {
   }
 }
 
+export async function findUserFromUsername(username) {
+  const user = await User.findAll({
+    where: { username: username },
+  });
+  if (user.length > 0) {
+    return { result: user[0].dataValues, message: "Username already exists" };
+  } else {
+    return undefined;
+  }
+}
+
+export async function fetchAllUsers() {
+  try {
+    const users = await User.findAll();
+    return users;
+  } catch (error) {
+    console.error("Couldn't fetch users", error);
+  }
+}
+
 export async function findUsername(username) {
   const user = await User.findAll({
     where: { username: username },
