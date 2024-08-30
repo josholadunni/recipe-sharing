@@ -6,11 +6,12 @@ import { createLike } from "../lib/actions";
 import Link from "next/link";
 
 const RecipeCard = (props) => {
-  const categories = props.categories.map((category) => {
+  const categories = props.categories.map((category, index) => {
     const categoryId = category[1];
     const categoryName = category[0];
     return (
       <Link
+        key={index}
         className="mr-2"
         href={`categories/${categoryName.toLowerCase()}/${categoryId}`}
       >
