@@ -12,14 +12,14 @@ export default async function RecentRecipes() {
     likeRecipeId = allLikes.map((like) => like.dataValues.RecipeId);
   }
   if (allRecipes) {
-    renderedRecipeCards = allRecipes.map((recipe) => {
+    renderedRecipeCards = allRecipes.map((recipe, index) => {
       const categories = recipe.RecipeCategories.map((category) => [
         category.name,
         category.id,
       ]);
       return (
         <RecipeCard
-          key={recipe.id}
+          key={index}
           id={recipe.id}
           title={recipe.name}
           imgFileName={recipe.imageURL}
