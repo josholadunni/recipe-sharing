@@ -3,7 +3,6 @@ export default async function RecipeCategoryGrid(props) {
   const recipeCategories = (await props.categories).map(
     (category) => category.dataValues
   );
-  console.log(recipeCategories);
 
   const categoryElements = recipeCategories.map((category) => {
     return (
