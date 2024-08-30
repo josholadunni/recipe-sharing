@@ -4,10 +4,13 @@ export default async function RecipeCategoryGrid(props) {
     (category) => category.dataValues
   );
 
-  const categoryElements = recipeCategories.map((category) => {
+  const categoryElements = recipeCategories.map((category, index) => {
     return (
       <p>
-        <Link href={`categories/${category.name.toLowerCase()}/${category.id}`}>
+        <Link
+          key={index}
+          href={`categories/${category.name.toLowerCase()}/${category.id}`}
+        >
           {category.name}
         </Link>
       </p>
