@@ -160,6 +160,26 @@ export async function fetchRecipesByCategoryId(id) {
   }
 }
 
+export async function fetchRecipesByUserId(id) {
+  try {
+    const recipes = await Recipe.findAll({
+      include: [
+        {
+          model: User,
+          where: { id },
+          attributes: [],
+        },
+        RecipeCategory,
+      ],
+    });
+
+    return recipes;
+  } catch (error) {
+    console.error("Couldn't fetch recipes", error);
+    throw error;
+  }
+}
+
 export async function fetchCategoryIdByCategoryName(name) {
   const id = await RecipeCategory.findOne({
     where: { name: name },
