@@ -13,9 +13,10 @@ export default async function MyRecipes() {
   }
   if (myRecipes) {
     renderedRecipeCards = myRecipes.map((recipe) => {
-      const categories = recipe.RecipeCategories.map(
-        (category) => category.name
-      );
+      const categories = recipe.RecipeCategories.map((category) => [
+        category.name,
+        category.id,
+      ]);
       console.log(likeRecipeId);
       return (
         <RecipeCardWithDelete

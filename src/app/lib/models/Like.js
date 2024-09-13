@@ -21,7 +21,7 @@ const Like = sequelize.define(
     },
     RecipeId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: "Recipe",
         key: "id",
