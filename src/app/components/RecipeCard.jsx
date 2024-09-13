@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const RecipeCard = (props) => {
   const { isLiked, ...otherProps } = props;
-  const categories = props.categories.map((category) => {
+  const categories = props.categories.map((category, index) => {
     const categoryId = category[1];
     const categoryName = category[0];
     return (

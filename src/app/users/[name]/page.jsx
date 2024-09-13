@@ -47,6 +47,7 @@ export default async function UserPage(params) {
           imgFileName={recipe.dataValues.imageURL}
           description={recipe.dataValues.short_description}
           likes={likeRecipeId.filter((like) => like === recipe.id).length}
+          isLiked={likeRecipeId.includes(recipe.id)}
           categories={categories}
           username={recipe.username}
         />
