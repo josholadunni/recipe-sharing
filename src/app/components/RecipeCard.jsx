@@ -2,7 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import "../../styles/RecipeCard.css";
-import { createLike } from "../lib/actions";
+import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
 
 const RecipeCard = (props) => {
@@ -39,7 +39,11 @@ const RecipeCard = (props) => {
         </Link>
         <div className="mt-auto">
           <button
-            onClick={() => createLike(otherProps)}
+            onClick={
+              isLiked
+                ? () => removeLike(otherProps)
+                : () => createLike(otherProps)
+            }
             className={`border border-black rounded ${
               isLiked
                 ? "bg-black text-white hover:bg-white hover:text-black"

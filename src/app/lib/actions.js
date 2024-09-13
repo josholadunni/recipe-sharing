@@ -3,11 +3,8 @@
 import { Recipe } from "./models";
 import { RecipeCategory } from "./models";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import Like from "./models/Like";
 import { signIn } from "../auth.js";
 import { signOut } from "../auth.js";
-import { AuthError } from "next-auth";
 import User from "./models/User";
 import bcrypt from "bcrypt";
 import { auth } from "../auth.js";
@@ -199,6 +196,35 @@ export async function createLike(e) {
     console.log("New like added:", newLike);
   } catch (error) {
     console.error("Error adding like:", error);
+  }
+  revalidatePath("/");
+}
+
+export async function removeLike(e) {
+  const session = await auth();
+  const userId = await findUserIdFromEmail(session.user.email);
+  console.log(userId);
+  console.log(typeof userId.result);
+  try {
+    const recipe = await Recipe.findByPk(e.id);
+
+    if (!recipe) {
+      throw new Error("Recipe not found");
+    }
+
+    const like = await recipe.getLikes({
+      where: {
+        UserId: userId.result,
+      },
+    });
+
+    if (like && like.length > 0) {
+      await like[0].destroy();
+    } else {
+      throw new Error("Like not found");
+    }
+  } catch (error) {
+    console.error("Error removing like:", error);
   }
   revalidatePath("/");
 }
