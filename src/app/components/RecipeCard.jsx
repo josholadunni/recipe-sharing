@@ -2,11 +2,12 @@
 import React from "react";
 import Image from "next/image";
 import "../../styles/RecipeCard.css";
-import { createLike } from "../lib/actions";
+import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
 
 const RecipeCard = (props) => {
-  const categories = props.categories.map((category, index) => {
+  const { isLiked, ...otherProps } = props;
+  const categories = props.categories.map((category) => {
     const categoryId = category[1];
     const categoryName = category[0];
     return (
@@ -39,10 +40,18 @@ const RecipeCard = (props) => {
         </Link>
         <div className="mt-auto">
           <button
-            onClick={() => createLike(props)}
-            className=" bg-white text-black border border-black rounded hover:bg-black hover:text-white"
+            onClick={
+              isLiked
+                ? () => removeLike(otherProps)
+                : () => createLike(otherProps)
+            }
+            className={`border border-black rounded ${
+              isLiked
+                ? "bg-black text-white hover:bg-white hover:text-black"
+                : "bg-white text-black hover:bg-black hover:text-white"
+            }`}
           >
-            <span className="p-6">Like</span>
+            <span className="p-6">{isLiked ? "Unlike" : "Like"}</span>
           </button>
           <span className="ml-2">{props.likes} likes</span>
         </div>
