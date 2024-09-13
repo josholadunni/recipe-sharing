@@ -45,11 +45,16 @@ const RecipeCard = (props) => {
                 ? () => removeLike(otherProps)
                 : () => createLike(otherProps)
             }
-            className={`border border-black rounded ${
-              isLiked
-                ? "bg-black text-white hover:bg-white hover:text-black"
-                : "bg-white text-black hover:bg-black hover:text-white"
-            }`}
+            className={(() => {
+              const classes = `border border-black rounded ${
+                isLiked
+                  ? "bg-black text-white hover:bg-white hover:text-black"
+                  : "bg-white text-black hover:bg-black hover:text-white"
+              }`;
+              console.log("isLiked:", isLiked);
+              console.log("Tailwind classes:", classes);
+              return classes;
+            })()}
           >
             <span className="p-6">{isLiked ? "Unlike" : "Like"}</span>
           </button>

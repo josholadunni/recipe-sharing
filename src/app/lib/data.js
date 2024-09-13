@@ -49,8 +49,15 @@ export async function fetchMyRecipes() {
 
 export async function fetchRecipeLikes() {
   try {
-    const recipes = await Like.findAll();
-    return recipes;
+    const likes = await Like.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["id", "username", "email"], // Specify which User attributes you want to include
+        },
+      ],
+    });
+    return likes;
   } catch (error) {
     console.error("Couldn't fetch likes", error);
   }
