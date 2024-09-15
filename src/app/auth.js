@@ -3,21 +3,7 @@ import { authConfig } from "./auth.config";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import User from "../app/lib/models/User";
-
-async function getUser(inputEmail) {
-  try {
-    const user = await User.findAll({
-      where: {
-        email: inputEmail,
-      },
-    });
-    return user[0];
-  } catch (error) {
-    console.error("Failed to fetch user:", error);
-    throw new Error("Failed to fetch user.");
-  }
-}
+import { getUser } from "./lib/userUtils.js";
 
 export const {
   handlers: { GET, POST },

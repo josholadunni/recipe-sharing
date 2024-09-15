@@ -1,11 +1,8 @@
 "use server";
 
-import { Recipe } from "./models";
-import { RecipeCategory } from "./models";
+import { Recipe, User, RecipeCategory } from "./models/index.js";
 import { revalidatePath } from "next/cache";
-import { signIn } from "../auth.js";
-import { signOut } from "../auth.js";
-import User from "./models/User";
+import { signIn, signOut } from "../auth.js";
 import bcrypt from "bcrypt";
 import { auth } from "../auth.js";
 import { findUserIdFromEmail, findUsername } from "./data";

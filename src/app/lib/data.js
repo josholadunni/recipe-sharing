@@ -1,6 +1,12 @@
-import { Recipe, RecipeCategory, RecipeRecipeCategory, User } from "./models";
-import Like from "./models/Like";
+import {
+  Recipe,
+  RecipeCategory,
+  RecipeRecipeCategory,
+  User,
+  Like,
+} from "./models/index.js";
 import { auth } from "../auth";
+import { cache } from "react";
 
 export default async function fetchRecentRecipes() {
   try {
@@ -47,21 +53,22 @@ export async function fetchMyRecipes() {
   }
 }
 
-export async function fetchRecipeLikes() {
+export const fetchRecipeLikes = cache(async () => {
   try {
     const likes = await Like.findAll({
       include: [
         {
           model: User,
-          attributes: ["id", "username", "email"], // Specify which User attributes you want to include
+          attributes: ["id", "username", "email"],
         },
       ],
     });
     return likes;
   } catch (error) {
     console.error("Couldn't fetch likes", error);
+    return [];
   }
-}
+});
 
 export async function fetchRecipeById(id) {
   try {
