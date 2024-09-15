@@ -1,11 +1,12 @@
 import React from "react";
 import RecipeCard from "../RecipeCard.jsx";
-import fetchRecentRecipes from "../../../app/lib/data.js";
 
-export default async function RecentRecipes({ allLikes, currentUserId }) {
+export default async function RecentRecipes({
+  allLikes,
+  allRecipes,
+  currentUserId,
+}) {
   let renderedRecipeCards = undefined;
-
-  const allRecipes = await fetchRecentRecipes();
 
   if (allRecipes) {
     renderedRecipeCards = allRecipes.map((recipe, index) => {
@@ -13,6 +14,7 @@ export default async function RecentRecipes({ allLikes, currentUserId }) {
         category.name,
         category.id,
       ]);
+
       return (
         <RecipeCard
           key={index}
