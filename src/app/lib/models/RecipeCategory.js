@@ -1,63 +1,55 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../db.js";
-import RecipeRecipeCategory from "./RecipeRecipeCategory.js";
-import Recipe from "./Recipe.js";
 
-const RecipeCategory = sequelize.define(
-  "RecipeCategory",
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+export default (sequelize) => {
+  const RecipeCategory = sequelize.define(
+    "RecipeCategory",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-export async function fetchCategories() {
-  RecipeCategory.sync();
-  return await RecipeCategory.findAll();
-}
-
-export async function createCategories() {
-  const categories = [
-    "italian",
-    "vegetarian",
-    "dessert",
-    "american",
-    "lunch",
-    "brunch",
-    "dinner",
-    "breakfast",
-    "budget-friendly",
-  ];
-
-  const mappedCategories = await Promise.all(
-    categories.map(async (category) => {
-      const categoryName =
-        category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
-      const existingCategory = await RecipeCategory.findOne({
-        where: { name: categoryName },
-      });
-      if (!existingCategory) {
-        return await RecipeCategory.create({ name: categoryName });
-      }
-      return existingCategory;
-    })
+    {
+      timestamps: true,
+    }
   );
 
-  return mappedCategories;
-}
+  RecipeCategory.fetchCategories = async function () {
+    await this.sync();
+    return await this.findAll();
+  };
 
-RecipeCategory.associate = () => {
-  RecipeCategory.belongsToMany(Recipe, { through: RecipeRecipeCategory });
+  RecipeCategory.createCategories = async function () {
+    const categories = [
+      "italian",
+      "vegetarian",
+      "dessert",
+      "american",
+      "lunch",
+      "brunch",
+      "dinner",
+      "breakfast",
+      "budget-friendly",
+    ];
+
+    const mappedCategories = await Promise.all(
+      categories.map(async (category) => {
+        const categoryName =
+          category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+        const [existingCategory] = await this.findOrCreate({
+          where: { name: categoryName },
+        });
+        return existingCategory;
+      })
+    );
+
+    return mappedCategories;
+  };
+
+  return RecipeCategory;
 };
-
-export default RecipeCategory;

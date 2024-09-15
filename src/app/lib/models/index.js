@@ -1,38 +1,25 @@
-import Sequelize from "sequelize";
 import sequelize from "../db.js";
+import UserModel from "./User.js";
+import RecipeModel from "./Recipe.js";
+import RecipeCategoryModel from "./RecipeCategory.js";
+import LikeModel from "./Like.js";
+import RecipeRecipeCategoryModel from "./RecipeRecipeCategory.js";
 
-// import RecipeLike from "./RecipeLike";
+const User = UserModel(sequelize);
+const Recipe = RecipeModel(sequelize);
+const RecipeCategory = RecipeCategoryModel(sequelize);
+const Like = LikeModel(sequelize);
+const RecipeRecipeCategory = RecipeRecipeCategoryModel(sequelize);
 
-import User from "./User.js";
-import Like from "./Like.js";
-import Recipe from "./Recipe.js";
-import RecipeCategory from "./RecipeCategory.js";
-import RecipeRecipeCategory from "./RecipeRecipeCategory.js";
+// Setup associations
+import setupAssociations from "./setupAssociations.js";
 
-const models = { User, Recipe, RecipeCategory, RecipeRecipeCategory, Like };
-Object.keys(models).forEach((modelName) => {
-  if (models[modelName].associate) {
-    models[modelName].associate(models);
-  }
-});
-
-export {
-  sequelize,
-  Sequelize,
+setupAssociations({
   User,
   Recipe,
   RecipeCategory,
-  RecipeRecipeCategory,
   Like,
-};
+  RecipeRecipeCategory,
+});
 
-// const syncModels = async () => {
-//   await sequelize.sync({});
-// };
-
-// const associateModels = async () => {
-//   Like.associate();
-//   Recipe.associate();
-//   User.associate();
-//   RecipeCategory.associate();
-// };
+export { sequelize, User, Recipe, RecipeCategory, RecipeRecipeCategory, Like };
