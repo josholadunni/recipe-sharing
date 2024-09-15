@@ -1,12 +1,11 @@
 import React from "react";
-import { fetchCategories } from "../lib/models/RecipeCategory.js";
-import { createCategories } from "../lib/models/RecipeCategory.js";
+import { RecipeCategory } from "../lib/models/index.js";
 import Form from "../components/Form.jsx";
 import H1 from "../components/H1.jsx";
 
 export default async function AddRecipes() {
-  await createCategories();
-  const categories = await fetchCategories();
+  await RecipeCategory.createCategories();
+  const categories = await RecipeCategory.fetchCategories();
   const categoryNames = categories
     .map((category) => {
       const categoryName = category.name;
