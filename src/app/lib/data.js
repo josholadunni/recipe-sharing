@@ -35,7 +35,7 @@ export async function fetchRecipeCategories() {
 
 export async function fetchMyRecipes() {
   const session = await auth();
-  const currentUserId = await findUserIdFromEmail(session.user.email);
+  const currentUserId = await findUserIdFromEmail();
   try {
     const recipes = await Recipe.findAll({
       where: { UserId: currentUserId.result },
@@ -83,7 +83,20 @@ export async function fetchAllRecipeIds() {
   }
 }
 
-export async function findUserIdFromEmail(email) {
+export async function findUserIdFromEmail(inputEmail) {
+  const session = await auth();
+  let email = undefined;
+  if (!session || !session.user || !session.user.email) {
+    if (!inputEmail) {
+      return undefined; // No email available
+    }
+    // Use inputEmail if provided and no session available
+    email = inputEmail;
+  } else {
+    // Use session email if available, or inputEmail if provided
+    email = inputEmail || session.user.email;
+  }
+
   const user = await User.findAll({
     where: { email: email },
   });

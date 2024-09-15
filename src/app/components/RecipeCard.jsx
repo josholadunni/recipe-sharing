@@ -6,7 +6,27 @@ import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
 
 const RecipeCard = (props) => {
-  const { isLiked, ...otherProps } = props;
+  const { allLikes, currentUserId, id } = props;
+
+  const likeRecipeId = allLikes
+    ? allLikes.map((like) => like.dataValues.RecipeId)
+    : [];
+
+  const likes = likeRecipeId.filter((like) => like === id).length;
+
+  const hasLiked = (recipeId) => {
+    if (allLikes && allLikes.length > 0) {
+      return allLikes.some(
+        (like) =>
+          like.User.id === currentUserId.result &&
+          like.dataValues.RecipeId === recipeId
+      );
+    }
+    return false;
+  };
+
+  const isLiked = hasLiked(id);
+
   const categories = props.categories.map((category, index) => {
     const categoryId = category[1];
     const categoryName = category[0];
@@ -41,26 +61,18 @@ const RecipeCard = (props) => {
         <div className="mt-auto">
           <button
             onClick={
-              isLiked
-                ? () => removeLike(otherProps)
-                : () => createLike(otherProps)
+              isLiked ? () => removeLike(props) : () => createLike(props)
             }
-            className={(() => {
-              const classes = `border border-black rounded ${
-                isLiked
-                  ? "bg-black text-white hover:bg-white hover:text-black"
-                  : "bg-white text-black hover:bg-black hover:text-white"
-              }`;
-              console.log("isLiked:", isLiked);
-              console.log("Tailwind classes:", classes);
-              return classes;
-            })()}
+            className={`border border-black rounded ${
+              isLiked
+                ? "bg-black text-white hover:bg-white hover:text-black"
+                : "bg-white text-black hover:bg-black hover:text-white"
+            }`}
           >
             <span className="p-6">{isLiked ? "Unlike" : "Like"}</span>
           </button>
-          <span className="ml-2">{props.likes} likes</span>
+          <span className="ml-2">{likes} likes</span>
         </div>
-
         <p className="mt-4">{props.description}</p>
         <div className="mt-auto">
           <p className="mt-2">{categories}</p>
