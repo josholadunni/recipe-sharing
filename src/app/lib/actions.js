@@ -58,8 +58,7 @@ export async function createRecipe(prevState, formData) {
     const buffer = Buffer.from(await file.arrayBuffer());
     await uploadFileToS3(buffer, fileName);
 
-    const session = await auth();
-    const userId = await findUserIdFromEmail(session.user.email);
+    const userId = await findUserIdFromEmail();
     const user = await User.findByPk(userId.result);
 
     const ingredientFields = formData.getAll("ingredient");
@@ -180,8 +179,7 @@ export async function createUser(prevState, formData) {
 }
 
 export async function createLike(e) {
-  const session = await auth();
-  const userId = await findUserIdFromEmail(session.user.email);
+  const userId = await findUserIdFromEmail();
   try {
     const recipe = await Recipe.findByPk(e.id);
 
@@ -201,8 +199,7 @@ export async function createLike(e) {
 }
 
 export async function removeLike(e) {
-  const session = await auth();
-  const userId = await findUserIdFromEmail(session.user.email);
+  const userId = await findUserIdFromEmail();
   console.log(userId);
   console.log(typeof userId.result);
   try {
