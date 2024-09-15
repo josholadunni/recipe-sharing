@@ -9,12 +9,17 @@ export default async function RecentRecipes() {
   let renderedRecipeCards = undefined;
   let likeRecipeId = undefined;
   const session = await auth();
+  console.log(session);
   const allRecipes = await fetchRecentRecipes();
   const allLikes = await fetchRecipeLikes();
-  const currentUserId = await findUserIdFromEmail(session.user.email);
+  const currentUserId = session?.user?.email
+    ? await findUserIdFromEmail(session.user.email)
+    : null;
   if (allLikes) {
     likeRecipeId = allLikes.map((like) => like.dataValues.RecipeId);
   }
+
+  console.log(session);
 
   const hasLiked = (recipeId) => {
     if (allLikes && allLikes.length > 0) {
