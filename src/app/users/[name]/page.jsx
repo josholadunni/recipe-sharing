@@ -6,6 +6,7 @@ import {
   fetchRecipeLikes,
 } from "../../lib/data";
 import RecipeCard from "../../components/RecipeCard";
+import { findUserIdFromEmail } from "../../lib/data";
 
 export async function generateStaticParams() {
   const users = await fetchAllUsers();
@@ -26,14 +27,11 @@ export default async function UserPage(params) {
   }
 
   const recipeList = await fetchRecipesByUserId(userId);
-
   const allLikes = await fetchRecipeLikes();
-  if (allLikes) {
-    likeRecipeId = allLikes.map((like) => like.dataValues.RecipeId);
-  }
+  const currentUserId = await findUserIdFromEmail();
 
   if (recipeList) {
-    renderedRecipes = recipeList.map((recipe) => {
+    renderedRecipes = recipeList.map((recipe, index) => {
       const categories = recipe.RecipeCategories.map((category) => [
         category.name,
         category.id,
@@ -41,15 +39,16 @@ export default async function UserPage(params) {
 
       return (
         <RecipeCard
-          key={recipe.dataValues.id}
-          id={recipe.dataValues.id}
-          title={recipe.dataValues.name}
-          imgFileName={recipe.dataValues.imageURL}
-          description={recipe.dataValues.short_description}
-          likes={likeRecipeId.filter((like) => like === recipe.id).length}
-          isLiked={likeRecipeId.includes(recipe.id)}
+          key={index}
+          id={recipe.id}
+          title={recipe.name}
+          imgFileName={recipe.imageURL}
+          description={recipe.short_description}
+          allLikes={allLikes}
+          currentUserId={currentUserId}
           categories={categories}
           username={recipe.username}
+          slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
         />
       );
     });
