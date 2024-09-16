@@ -1,33 +1,33 @@
+"use client";
 import React from "react";
 import RecipeCardWithDelete from "../RecipeCardWithDelete.jsx";
-import { fetchMyRecipes } from "../../lib/data.js";
-import { fetchRecipeLikes } from "../../lib/data.js";
 
-export default async function MyRecipes() {
+export default async function MyRecipes({
+  allLikes,
+  myRecipes,
+  currentUserId,
+}) {
   let renderedRecipeCards = undefined;
-  let likeRecipeId = undefined;
-  const myRecipes = await fetchMyRecipes();
-  const allLikes = await fetchRecipeLikes();
-  if (allLikes) {
-    likeRecipeId = allLikes.map((like) => like.dataValues.RecipeId);
-  }
+
   if (myRecipes) {
-    renderedRecipeCards = myRecipes.map((recipe) => {
+    renderedRecipeCards = myRecipes.map((recipe, index) => {
       const categories = recipe.RecipeCategories.map((category) => [
         category.name,
         category.id,
       ]);
-      console.log(likeRecipeId);
+
       return (
         <RecipeCardWithDelete
-          key={recipe.id}
+          key={index}
           id={recipe.id}
           title={recipe.name}
           imgFileName={recipe.imageURL}
           description={recipe.short_description}
-          likes={likeRecipeId.filter((like) => like === recipe.id).length}
+          allLikes={allLikes}
+          currentUserId={currentUserId}
           categories={categories}
           username={recipe.username}
+          slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
         />
       );
     });
