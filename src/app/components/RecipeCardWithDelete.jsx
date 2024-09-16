@@ -2,19 +2,38 @@
 import React from "react";
 import Image from "next/image";
 import "../../styles/RecipeCard.css";
-import { createLike } from "../lib/actions";
+import { createLike, removeLike } from "../lib/actions";
 import { useState } from "react";
 import { deleteRecipe } from "../lib/actions";
 import Link from "next/link";
 
 const RecipeCard = (props) => {
-  const categories = props.categories.map((category) => {
+  const { allLikes, currentUserId, id } = props;
+
+  const likeRecipeId = allLikes ? allLikes.map((like) => like.RecipeId) : [];
+
+  const likes = likeRecipeId.filter((like) => like === id).length;
+
+  const hasLiked = (recipeId) => {
+    if (allLikes && allLikes.length > 0) {
+      return allLikes.some(
+        (like) =>
+          like.User.id === currentUserId.result && like.RecipeId === recipeId
+      );
+    }
+    return false;
+  };
+
+  const isLiked = hasLiked(id);
+
+  const categories = props.categories.map((category, index) => {
     const categoryId = category[1];
     const categoryName = category[0];
     return (
       <Link
+        key={index}
         className="mr-2"
-        href={`categories/${categoryName.toLowerCase()}/${categoryId}`}
+        href={`/categories/${categoryName.toLowerCase()}/${categoryId}`}
       >
         {categoryName}
       </Link>
@@ -53,17 +72,23 @@ const RecipeCard = (props) => {
         </Link>
       </div>
       <div className="flex flex-col p-4 flex-none">
-        <Link href={`/recipes/${props.id}`}>
+        <Link href={`/recipes/${props.slug}/${props.id}`}>
           <h2 className="text-lg font-bold mb-2">{props.title}</h2>
         </Link>
         <div className="mt-auto">
           <button
-            onClick={() => createLike(props)}
-            className=" bg-white text-black border border-black rounded hover:bg-black hover:text-white"
+            onClick={
+              isLiked ? () => removeLike(props) : () => createLike(props)
+            }
+            className={`border border-black rounded ${
+              isLiked
+                ? "bg-black text-white hover:bg-white hover:text-black"
+                : "bg-white text-black hover:bg-black hover:text-white"
+            }`}
           >
-            <span className="p-6">Like</span>
+            <span className="p-6">{isLiked ? "Unlike" : "Like"}</span>
           </button>
-          <span className="ml-2">{props.likes} likes</span>
+          <span className="ml-2">{likes} likes</span>
         </div>
 
         <p className="mt-4">{props.description}</p>

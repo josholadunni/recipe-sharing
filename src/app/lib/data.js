@@ -39,14 +39,13 @@ export async function fetchRecipeCategories() {
 }
 
 export async function fetchMyRecipes() {
-  const session = await auth();
   const currentUserId = await findUserIdFromEmail();
   try {
     const recipes = await Recipe.findAll({
       where: { UserId: currentUserId.result },
       include: RecipeCategory,
     });
-    return recipes;
+    return JSON.parse(JSON.stringify(recipes));
   } catch (error) {
     console.error("Couldn't fetch recipes", error);
   }
