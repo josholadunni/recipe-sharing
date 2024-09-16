@@ -19,7 +19,6 @@ export default async function UserPage(params) {
   const { name } = params.params;
   const user = await findUserFromUsername(name);
   const userId = user.result.id;
-  let likeRecipeId = undefined;
   let renderedRecipes = undefined;
 
   if (!user) {
