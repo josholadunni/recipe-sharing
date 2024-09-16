@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { search } from "../lib/actions";
-
+import Link from "next/link";
 export default function SearchBar({ placeholder }) {
   const [timeoutId, setTimeoutId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +53,14 @@ export default function SearchBar({ placeholder }) {
       {results.length > 0 && (
         <div className="results-container">
           {results.map((result) => (
-            <div key={result.id}>{result.name}</div>
+            <Link
+              key={result.id}
+              href={`/recipes/${result.name
+                .replace(/\s+/g, "-")
+                .toLowerCase()}/${result.id}`}
+            >
+              <h2 className="text-lg font-bold mb-2">{result.name}</h2>
+            </Link>
           ))}
         </div>
       )}
