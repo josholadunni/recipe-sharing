@@ -12,7 +12,7 @@ export default async function fetchRecentRecipes() {
     const recipes = await Recipe.findAll({
       include: RecipeCategory,
     });
-    return recipes;
+    return JSON.parse(JSON.stringify(recipes));
   } catch (error) {
     console.error("Couldn't fetch recipes", error);
   }

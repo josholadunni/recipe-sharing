@@ -4,7 +4,6 @@ import Image from "next/image";
 import "../../styles/RecipeCard.css";
 import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
-import { useLikes } from "../contexts/LikesContext";
 
 const RecipeCard = (props) => {
   const { allLikes, currentUserId, id } = props;
