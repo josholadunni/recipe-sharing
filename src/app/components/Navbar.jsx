@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import LogInOutBtn from "../components/LogInOutBtn.jsx";
+import SearchBar from "../components/SearchBar.jsx";
 import React from "react";
 
 function Navbar() {
@@ -16,7 +17,7 @@ function Navbar() {
             <Link href="/browse">Browse</Link>
           </li>
           <li>
-            <Link href="/search">Search</Link>
+            <SearchBar placeholder="Search Recipes" />
           </li>
           <li>
             <Link href="/add-recipe">Add Recipe</Link>

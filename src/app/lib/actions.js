@@ -4,10 +4,10 @@ import { Recipe, User, RecipeCategory } from "./models/index.js";
 import { revalidatePath } from "next/cache";
 import { signIn, signOut } from "../auth.js";
 import bcrypt from "bcrypt";
-import { auth } from "../auth.js";
 import { findUserIdFromEmail, findUsername } from "./data";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import z from "zod";
+import { Op } from "sequelize";
 
 const s3Client = new S3Client({
   region: process.env.NEXT_AWS_S3_REGION,
@@ -253,4 +253,15 @@ export async function logOut() {
     redirect: false,
   });
   return { isLoggedOut: true };
+}
+
+export async function search(term) {
+  const recipes = await Recipe.findAll({
+    where: {
+      name: {
+        [Op.iLike]: `%${term}%`,
+      },
+    },
+  });
+  return JSON.parse(JSON.stringify(recipes));
 }
