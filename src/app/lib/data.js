@@ -6,7 +6,6 @@ import {
   Like,
 } from "./models/index.js";
 import { auth } from "../auth";
-import { cache } from "react";
 
 export default async function fetchRecentRecipes() {
   try {
@@ -53,7 +52,7 @@ export async function fetchMyRecipes() {
   }
 }
 
-export const fetchRecipeLikes = cache(async () => {
+export async function fetchRecipeLikes() {
   try {
     const likes = await Like.findAll({
       include: [
@@ -63,12 +62,12 @@ export const fetchRecipeLikes = cache(async () => {
         },
       ],
     });
-    return likes;
+    return JSON.parse(JSON.stringify(likes));
   } catch (error) {
     console.error("Couldn't fetch likes", error);
     return [];
   }
-});
+}
 
 export async function fetchRecipeById(id) {
   try {

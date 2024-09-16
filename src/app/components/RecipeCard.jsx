@@ -4,13 +4,12 @@ import Image from "next/image";
 import "../../styles/RecipeCard.css";
 import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
+import { useLikes } from "../contexts/LikesContext";
 
 const RecipeCard = (props) => {
   const { allLikes, currentUserId, id } = props;
 
-  const likeRecipeId = allLikes
-    ? allLikes.map((like) => like.dataValues.RecipeId)
-    : [];
+  const likeRecipeId = allLikes ? allLikes.map((like) => like.RecipeId) : [];
 
   const likes = likeRecipeId.filter((like) => like === id).length;
 
@@ -18,8 +17,7 @@ const RecipeCard = (props) => {
     if (allLikes && allLikes.length > 0) {
       return allLikes.some(
         (like) =>
-          like.User.id === currentUserId.result &&
-          like.dataValues.RecipeId === recipeId
+          like.User.id === currentUserId.result && like.RecipeId === recipeId
       );
     }
     return false;
