@@ -31,7 +31,7 @@ const RecipeCard = (props) => {
       <Link
         key={index}
         className="mr-2"
-        href={`categories/${categoryName.toLowerCase()}/${categoryId}`}
+        href={`/categories/${categoryName.toLowerCase()}/${categoryId}`}
       >
         {categoryName}
       </Link>
