@@ -16,7 +16,6 @@ export default function SearchBar({ placeholder }) {
           const response = await search(searchTerm);
           response && setIsLoading(false);
           setResults(response);
-          console.log(results);
         } catch (error) {
           console.error(error);
         } finally {
@@ -40,7 +39,12 @@ export default function SearchBar({ placeholder }) {
   }
 
   return (
-    <div>
+    <div
+      className="search-bar"
+      onMouseLeave={() => {
+        setResults([]);
+      }}
+    >
       <input
         type="text"
         placeholder={placeholder}
@@ -51,13 +55,16 @@ export default function SearchBar({ placeholder }) {
       />
       {isLoading && <p>Searching...</p>}
       {results.length > 0 && (
-        <div className="results-container">
+        <div className="results-container bg-red-500">
           {results.map((result) => (
             <Link
               key={result.id}
               href={`/recipes/${result.name
                 .replace(/\s+/g, "-")
                 .toLowerCase()}/${result.id}`}
+              onClick={() => {
+                setResults([]);
+              }}
             >
               <h2 className="text-lg font-bold mb-2">{result.name}</h2>
             </Link>
