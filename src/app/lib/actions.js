@@ -149,7 +149,6 @@ export async function createUser(prevState, formData) {
     const usernameExists = await findUsername(validatedData.username);
 
     if (emailExists === undefined && usernameExists === undefined) {
-      console.log("Working");
       await User.create({
         username: validatedData.username,
         email: validatedData.email,
