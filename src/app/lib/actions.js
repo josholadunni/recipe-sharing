@@ -258,7 +258,7 @@ export async function search(term) {
   const recipes = await Recipe.findAll({
     where: {
       name: {
-        [Op.iLike]: `%${term}%`,
+        [Op.iLike]: `%${term.trim()}%`,
       },
     },
   });
