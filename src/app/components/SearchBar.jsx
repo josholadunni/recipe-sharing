@@ -44,8 +44,7 @@ export default function SearchBar({ placeholder }) {
     e.preventDefault();
     const input = e.target.firstChild;
 
-    router.push(`search/${input.value}`);
-    console.log(input.value);
+    router.push(`/search/${input.value}`);
   }
 
   return (
