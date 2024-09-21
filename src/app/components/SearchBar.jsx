@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { search } from "../lib/actions";
 import Link from "next/link";
 export default function SearchBar({ placeholder }) {
@@ -7,6 +8,7 @@ export default function SearchBar({ placeholder }) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
     if (searchTerm) {
@@ -38,6 +40,14 @@ export default function SearchBar({ placeholder }) {
     setSearchTerm(term);
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    const input = e.target.firstChild;
+
+    router.push(`search/${input.value}`);
+    console.log(input.value);
+  }
+
   return (
     <div
       className="search-bar"
@@ -45,14 +55,16 @@ export default function SearchBar({ placeholder }) {
         setResults([]);
       }}
     >
-      <input
-        type="text"
-        placeholder={placeholder}
-        onChange={(e) => {
-          const term = e.target.value;
-          handleInputChange(term);
-        }}
-      />
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder={placeholder}
+          onChange={(e) => {
+            const term = e.target.value;
+            handleInputChange(term);
+          }}
+        />
+      </form>
       {isLoading && <p>Searching...</p>}
       {results.length > 0 && (
         <div className="results-container bg-red-500">
