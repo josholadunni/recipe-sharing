@@ -20,8 +20,6 @@ export default async function CategoryPage(params) {
         category.id,
       ]);
 
-      // console.log(categories);
-
       return (
         <RecipeCard
           key={index}
