@@ -261,6 +261,7 @@ export async function search(term) {
         [Op.iLike]: `%${term.trim()}%`,
       },
     },
+    include: RecipeCategory,
   });
   return JSON.parse(JSON.stringify(recipes));
 }
