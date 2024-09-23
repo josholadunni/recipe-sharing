@@ -4,9 +4,10 @@ import Image from "next/image";
 import "../../styles/RecipeCard.css";
 import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
+import { formatDate } from "../lib/utils";
 
 const RecipeCard = (props) => {
-  const { allLikes, currentUserId, id } = props;
+  const { allLikes, currentUserId, id, createdAt } = props;
 
   const likeRecipeId = allLikes ? allLikes.map((like) => like.RecipeId) : [];
 
@@ -16,7 +17,7 @@ const RecipeCard = (props) => {
     if (allLikes && allLikes.length > 0) {
       return allLikes.some(
         (like) =>
-          like.User.id === currentUserId.result && like.RecipeId === recipeId
+          like.User.id === currentUserId?.result && like.RecipeId === recipeId
       );
     }
     return false;
@@ -37,6 +38,8 @@ const RecipeCard = (props) => {
       </Link>
     );
   });
+
+  const formattedDate = formatDate(createdAt);
 
   return (
     <div className="flex flex-col shadow-lg w-72">
@@ -75,6 +78,7 @@ const RecipeCard = (props) => {
           <p className="mt-2">{categories}</p>
           <Link href={`/users/${props.username}`}>{props.username}</Link>
         </div>
+        <p>{formattedDate}</p>
       </div>
     </div>
   );

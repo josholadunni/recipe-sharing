@@ -4,13 +4,13 @@ import RecipeCard from "../RecipeCard.jsx";
 
 export default async function RecentRecipes({
   allLikes,
-  allRecipes,
+  recentRecipes,
   currentUserId,
 }) {
   let renderedRecipeCards = undefined;
 
-  if (allRecipes) {
-    renderedRecipeCards = allRecipes.map((recipe, index) => {
+  if (recentRecipes) {
+    renderedRecipeCards = recentRecipes.map((recipe, index) => {
       const categories = recipe.RecipeCategories.map((category) => [
         category.name,
         category.id,
@@ -28,6 +28,7 @@ export default async function RecentRecipes({
           categories={categories}
           username={recipe.username}
           slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
+          createdAt={recipe.createdAt}
         />
       );
     });

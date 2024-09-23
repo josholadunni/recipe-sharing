@@ -29,6 +29,13 @@ export async function fetchAllRecipes() {
   }
 }
 
+export async function fetchPopularRecipes() {
+  try {
+  } catch (error) {
+    console.error("Couldn't fetch recipes", error);
+  }
+}
+
 export async function fetchRecipeCategories() {
   try {
     const categories = await RecipeCategory.findAll();

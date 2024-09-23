@@ -3,17 +3,23 @@ import "../styles/Home.css";
 import PopularRecipes from "./components/Home/PopularRecipes.jsx";
 import RecentRecipes from "./components/Home/RecentRecipes.jsx";
 import fetchRecentRecipes from "./lib/data.js";
-import { fetchRecipeLikes, findUserIdFromEmail } from "./lib/data.js";
+import {
+  fetchRecipeLikes,
+  findUserIdFromEmail,
+  fetchPopularRecipes,
+} from "./lib/data.js";
 import H1 from "./components/H1.jsx";
 import H2 from "./components/H2.jsx";
 
 export default async function Home() {
   try {
-    const [allLikes, allRecipes, currentUserId] = await Promise.all([
-      fetchRecipeLikes(),
-      fetchRecentRecipes(),
-      findUserIdFromEmail(),
-    ]);
+    const [allLikes, recentRecipes, PopularRecipes, currentUserId] =
+      await Promise.all([
+        fetchRecipeLikes(),
+        fetchRecentRecipes(),
+        fetchPopularRecipes(),
+        findUserIdFromEmail(),
+      ]);
 
     return (
       <div>
@@ -23,7 +29,7 @@ export default async function Home() {
           <RecentRecipes
             allLikes={allLikes}
             currentUserId={currentUserId}
-            allRecipes={allRecipes}
+            recentRecipes={recentRecipes}
           />
         </div>
         <H2 text="Popular Recipes" />
