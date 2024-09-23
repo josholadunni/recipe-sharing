@@ -6,9 +6,10 @@ import { createLike, removeLike } from "../lib/actions";
 import { useState } from "react";
 import { deleteRecipe } from "../lib/actions";
 import Link from "next/link";
+import { formatDate } from "../lib/utils";
 
 const RecipeCard = (props) => {
-  const { allLikes, currentUserId, id } = props;
+  const { allLikes, currentUserId, id, createdAt } = props;
 
   const likeRecipeId = allLikes ? allLikes.map((like) => like.RecipeId) : [];
 
@@ -39,6 +40,8 @@ const RecipeCard = (props) => {
       </Link>
     );
   });
+
+  const formattedDate = formatDate(createdAt);
 
   const [state, setState] = useState(null);
 
@@ -94,7 +97,10 @@ const RecipeCard = (props) => {
         <p className="mt-4">{props.description}</p>
         <div className="mt-auto">
           <p className="mt-2">{categories}</p>
-          <p>{props.username}</p>
+          <Link href={`/users/${props.username}`}>
+            <p>{props.username}</p>
+          </Link>
+          <p>{formattedDate}</p>
         </div>
       </div>
     </div>

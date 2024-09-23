@@ -32,6 +32,7 @@ export default async function CategoryPage(params) {
           categories={categories}
           username={recipe.username}
           slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
+          createdAt={recipe.createdAt}
         />
       );
     });

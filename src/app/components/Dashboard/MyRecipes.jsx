@@ -28,6 +28,7 @@ export default async function MyRecipes({
           categories={categories}
           username={recipe.username}
           slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
+          createdAt={recipe.createdAt}
         />
       );
     });
