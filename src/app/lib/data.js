@@ -6,11 +6,14 @@ import {
   Like,
 } from "./models/index.js";
 import { auth } from "../auth";
+import { sequelize } from "./models/index.js";
 
 export default async function fetchRecentRecipes() {
   try {
     const recipes = await Recipe.findAll({
       include: RecipeCategory,
+      limit: 10,
+      order: [["updatedAt", "DESC"]],
     });
     return JSON.parse(JSON.stringify(recipes));
   } catch (error) {
@@ -22,6 +25,7 @@ export async function fetchAllRecipes() {
   try {
     const recipes = await Recipe.findAll({
       include: RecipeCategory,
+      limit: 10,
     });
     return recipes;
   } catch (error) {
