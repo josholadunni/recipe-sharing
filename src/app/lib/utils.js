@@ -23,6 +23,8 @@ export function formatDate(dateString) {
       }
     } else if (numberOfDays == 1) {
       return `${numberOfDays} day go`;
+    } else if (numberOfDays == 0) {
+      return "Today";
     } else {
       return `${numberOfDays} days go`;
     }
