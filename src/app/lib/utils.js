@@ -6,13 +6,13 @@ export function capitalizeFirstLetter(word) {
 
 export function formatDate(dateString) {
   const uploadDate = new Date(dateString);
-  const uploadDay = uploadDate.getDate();
 
   const currentDate = new Date();
-  const currentDay = currentDate.getDate();
+
+  const timeDifferenceMs = currentDate - uploadDate;
 
   const formattedDate = () => {
-    const numberOfDays = currentDay - uploadDay;
+    const numberOfDays = Math.floor(timeDifferenceMs / 86400000);
 
     if (numberOfDays >= 7) {
       const numberOfWeeks = numberOfDays / 7;
