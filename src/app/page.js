@@ -13,7 +13,7 @@ import H2 from "./components/H2.jsx";
 
 export default async function Home() {
   try {
-    const [allLikes, recentRecipes, PopularRecipes, currentUserId] =
+    const [allLikes, recentRecipes, popularRecipes, currentUserId] =
       await Promise.all([
         fetchRecipeLikes(),
         fetchRecentRecipes(),
@@ -29,11 +29,15 @@ export default async function Home() {
           <RecentRecipes
             allLikes={allLikes}
             currentUserId={currentUserId}
-            recentRecipes={recentRecipes}
+            recipes={recentRecipes}
           />
         </div>
         <H2 text="Popular Recipes" />
-        {/* <PopularRecipes /> */}
+        <PopularRecipes
+          allLikes={allLikes}
+          currentUserId={currentUserId}
+          recipes={popularRecipes}
+        />
       </div>
     );
   } catch (error) {

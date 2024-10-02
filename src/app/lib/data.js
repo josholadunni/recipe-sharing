@@ -35,6 +35,12 @@ export async function fetchAllRecipes() {
 
 export async function fetchPopularRecipes() {
   try {
+    const recipes = await Recipe.findAll({
+      include: [RecipeCategory, Like],
+      limit: 10,
+    });
+    console.log(recipes);
+    return JSON.parse(JSON.stringify(recipes));
   } catch (error) {
     console.error("Couldn't fetch recipes", error);
   }
