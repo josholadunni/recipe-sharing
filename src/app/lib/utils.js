@@ -32,3 +32,13 @@ export function formatDate(dateString) {
 
   return `${formattedDate()}`;
 }
+
+export function titleCase(string) {
+  return string.replace(/\w\S*/g, (text) => {
+    if (text === "and") {
+      return "and";
+    } else {
+      return text.charAt(0).toUpperCase() + text.substring(1).toLowerCase();
+    }
+  });
+}

@@ -4,7 +4,7 @@ import Image from "next/image";
 import "../../styles/RecipeCard.css";
 import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
-import { formatDate } from "../lib/utils";
+import { formatDate, titleCase } from "../lib/utils";
 
 const RecipeCard = (props) => {
   const { allLikes, currentUserId, id, createdAt } = props;
@@ -40,6 +40,7 @@ const RecipeCard = (props) => {
   });
 
   const formattedDate = formatDate(createdAt);
+  const formattedTitle = titleCase(props.title);
 
   return (
     <div className="flex flex-col shadow-lg w-72">
@@ -56,7 +57,7 @@ const RecipeCard = (props) => {
       </Link>
       <div className="flex flex-col p-4 flex-none">
         <Link href={`/recipes/${props.slug}/${props.id}`}>
-          <h2 className="text-lg font-bold mb-2">{props.title}</h2>
+          <h2 className="text-lg font-bold mb-2">{formattedTitle}</h2>
         </Link>
         <div className="mt-auto">
           <button
