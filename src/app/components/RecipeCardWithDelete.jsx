@@ -6,7 +6,7 @@ import { createLike, removeLike } from "../lib/actions";
 import { useState } from "react";
 import { deleteRecipe } from "../lib/actions";
 import Link from "next/link";
-import { formatDate } from "../lib/utils";
+import { formatDate, titleCase } from "../lib/utils";
 
 const RecipeCard = (props) => {
   const { allLikes, currentUserId, id, createdAt } = props;
@@ -42,6 +42,7 @@ const RecipeCard = (props) => {
   });
 
   const formattedDate = formatDate(createdAt);
+  const formattedTitle = titleCase(props.title);
 
   const [state, setState] = useState(null);
 
@@ -76,7 +77,7 @@ const RecipeCard = (props) => {
       </div>
       <div className="flex flex-col p-4 flex-none">
         <Link href={`/recipes/${props.slug}/${props.id}`}>
-          <h2 className="text-lg font-bold mb-2">{props.title}</h2>
+          <h2 className="text-lg font-bold mb-2">{formattedTitle}</h2>
         </Link>
         <div className="mt-auto">
           <button
