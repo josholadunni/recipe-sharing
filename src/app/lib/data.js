@@ -39,8 +39,12 @@ export async function fetchPopularRecipes() {
       include: [RecipeCategory, Like],
       limit: 10,
     });
-    console.log(recipes);
-    return JSON.parse(JSON.stringify(recipes));
+    const sortedRecipes = recipes.sort((a, b) => {
+      const likesA = a.Likes ? a.Likes.length : 0;
+      const likesB = b.Likes ? b.Likes.length : 0;
+      return likesB - likesA;
+    });
+    return JSON.parse(JSON.stringify(sortedRecipes));
   } catch (error) {
     console.error("Couldn't fetch recipes", error);
   }

@@ -21,6 +21,8 @@ export default async function Home() {
         findUserIdFromEmail(),
       ]);
 
+    console.log(popularRecipes);
+
     return (
       <div>
         <H1 text="Recipe Sharer" />
