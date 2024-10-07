@@ -15,6 +15,7 @@ export default function Form(props) {
   const [state, formAction] = useFormState(createRecipe, initialState);
 
   const [ingredients, setIngredients] = useState([{ id: 1 }]);
+  const [checkedCategories, setCheckedCategory] = useState([]);
 
   const addIngredientField = () => {
     const newId = ingredients.length + 1;
@@ -37,6 +38,20 @@ export default function Form(props) {
   const removeMethodField = (id) => {
     if (id !== 1) {
       setMethodStep(method.filter((step) => step.id !== id));
+    }
+  };
+
+  const addCategoryClick = (e) => {
+    if (checkedCategories.includes(e.target.value)) {
+      setCheckedCategory(
+        checkedCategories.filter((category) => category !== e.target.value)
+      );
+    } else {
+      setCheckedCategory((prevCategories) => {
+        const updatedCategories = [...prevCategories, e.target.value];
+
+        return updatedCategories;
+      });
     }
   };
 
@@ -81,7 +96,8 @@ export default function Form(props) {
                   <div key={category}>
                     <label htmlFor={category}>{category}</label>
                     <input
-                      className="float-right"
+                      onClick={(e) => addCategoryClick(e)}
+                      className="category-select float-right"
                       type="checkbox"
                       id={`${(category, i)}`}
                       name="rcselect"
@@ -103,6 +119,7 @@ export default function Form(props) {
                 })}
               </select> */}
             </div>
+            {checkedCategories?.length > 5 && <p>Too many categories</p>}
             <Input label="Image" name="file" type="file" accept="images/*" />
             <Input
               label="Recipe Description"
@@ -168,6 +185,7 @@ export default function Form(props) {
             </div>
           </div>
         </form>
+
         {state?.status && <div>{state?.message}</div>}
         {state?.errorMessage && <p>{state?.errorMessage}</p>}
         {state?.status === "success" && redirect("/")}
