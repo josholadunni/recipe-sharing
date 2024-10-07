@@ -30,7 +30,7 @@ async function uploadFileToS3(file, fileName) {
   const command = new PutObjectCommand(params);
   try {
     const response = await s3Client.send(command);
-    console.log("File uploaded successfully:", response);
+    console.log(response);
     return fileName;
   } catch (error) {
     throw error;
@@ -61,35 +61,45 @@ export async function createRecipe(prevState, formData) {
     const ingredientFields = formData.getAll("ingredient");
     const methodFields = formData.getAll("method");
 
-    const newRecipe = await user.createRecipe({
-      name: formData.get("rname"),
-      imageURL:
-        `https://recipe-website-nextjs.s3.eu-west-2.amazonaws.com/images/` +
-        fileName,
-      description: formData.get("rdescription"),
-      short_description: formData.get("srdescription"),
-      ingredients: ingredientFields,
-      method: methodFields,
-      username: user.username,
-      isDummy: true,
-    });
-
     const categories = await RecipeCategory.findAll({
       where: { name: formData.getAll("rcselect") },
     });
-    try {
+
+    let validationError = null;
+
+    let isValidated = () => {
+      if (categories.length <= 5) {
+        console.log(categories.length);
+        return true;
+      } else {
+        validationError = "Too many categories, please select 5 or fewer.";
+        return false;
+      }
+    };
+
+    if (isValidated()) {
+      const newRecipe = await user.createRecipe({
+        name: formData.get("rname"),
+        imageURL:
+          `https://recipe-website-nextjs.s3.eu-west-2.amazonaws.com/images/` +
+          fileName,
+        description: formData.get("rdescription"),
+        short_description: formData.get("srdescription"),
+        ingredients: ingredientFields,
+        method: methodFields,
+        username: user.username,
+        isDummy: true,
+      });
       await newRecipe.addRecipeCategories(categories);
-    } catch (error) {
-      console.error("Couldn't assign category ", error);
+    } else {
+      throw new Error(validationError);
     }
     revalidatePath("/");
-    console.log("Recipe created successfully");
     return { status: "success", message: "File has been uploaded." };
   } catch (error) {
-    console.error("Couldn't post recipe", error);
     return {
       status: "error",
-      message: "Failed to upload file.",
+      message: error.message,
     };
   }
 }
