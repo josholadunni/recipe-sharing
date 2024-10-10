@@ -59,12 +59,16 @@ export default function Form(props) {
   const { pending } = useFormStatus();
   const [errorMessage, setErrorMessage] = useState(null);
 
+  let [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+
   const disableButton = () => {
+    setIsSubmitDisabled(true);
     $("#submitBtn").prop("disabled", true);
-    setErrorMessage("Too many categories selected. Please select fewer.");
+    setErrorMessage("");
   };
 
   const enableButton = () => {
+    setIsSubmitDisabled(false);
     $("#submitBtn").prop("disabled", false);
     setErrorMessage("");
   };
@@ -141,7 +145,11 @@ export default function Form(props) {
                 })}
               </select> */}
             </div>
-            {checkedCategories?.length > 5 && <p>Too many categories</p>}
+            {checkedCategories?.length > 5 && (
+              <p class="text-red-600">
+                Too many categories. Please choose 5 or less.
+              </p>
+            )}
             <Input label="Image" name="file" type="file" accept="images/*" />
             <Input
               label="Recipe Description"
@@ -206,7 +214,10 @@ export default function Form(props) {
               <div>
                 <button
                   id="submitBtn"
-                  className=" bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-12"
+                  className={`bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-12 ${
+                    isSubmitDisabled &&
+                    "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
+                  }`}
                   type="submit"
                   aria-disabled={pending}
                 >
@@ -219,7 +230,9 @@ export default function Form(props) {
         </form>
 
         {state?.status && <div>{state?.message}</div>}
-        {state?.errorMessage && <p>{state?.errorMessage}</p>}
+        {state?.errorMessage && (
+          <p class="text-red-600">{state?.errorMessage}</p>
+        )}
         {state?.status === "success" && redirect("/")}
       </div>
     </div>
