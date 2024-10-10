@@ -97,12 +97,27 @@ export default function Form(props) {
   }, [addIngredientField, addMethodField]);
 
   useEffect(() => {
-    if (checkedCategories.length > 5) {
+    if (checkedCategories.length > 5 || wordCount > 200) {
       disableButton();
     } else {
       enableButton();
     }
   }, [addCategoryClick]);
+
+  const [inputString, setInputString] = useState("");
+  const [wordCount, setWordcount] = useState(0);
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value;
+    setInputString(newValue);
+    setWordcount(newValue.length);
+  };
+
+  useEffect(() => {
+    if (inputString.length === 0) {
+      setWordcount(0);
+    }
+  }, [inputString]); // Update dependency to inputString
 
   return (
     <div>
@@ -156,7 +171,12 @@ export default function Form(props) {
               name="rdescription"
               type="text"
               placeholder="Recipe Description"
+              onChange={(e) => handleInputChange(e)}
             />
+            {wordCount}
+            {wordCount > 200 && (
+              <p class="text-red-600">Too many characters. Please reduce.</p>
+            )}
             <Input
               label="Short Recipe Description"
               name="srdescription"
