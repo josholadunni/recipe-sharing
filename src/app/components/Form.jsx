@@ -5,14 +5,15 @@ import Input from "../components/Input.jsx";
 import ListInput from "../components/ListInput.jsx";
 import { createRecipe } from "../lib/actions.js";
 import { useFormState } from "react-dom";
-import { SubmitButton } from "./SubmitButton.jsx";
 import { redirect } from "next/navigation.js";
-
-const initialState = { message: null };
+import { useFormStatus } from "react-dom";
+import $ from "jquery";
 
 export default function Form(props) {
-  const categoryNames = props.categoryNames;
+  const initialState = { message: null };
+
   const [state, formAction] = useFormState(createRecipe, initialState);
+  const categoryNames = props.categoryNames;
 
   const [ingredients, setIngredients] = useState([{ id: 1 }]);
   const [checkedCategories, setCheckedCategory] = useState([]);
@@ -55,6 +56,19 @@ export default function Form(props) {
     }
   };
 
+  const { pending } = useFormStatus();
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const disableButton = () => {
+    $("#submitBtn").prop("disabled", true);
+    setErrorMessage("Too many categories selected. Please select fewer.");
+  };
+
+  const enableButton = () => {
+    $("#submitBtn").prop("disabled", false);
+    setErrorMessage("");
+  };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (
@@ -77,6 +91,14 @@ export default function Form(props) {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [addIngredientField, addMethodField]);
+
+  useEffect(() => {
+    if (checkedCategories.length > 5) {
+      disableButton();
+    } else {
+      enableButton();
+    }
+  }, [addCategoryClick]);
 
   return (
     <div>
@@ -181,7 +203,17 @@ export default function Form(props) {
             </div>
 
             <div className="text-center">
-              <SubmitButton />
+              <div>
+                <button
+                  id="submitBtn"
+                  className=" bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-12"
+                  type="submit"
+                  aria-disabled={pending}
+                >
+                  {pending ? "Uploading..." : "Upload Recipe"}
+                </button>
+                <p>{errorMessage}</p>
+              </div>
             </div>
           </div>
         </form>
