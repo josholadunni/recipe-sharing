@@ -91,8 +91,15 @@ export async function fetchRecipeLikes() {
 
 export async function fetchRecipeById(id) {
   try {
-    const recipe = await Recipe.findByPk(id);
-    return recipe;
+    const recipe = await Recipe.findByPk(id, {
+      include: [
+        {
+          model: RecipeCategory,
+          through: { attributes: [] },
+        },
+      ],
+    });
+    return JSON.parse(JSON.stringify(recipe));
   } catch (error) {
     console.error("Couldn't fetch recipe", error);
   }
