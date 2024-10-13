@@ -9,6 +9,7 @@ import { useFormState } from "react-dom";
 import { redirect } from "next/navigation.js";
 import { useFormStatus } from "react-dom";
 import $ from "jquery";
+import Image from "next/image";
 
 export default function Form(props) {
   const initialState = { message: null };
@@ -141,6 +142,19 @@ export default function Form(props) {
   //   }
   // };
 
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+    }
+  };
+
   return (
     <div>
       <div>
@@ -191,7 +205,21 @@ export default function Form(props) {
                 Too many categories. Please choose 5 or less.
               </p>
             )}
-            <Input label="Image" name="file" type="file" accept="images/*" />
+            <Input
+              label="Image"
+              name="file"
+              type="file"
+              accept="images/*"
+              onChange={handleImageChange}
+            />
+            {imagePreview && (
+              <Image
+                src={imagePreview}
+                alt="Image Preview"
+                width={500}
+                height={500}
+              />
+            )}
             <InputWithCharLimit
               label="Recipe Description"
               name="rdescription"
