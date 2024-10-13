@@ -40,6 +40,17 @@ export default async function RecipePage(params) {
     );
   };
 
+  const renderCategories = () => {
+    const categories = recipe.RecipeCategories;
+    return (
+      <ul>
+        {categories.map((category, index) => (
+          <li key={index}>{category.name}</li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <div>
       <H1 text={recipe.name}></H1>
@@ -52,6 +63,7 @@ export default async function RecipePage(params) {
           className="object-cover"
         />
       </div>
+      <div class="font-bold">{renderCategories()}</div>
       <div>{renderIngredients()}</div>
       <div>{renderMethod()}</div>
     </div>
