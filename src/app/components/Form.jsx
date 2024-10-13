@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Input from "../components/Input.jsx";
+import InputWithCharLimit from "./InputWithCharLimit.jsx";
 import ListInput from "../components/ListInput.jsx";
 import { createRecipe } from "../lib/actions.js";
 import { useFormState } from "react-dom";
@@ -73,6 +74,7 @@ export default function Form(props) {
     setErrorMessage("");
   };
 
+  //Adding new ingredient and method fields using the enter key
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (
@@ -96,39 +98,63 @@ export default function Form(props) {
     };
   }, [addIngredientField, addMethodField]);
 
+  //Validation & error messages
   useEffect(() => {
-    if (checkedCategories.length > 5 || wordCount > 200) {
+    if (checkedCategories.length > 5) {
       disableButton();
     } else {
       enableButton();
     }
   }, [addCategoryClick]);
 
-  const [inputString, setInputString] = useState("");
-  const [wordCount, setWordcount] = useState(0);
+  //Check word counts
+  const [wordCounts, setWordCounts] = useState([0, 0, 0]); //An initial zero for each field
 
-  const handleInputChange = (e) => {
-    const newValue = e.target.value;
-    setInputString(newValue);
-    setWordcount(newValue.length);
+  const [overWordCounts, setOverWordCounts] = useState([false, false, false]);
+
+  const handleWordCountChange = (index, count, isOverWordCount) => {
+    const newWordCounts = [...wordCounts];
+    newWordCounts[index] = count; // Assign the specific index
+    setWordCounts(newWordCounts); // Update newWordCounts array
+    if (isOverWordCount) {
+      const newOverWordCounts = [...overWordCounts];
+      newOverWordCounts[index] = isOverWordCount;
+      setOverWordCounts(newOverWordCounts);
+    } else {
+      const newOverWordCounts = [...overWordCounts];
+      newOverWordCounts[index] = isOverWordCount;
+      setOverWordCounts(newOverWordCounts);
+    }
   };
 
   useEffect(() => {
-    if (inputString.length === 0) {
-      setWordcount(0);
+    if (overWordCounts.includes(true)) {
+      disableButton();
+    } else {
+      enableButton();
     }
-  }, [inputString]); // Update dependency to inputString
+  }, [handleWordCountChange]);
+
+  // const handleSubmit = () => {
+  //   if (overWordCounts.includes(true)) {
+  //     setErrorMessage("Some fields are over their character limit");
+  //   }
+  // };
 
   return (
     <div>
       <div>
         <form autoComplete="off" className="text-center" action={formAction}>
           <div className="inline-block text-left ">
-            <Input
+            <InputWithCharLimit
               label="Recipe Name"
               name="rname"
               type="text"
               placeholder="Recipe Name"
+              wordCount={wordCounts[0]}
+              onWordCountChange={handleWordCountChange}
+              index={0}
+              charLimit={100}
             />
             <div className="py-2 flex flex-col w-60 mx-auto">
               <p>Recipe Category</p>
@@ -166,22 +192,26 @@ export default function Form(props) {
               </p>
             )}
             <Input label="Image" name="file" type="file" accept="images/*" />
-            <Input
+            <InputWithCharLimit
               label="Recipe Description"
               name="rdescription"
               type="text"
               placeholder="Recipe Description"
-              onChange={(e) => handleInputChange(e)}
+              wordCount={wordCounts[1]}
+              onWordCountChange={handleWordCountChange}
+              index={1}
+              charLimit={200}
             />
-            {wordCount}
-            {wordCount > 200 && (
-              <p class="text-red-600">Too many characters. Please reduce.</p>
-            )}
-            <Input
+
+            <InputWithCharLimit
               label="Short Recipe Description"
               name="srdescription"
               type="text"
               placeholder="Recipe short Description"
+              wordCount={wordCounts[2]}
+              onWordCountChange={handleWordCountChange}
+              index={2}
+              charLimit={50}
             />
             <div>
               {ingredients.map((ingredient) => (
