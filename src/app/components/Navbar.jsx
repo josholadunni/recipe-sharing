@@ -4,6 +4,7 @@ import Link from "next/link";
 import LogInOutBtn from "../components/LogInOutBtn.jsx";
 import SearchBar from "../components/SearchBar.jsx";
 import React from "react";
+import SignUpBtn from "./SignUpBtn.jsx";
 
 function Navbar() {
   return (
@@ -24,6 +25,9 @@ function Navbar() {
           </li>
           <li>
             <LogInOutBtn />
+          </li>
+          <li>
+            <SignUpBtn />
           </li>
         </ul>
       </nav>
