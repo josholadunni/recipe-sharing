@@ -76,7 +76,7 @@ const RecipeCard = (props) => {
         </div>
         <p className="mt-4">{props.description}</p>
         <div className="mt-auto">
-          <p className="mt-2">{categories}</p>
+          <p className="mt-2 flex flex-wrap">{categories}</p>
           <Link href={`/users/${props.username}`}>{props.username}</Link>
         </div>
         <p>{formattedDate}</p>
