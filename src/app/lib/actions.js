@@ -165,6 +165,16 @@ export async function createUser(prevState, formData) {
         email: validatedData.email,
         password: hashedPassword,
       });
+      try {
+        await signIn("credentials", {
+          email: validatedData.email,
+          password: validatedData.password,
+          redirect: false,
+        });
+      } catch (error) {
+        console.error("Couldn't sign in after register", error);
+      }
+
       return { success: true, message: "Registered successfully!" };
     } else {
       return {
