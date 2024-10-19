@@ -8,6 +8,7 @@ import { findUserIdFromEmail, findUsername } from "./data";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import z from "zod";
 import { Op } from "sequelize";
+import { redirect } from "next/navigation.js";
 
 const s3Client = new S3Client({
   region: process.env.NEXT_AWS_S3_REGION,
@@ -186,22 +187,26 @@ export async function createUser(prevState, formData) {
 
 export async function createLike(e) {
   const userId = await findUserIdFromEmail();
-  try {
-    const recipe = await Recipe.findByPk(e.id);
+  if (userId) {
+    try {
+      const recipe = await Recipe.findByPk(e.id);
 
-    if (!recipe) {
-      throw new Error("Recipe not found");
+      if (!recipe) {
+        throw new Error("Recipe not found");
+      }
+
+      const newLike = await recipe.createLike({
+        UserId: userId.result,
+      });
+
+      console.log("New like added:", newLike);
+    } catch (error) {
+      console.error("Error adding like:", error);
     }
-
-    const newLike = await recipe.createLike({
-      UserId: userId.result,
-    });
-
-    console.log("New like added:", newLike);
-  } catch (error) {
-    console.error("Error adding like:", error);
+    revalidatePath("/");
+  } else {
+    redirect("/login");
   }
-  revalidatePath("/");
 }
 
 export async function removeLike(e) {
