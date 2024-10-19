@@ -4,8 +4,10 @@ import React from "react";
 import Input from "./Input.jsx";
 import { createUser } from "../lib/actions.js";
 import { useFormState } from "react-dom";
+import { useRouter } from "next/navigation.js";
 
 export default function RegisterForm() {
+  const router = useRouter();
   const [state, formAction] = useFormState(createUser, {
     success: false,
     errors: {},
@@ -23,6 +25,8 @@ export default function RegisterForm() {
       </ul>
     );
   };
+
+  state?.success && router.push("/");
 
   return (
     <div>
