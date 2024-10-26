@@ -22,13 +22,16 @@ export default async function Dashboard() {
         <H1 text="Dashboard" />
         {currentUserId && (
           <>
-            {" "}
             <DeleteButton currentUserId={currentUserId.result} />
-            <MyRecipes
-              allLikes={allLikes}
-              myRecipes={myRecipes}
-              currentUserId={currentUserId.result}
-            />
+            {myRecipes ? (
+              <MyRecipes
+                allLikes={allLikes}
+                myRecipes={myRecipes}
+                currentUserId={currentUserId.result}
+              />
+            ) : (
+              <p>No recipes found.</p>
+            )}
           </>
         )}
         {!currentUserId && <p>Not logged in</p>}
