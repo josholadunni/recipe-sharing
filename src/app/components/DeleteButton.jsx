@@ -1,16 +1,30 @@
 "use client";
 import React from "react";
+import { deleteUser } from "../lib/actions";
 
-function DeleteButton(props) {
-  const { deleteFunction: deleteUser, currentUserId } = props;
+function DeleteButton({ currentUserId }) {
+  const handleDeleteUser = async () => {
+    if (
+      window.confirm(
+        "Are you sure you want to delete your account? This can't be undone."
+      )
+    ) {
+      const result = await deleteUser(currentUserId);
+      if (result.success) {
+        console.log(result.message);
+        // Optionally, redirect the user or update the UI
+      } else {
+        console.error(result.message);
+      }
+    }
+  };
+
   return (
     <button
-      onClick={() => {
-        deleteUser(currentUserId);
-      }}
+      onClick={handleDeleteUser}
       className="border-2 border-rose-500 bg-rose-500"
     >
-      Delete Recipes
+      Delete Account
     </button>
   );
 }

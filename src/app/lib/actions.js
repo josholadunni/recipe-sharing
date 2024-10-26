@@ -292,6 +292,12 @@ export async function search(term) {
 }
 
 export async function deleteUser(userId) {
-  const user = User.findOne({ where: { id: userId } });
-  alert("Are you sure you want to delete?");
+  try {
+    await User.destroy({ where: { id: userId } });
+    revalidatePath("/dashboard");
+    return { success: true, message: "User successfully deleted" };
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return { success: false, message: "Failed to delete user" };
+  }
 }

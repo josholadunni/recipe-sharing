@@ -58,10 +58,7 @@ export default async function UserPage(params) {
     return (
       <>
         <H1 text={`${user.result.username}'s Recipes`}></H1>
-        <DeleteButton
-          deleteFunction={deleteUser}
-          currentUserId={currentUserId}
-        />
+
         {renderedRecipes}
       </>
     );
