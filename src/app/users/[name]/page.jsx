@@ -5,8 +5,10 @@ import {
   fetchRecipesByUserId,
   fetchRecipeLikes,
 } from "../../lib/data";
+import { deleteUser } from "../../lib/actions";
 import RecipeCard from "../../components/RecipeCard";
 import { findUserIdFromEmail } from "../../lib/data";
+import DeleteButton from "../../components/DeleteButton.jsx";
 
 export async function generateStaticParams() {
   const users = await fetchAllUsers();
@@ -56,6 +58,10 @@ export default async function UserPage(params) {
     return (
       <>
         <H1 text={`${user.result.username}'s Recipes`}></H1>
+        <DeleteButton
+          deleteFunction={deleteUser}
+          currentUserId={currentUserId}
+        />
         {renderedRecipes}
       </>
     );

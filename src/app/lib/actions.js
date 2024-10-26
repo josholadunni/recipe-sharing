@@ -290,3 +290,8 @@ export async function search(term) {
   });
   return JSON.parse(JSON.stringify(recipes));
 }
+
+export async function deleteUser(userId) {
+  const user = User.findOne({ where: { id: userId } });
+  alert("Are you sure you want to delete?");
+}
