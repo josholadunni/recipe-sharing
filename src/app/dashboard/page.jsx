@@ -1,6 +1,7 @@
 "use server";
 import React from "react";
 import H1 from "../components/H1.jsx";
+import DeleteButton from "../components/DeleteButton.jsx";
 import MyRecipes from "../components/Dashboard/MyRecipes.jsx";
 import {
   fetchRecipeLikes,
@@ -15,9 +16,11 @@ export default async function Dashboard() {
       fetchMyRecipes(),
       findUserIdFromEmail(),
     ]);
+
     return (
       <div>
         <H1 text="Dashboard" />
+        <DeleteButton currentUserId={currentUserId} />
         <MyRecipes
           allLikes={allLikes}
           myRecipes={myRecipes}
