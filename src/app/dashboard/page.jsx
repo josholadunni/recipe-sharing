@@ -20,12 +20,18 @@ export default async function Dashboard() {
     return (
       <div>
         <H1 text="Dashboard" />
-        <DeleteButton currentUserId={currentUserId} />
-        <MyRecipes
-          allLikes={allLikes}
-          myRecipes={myRecipes}
-          currentUserId={currentUserId}
-        />
+        {currentUserId && (
+          <>
+            {" "}
+            <DeleteButton currentUserId={currentUserId.result} />
+            <MyRecipes
+              allLikes={allLikes}
+              myRecipes={myRecipes}
+              currentUserId={currentUserId.result}
+            />
+          </>
+        )}
+        {!currentUserId && <p>Not logged in</p>}
       </div>
     );
   } catch (error) {

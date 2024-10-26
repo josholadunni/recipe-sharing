@@ -12,7 +12,6 @@ function DeleteButton({ currentUserId }) {
       const result = await deleteUser(currentUserId);
       if (result.success) {
         console.log(result.message);
-        // Optionally, redirect the user or update the UI
       } else {
         console.error(result.message);
       }
