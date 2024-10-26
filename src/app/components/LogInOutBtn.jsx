@@ -1,14 +1,15 @@
 import React from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 
-export default function LogInOutBtn() {
+export default function LogInOutBtn(props) {
   const { data: session, status } = useSession();
+  const { isLoggedIn } = props;
 
   if (status === "loading") {
     return <div>Loading...</div>;
   }
 
-  if (session) {
+  if (isLoggedIn) {
     return (
       <button
         onClick={() => signOut()}

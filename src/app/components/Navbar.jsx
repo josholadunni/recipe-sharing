@@ -5,8 +5,11 @@ import LogInOutBtn from "../components/LogInOutBtn.jsx";
 import SearchBar from "../components/SearchBar.jsx";
 import React from "react";
 import SignUpBtn from "./SignUpBtn.jsx";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div>
       <nav className="pt-5">
@@ -24,11 +27,13 @@ function Navbar() {
             <Link href="/add-recipe">Add Recipe</Link>
           </li>
           <li>
-            <LogInOutBtn />
+            <LogInOutBtn isLoggedIn={isAuthenticated} />
           </li>
-          <li>
-            <SignUpBtn />
-          </li>
+          {!isAuthenticated && (
+            <li>
+              <SignUpBtn />
+            </li>
+          )}
         </ul>
       </nav>
     </div>
