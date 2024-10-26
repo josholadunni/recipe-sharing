@@ -26,6 +26,11 @@ function Navbar() {
           <li>
             <Link href="/add-recipe">Add Recipe</Link>
           </li>
+          {isAuthenticated && (
+            <li>
+              <Link href="/dashboard">Dashboard</Link>
+            </li>
+          )}
           <li>
             <LogInOutBtn isLoggedIn={isAuthenticated} />
           </li>
