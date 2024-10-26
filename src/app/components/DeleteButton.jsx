@@ -1,8 +1,12 @@
 "use client";
 import React from "react";
 import { deleteUser } from "../lib/actions";
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 function DeleteButton({ currentUserId }) {
+  const router = useRouter();
+
   const handleDeleteUser = async () => {
     if (
       window.confirm(
@@ -11,7 +15,8 @@ function DeleteButton({ currentUserId }) {
     ) {
       const result = await deleteUser(currentUserId);
       if (result.success) {
-        console.log(result.message);
+        await signOut({ redirect: false });
+        router.push("/");
       } else {
         console.error(result.message);
       }

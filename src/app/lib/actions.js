@@ -294,8 +294,6 @@ export async function search(term) {
 export async function deleteUser(userId) {
   try {
     await User.destroy({ where: { id: userId } });
-    revalidatePath("/dashboard");
-    await signOut();
     return { success: true, message: "User successfully deleted" };
   } catch (error) {
     console.error("Error deleting user:", error);

@@ -60,15 +60,24 @@ export async function fetchRecipeCategories() {
 }
 
 export async function fetchMyRecipes() {
-  const currentUserId = await findUserIdFromEmail();
-  try {
-    const recipes = await Recipe.findAll({
-      where: { UserId: currentUserId.result },
-      include: RecipeCategory,
-    });
-    return JSON.parse(JSON.stringify(recipes));
-  } catch (error) {
-    console.error("Couldn't fetch recipes", error);
+  const session = await auth();
+  if (session) {
+    const currentUserId = await findUserIdFromEmail();
+    if (currentUserId != undefined) {
+      try {
+        const recipes = await Recipe.findAll({
+          where: { UserId: currentUserId.result },
+          include: RecipeCategory,
+        });
+        return JSON.parse(JSON.stringify(recipes));
+      } catch (error) {
+        console.error("Couldn't fetch recipes", error);
+      }
+    } else {
+      return [];
+    }
+  } else {
+    return undefined;
   }
 }
 
