@@ -5,6 +5,7 @@ import "../../styles/RecipeCard.css";
 import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
 import { formatDate, titleCase } from "../lib/utils";
+import H3 from "./H3.jsx";
 
 const RecipeCard = (props) => {
   const { allLikes, currentUserId, id, createdAt } = props;
@@ -57,7 +58,7 @@ const RecipeCard = (props) => {
       </Link>
       <div className="flex flex-col p-4 flex-none">
         <Link href={`/recipes/${props.slug}/${props.id}`}>
-          <h2 className="text-lg font-bold mb-2">{formattedTitle}</h2>
+          <H3 text={formattedTitle} />
         </Link>
         <div className="mt-auto">
           <button
