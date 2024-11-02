@@ -91,7 +91,6 @@ export default function SearchBar({ placeholder }) {
               <h2 className="text-lg font-bold mb-2">{result.name}</h2>
             </Link>
           ))}
-          {/* {!isResults && <p>No results</p>} */}
         </div>
       )}
       {isResults === false && (

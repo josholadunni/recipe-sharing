@@ -1,3 +1,7 @@
 .navbar {
   border-bottom: 0.5px solid black;
 }
+
+.navLink {
+  padding: 1rem 0;
+}
