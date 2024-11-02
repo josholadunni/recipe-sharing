@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { search } from "../lib/actions";
 import Link from "next/link";
+import searchStyles from "./SearchBar.module.css";
 export default function SearchBar({ placeholder }) {
   const [timeoutId, setTimeoutId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
+  const [isResults, setIsResults] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -38,6 +40,7 @@ export default function SearchBar({ placeholder }) {
       clearTimeout(timeoutId);
     }
     setSearchTerm(term);
+    setIsResults(results.length > 0);
   }
 
   function handleSubmit(e) {
@@ -56,6 +59,7 @@ export default function SearchBar({ placeholder }) {
     >
       <form onSubmit={handleSubmit}>
         <input
+          className={`${searchStyles.searchInput} p-2 w-full`}
           type="text"
           placeholder={placeholder}
           onChange={(e) => {
@@ -64,11 +68,12 @@ export default function SearchBar({ placeholder }) {
           }}
         />
       </form>
-      {isLoading && <p>Searching...</p>}
+      {/* {isLoading && <p>Searching...</p>} */}
       {results.length > 0 && (
-        <div className="results-container bg-red-500">
+        <div className="results-container z-10 flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute">
           {results.map((result) => (
             <Link
+              className="px-5 py-4"
               key={result.id}
               href={`/recipes/${result.name
                 .replace(/\s+/g, "-")
@@ -80,6 +85,7 @@ export default function SearchBar({ placeholder }) {
               <h2 className="text-lg font-bold mb-2">{result.name}</h2>
             </Link>
           ))}
+          {!isResults && <p>No results</p>}
         </div>
       )}
     </div>
