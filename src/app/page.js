@@ -24,20 +24,22 @@ export default async function Home() {
     return (
       <div className="relative top-12">
         <H1 text="Recipe Sharer" />
-        <H2 text="Recent Recipes" />
-        <div>
-          <RecentRecipes
+        <div className="mt-10">
+          <H2 text="Recent Recipes" />
+          <div>
+            <RecentRecipes
+              allLikes={allLikes}
+              currentUserId={currentUserId}
+              recipes={recentRecipes}
+            />
+          </div>
+          <H2 text="Popular Recipes" />
+          <PopularRecipes
             allLikes={allLikes}
             currentUserId={currentUserId}
-            recipes={recentRecipes}
+            recipes={popularRecipes}
           />
         </div>
-        <H2 text="Popular Recipes" />
-        <PopularRecipes
-          allLikes={allLikes}
-          currentUserId={currentUserId}
-          recipes={popularRecipes}
-        />
       </div>
     );
   } catch (error) {
