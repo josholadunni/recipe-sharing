@@ -47,17 +47,19 @@ function Navbar() {
                 <span className="m-1 border border-sky-300"></span>
               </div>
               {isMenuOpen && (
-                <ul className="flex flex-col absolute left-1/2 -translate-x-1/2 top-full bg-white shadow-md rounded-md p-2 min-w-[150px] z-50">
+                <ul className="flex flex-col fixed top-[90px] left-0 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-full bg-white shadow-md rounded-md p-2 w-screen md:w-auto md:min-w-[150px] z-[100]">
                   {isAuthenticated && (
                     <MenuItem route="/dashboard" routeName="Dashboard" />
                   )}
                   <MenuItemMobile route="/browse" routeName="Browse" />
                   <MenuItemMobile route="/add-recipe" routeName="Add Recipe" />
-                  <li className={navStyles.navLink}>
+                  <li
+                    className={`${navStyles.navLink} flex justify-center md:mx-5`}
+                  >
                     <LogInOutBtn isLoggedIn={isAuthenticated} />
                   </li>
                   {!isAuthenticated && (
-                    <li className={navStyles.navLink}>
+                    <li className={`${navStyles.navLink} md:mx-5`}>
                       <SignUpBtn />
                     </li>
                   )}
