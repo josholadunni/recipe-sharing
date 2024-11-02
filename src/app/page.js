@@ -22,7 +22,7 @@ export default async function Home() {
       ]);
 
     return (
-      <div>
+      <div className="relative top-12">
         <H1 text="Recipe Sharer" />
         <H2 text="Recent Recipes" />
         <div>
