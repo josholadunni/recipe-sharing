@@ -9,7 +9,7 @@ export default function SearchBar({ placeholder }) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
-  const [isResults, setIsResults] = useState([]);
+  let [isResults, setIsResults] = useState(undefined);
   const router = useRouter();
 
   useEffect(() => {
@@ -19,6 +19,7 @@ export default function SearchBar({ placeholder }) {
         try {
           const response = await search(searchTerm);
           response && setIsLoading(false);
+          response.length == 0 ? setIsResults(false) : setIsResults(true);
           setResults(response);
         } catch (error) {
           console.error(error);
@@ -39,8 +40,11 @@ export default function SearchBar({ placeholder }) {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
-    setSearchTerm(term);
-    setIsResults(results.length > 0);
+    if (term) {
+      setSearchTerm(term);
+    } else {
+      setIsResults(true);
+    }
   }
 
   function handleSubmit(e) {
@@ -65,10 +69,15 @@ export default function SearchBar({ placeholder }) {
           onChange={(e) => {
             const term = e.target.value;
             handleInputChange(term);
+            setResults([]);
           }}
         />
       </form>
-      {/* {isLoading && <p>Searching...</p>} */}
+      {isLoading && (
+        <div className="results-container z-10 flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute">
+          <h2 className="text-lg font-bold mb-2">Searching...</h2>
+        </div>
+      )}
       {results.length > 0 && (
         <div className="results-container z-10 flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute">
           {results.map((result) => (
@@ -78,14 +87,16 @@ export default function SearchBar({ placeholder }) {
               href={`/recipes/${result.name
                 .replace(/\s+/g, "-")
                 .toLowerCase()}/${result.id}`}
-              onClick={() => {
-                setResults([]);
-              }}
             >
               <h2 className="text-lg font-bold mb-2">{result.name}</h2>
             </Link>
           ))}
-          {!isResults && <p>No results</p>}
+          {/* {!isResults && <p>No results</p>} */}
+        </div>
+      )}
+      {isResults === false && (
+        <div className="results-container z-10 flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute">
+          <h2 className="text-lg font-bold mb-2">No recipes found</h2>
         </div>
       )}
     </div>
