@@ -7,6 +7,8 @@ import React, { useState } from "react";
 import SignUpBtn from "./SignUpBtn.jsx";
 import { useAuth } from "../context/AuthContext";
 import navStyles from "./Navbar.module.css";
+import MenuItem from "../components/MenuItem.jsx";
+import MenuItemMobile from "./MenuItemMobile.jsx";
 
 function Navbar() {
   const { isAuthenticated } = useAuth();
@@ -47,15 +49,15 @@ function Navbar() {
               {isMenuOpen && (
                 <ul className="flex flex-col absolute left-1/2 -translate-x-1/2 top-full bg-white shadow-md rounded-md p-2 min-w-[150px] z-50">
                   {isAuthenticated && (
-                    <li>
-                      <Link href="/dashboard">Dashboard</Link>
-                    </li>
+                    <MenuItem route="/dashboard" routeName="Dashboard" />
                   )}
-                  <li>
+                  <MenuItemMobile route="/browse" routeName="Browse" />
+                  <MenuItemMobile route="/add-recipe" routeName="Add Recipe" />
+                  <li className={navStyles.navLink}>
                     <LogInOutBtn isLoggedIn={isAuthenticated} />
                   </li>
                   {!isAuthenticated && (
-                    <li>
+                    <li className={navStyles.navLink}>
                       <SignUpBtn />
                     </li>
                   )}
