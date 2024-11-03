@@ -9,6 +9,7 @@ import { useAuth } from "../context/AuthContext";
 import navStyles from "./Navbar.module.css";
 import MenuItem from "../components/MenuItem.jsx";
 import MenuItemMobile from "./MenuItemMobile.jsx";
+import ProfileIcon from "./ProfileIcon.jsx";
 
 function Navbar() {
   const { isAuthenticated } = useAuth();
@@ -35,6 +36,16 @@ function Navbar() {
         <li className="hidden md:block basis-1/6 m-0">
           <Link href="/add-recipe">Add Recipe</Link>
         </li>
+        {!isAuthenticated && (
+          <ul className="hidden md:flex flex-row justify-center md:basis-1/6">
+            <li className={`flex justify-center md:mx-5 my-auto`}>
+              <LogInOutBtn isLoggedIn={isAuthenticated} />
+            </li>
+            <li className={`${navStyles.navLink} md:mx-5 my-auto`}>
+              <SignUpBtn />
+            </li>
+          </ul>
+        )}
         <li
           onClick={() => {
             toggleMenu();
@@ -42,28 +53,42 @@ function Navbar() {
           className="relative basis-1/6 md:basis-1/6 m-0"
         >
           <div className="relative">
-            <div className="rotate-90">
-              <span className="m-1 border border-sky-300"></span>
-              <span className="m-1 border border-sky-300"></span>
-              <span className="m-1 border border-sky-300"></span>
+            <div className="md:hidden rotate-90">
+              <span className="m-1 border border-neutral-900"></span>
+              <span className="m-1 border border-neutral-900"></span>
+              <span className="m-1 border border-neutral-900"></span>
             </div>
+            {isAuthenticated && (
+              <div className="hidden md:block">
+                <ProfileIcon />
+              </div>
+            )}
+
+            {/* Hamburger menu open */}
             {isMenuOpen && (
               <ul className="flex flex-col fixed top-[90px] left-0 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-full bg-white shadow-md rounded-md p-2 w-screen md:w-auto md:min-w-[150px] z-[100]">
-                {isAuthenticated && (
-                  <MenuItem route="/dashboard" routeName="Dashboard" />
-                )}
                 <MenuItemMobile route="/browse" routeName="Browse" />
                 <MenuItemMobile route="/add-recipe" routeName="Add Recipe" />
-                <li
-                  className={`${navStyles.navLink} flex justify-center md:mx-5`}
-                >
-                  <LogInOutBtn isLoggedIn={isAuthenticated} />
-                </li>
-                {!isAuthenticated && (
-                  <li className={`${navStyles.navLink} md:mx-5`}>
-                    <SignUpBtn />
+                <div className="mt-3">
+                  {isAuthenticated && (
+                    <>
+                      <div className="md:hidden">
+                        <ProfileIcon />
+                      </div>
+                      <MenuItem route="/dashboard" routeName="Dashboard" />
+                    </>
+                  )}
+                  <li
+                    className={`${navStyles.navLink} flex justify-center md:mx-5`}
+                  >
+                    <LogInOutBtn isLoggedIn={isAuthenticated} />
                   </li>
-                )}
+                  {!isAuthenticated && (
+                    <li className={`${navStyles.navLink} md:mx-5`}>
+                      <SignUpBtn />
+                    </li>
+                  )}
+                </div>
               </ul>
             )}
           </div>

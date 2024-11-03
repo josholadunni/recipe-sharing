@@ -13,7 +13,7 @@ export default function LogInOutBtn(props) {
     return (
       <button
         onClick={() => signOut()}
-        className="flex items-center justify-center w-full gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600"
+        className="flex items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600"
       >
         Sign Out
       </button>
@@ -23,7 +23,7 @@ export default function LogInOutBtn(props) {
   return (
     <button
       onClick={() => signIn()}
-      className="flex items-center justify-center w-full gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600"
+      className="flex items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-60 whitespace-pre"
     >
       Sign In
     </button>
