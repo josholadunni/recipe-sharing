@@ -14,7 +14,9 @@ export function AuthProvider({ children }) {
   }, [status]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, setIsAuthenticated, session, status }}
+    >
       {children}
     </AuthContext.Provider>
   );

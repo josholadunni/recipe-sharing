@@ -2,10 +2,10 @@ import React from "react";
 import Link from "next/link";
 
 export default function ProfileIcon(props) {
-  const {} = props;
+  const { name } = props;
   return (
-    <span className="m-1 rounded-full bg-blue-600 p-3 inline-block text-slate-50">
-      JO
+    <span className="m-1 rounded-full bg-blue-600 w-10 h-10 flex flex-col align-center justify-center text-slate-50">
+      {name?.slice(0, 1).toUpperCase()}
     </span>
   );
 }
