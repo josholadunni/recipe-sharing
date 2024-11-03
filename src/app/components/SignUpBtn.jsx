@@ -9,7 +9,7 @@ export default function SignUpBtn() {
     return (
       <Link
         href="/register"
-        className="flex items-center justify-center gap-2 rounded-md text-white bg-black p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600"
+        className="flex items-center justify-center gap-2 rounded-md text-white bg-black p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 whitespace-pre"
       >
         Sign Up
       </Link>
