@@ -11,9 +11,11 @@ import MenuItem from "../components/MenuItem.jsx";
 import MenuItemMobile from "./MenuItemMobile.jsx";
 import ProfileIcon from "./ProfileIcon.jsx";
 
-function Navbar() {
+function Navbar({ username }) {
   const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  console.log(username);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -60,7 +62,7 @@ function Navbar() {
             </div>
             {isAuthenticated && (
               <div className="hidden md:block">
-                <ProfileIcon />
+                <ProfileIcon name={username} />
               </div>
             )}
 
@@ -72,8 +74,8 @@ function Navbar() {
                 <div className="mt-3">
                   {isAuthenticated && (
                     <>
-                      <div className="md:hidden">
-                        <ProfileIcon />
+                      <div className="md:hidden flex flex-row justify-center">
+                        <ProfileIcon name={username} />
                       </div>
                       <MenuItem route="/dashboard" routeName="Dashboard" />
                     </>
