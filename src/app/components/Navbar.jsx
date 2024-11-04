@@ -15,8 +15,6 @@ function Navbar({ username }) {
   const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  console.log(username);
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -26,16 +24,16 @@ function Navbar({ username }) {
       className={`${navStyles.navbar} pt-5 text-sm flex justify-center sticky top-0 bg-white z-10`}
     >
       <ul className="text-center py-5 gap-4 md:gap-1 flex flex-wrap flex-row justify-center items-center w-full">
-        <li className="basis-1/6 md:basis-1/6 m-0">
+        <li className="hover:text-blue-600 basis-1/6 md:basis-1/6 m-0 ">
           <Link href="/">Home</Link>
         </li>
-        <li className="hidden md:block basis-1/6 m-0">
+        <li className="hover:text-blue-600 hidden md:block basis-1/6 m-0">
           <Link href="/browse">Browse</Link>
         </li>
-        <li className="basis-3/6 md:basis-1/6 m-0">
+        <li className="hover:text-blue-600 basis-3/6 md:basis-1/6 m-0">
           <SearchBar placeholder="Search Recipes" />
         </li>
-        <li className="hidden md:block basis-1/6 m-0">
+        <li className="hover:text-blue-600 hidden md:block basis-1/6 m-0">
           <Link href="/add-recipe">Add Recipe</Link>
         </li>
         {!isAuthenticated && (
@@ -70,7 +68,9 @@ function Navbar({ username }) {
             {isMenuOpen && (
               <ul className="flex flex-col fixed top-[90px] left-0 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-full bg-white shadow-md rounded-md p-2 w-screen md:w-auto md:min-w-[150px] z-[100]">
                 <MenuItemMobile route="/browse" routeName="Browse" />
-                <MenuItemMobile route="/add-recipe" routeName="Add Recipe" />
+                <div className="text-blue-600">
+                  <MenuItemMobile route="/add-recipe" routeName="Add Recipe" />
+                </div>
                 <div className="mt-3">
                   {isAuthenticated && (
                     <>
