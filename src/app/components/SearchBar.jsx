@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { search } from "../lib/actions";
 import Link from "next/link";
 import searchStyles from "./SearchBar.module.css";
+import H3 from "./H3";
+
 export default function SearchBar({ placeholder }) {
   const [timeoutId, setTimeoutId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -74,21 +76,26 @@ export default function SearchBar({ placeholder }) {
         />
       </form>
       {isLoading && (
-        <div className="results-container z-10 flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute">
+        <div className="results-container z-[200] flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute w-screen md:w-auto md:min-w-[150px]">
           <h2 className="text-lg font-bold mb-2">Searching...</h2>
         </div>
       )}
       {results.length > 0 && (
-        <div className="results-container z-10 flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute">
+        <div className="results-container z-[200] flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-screen md:w-auto md:min-w-[150px]">
           {results.map((result) => (
             <Link
-              className="px-5 py-4"
+              className="px-5"
               key={result.id}
               href={`/recipes/${result.name
                 .replace(/\s+/g, "-")
                 .toLowerCase()}/${result.id}`}
             >
-              <h2 className="text-lg font-bold mb-2">{result.name}</h2>
+              <p className="text-base py-4  hover:text-orange-500">
+                {result.name}
+              </p>
+              <div className="flex flex-row justify-center">
+                <hr className="flex border-gray-300 w-80"></hr>
+              </div>
             </Link>
           ))}
         </div>
