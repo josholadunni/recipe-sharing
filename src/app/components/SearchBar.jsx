@@ -63,7 +63,7 @@ export default function SearchBar({ placeholder }) {
     >
       <form onSubmit={handleSubmit}>
         <input
-          className={`${searchStyles.searchInput} p-2 w-full`}
+          className={`${searchStyles.searchInput} p-2 w-full rounded-md`}
           type="text"
           placeholder={placeholder}
           onChange={(e) => {
