@@ -21,19 +21,19 @@ function Navbar({ username }) {
 
   return (
     <nav
-      className={`${navStyles.navbar} pt-5 text-sm flex justify-center sticky top-0 bg-white z-10`}
+      className={`${navStyles.navbar} text-sm flex justify-center sticky top-0 bg-white z-10`}
     >
-      <ul className="text-center py-5 gap-4 md:gap-1 flex flex-wrap flex-row justify-center items-center w-full">
-        <li className="hover:text-blue-600 basis-1/6 md:basis-1/6 m-0 ">
+      <ul className="text-center py-2 gap-4 md:gap-1 flex flex-wrap flex-row justify-center items-center w-full">
+        <li className="hover:text-orange-500 basis-1/6 md:basis-1/6 m-0 ">
           <Link href="/">Home</Link>
         </li>
-        <li className="hover:text-blue-600 hidden md:block basis-1/6 m-0">
+        <li className="hover:text-orange-500 hidden md:block basis-1/6 m-0">
           <Link href="/browse">Browse</Link>
         </li>
-        <li className="hover:text-blue-600 basis-3/6 md:basis-1/6 m-0">
+        <li className="hover:text-orange-500 basis-3/6 md:basis-1/6 m-0">
           <SearchBar placeholder="Search Recipes" />
         </li>
-        <li className="hover:text-blue-600 hidden md:block basis-1/6 m-0">
+        <li className="hover:text-orange-500 hidden md:block basis-1/6 m-0">
           <Link href="/add-recipe">Add Recipe</Link>
         </li>
         {!isAuthenticated && (
