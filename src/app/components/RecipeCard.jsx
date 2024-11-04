@@ -65,7 +65,7 @@ const RecipeCard = (props) => {
             onClick={
               isLiked ? () => removeLike(props) : () => createLike(props)
             }
-            className={`border border-black rounded ${
+            className={`border border-black rounded-full ${
               isLiked
                 ? "bg-black text-white hover:bg-white hover:text-black"
                 : "bg-white text-black hover:bg-black hover:text-white"
