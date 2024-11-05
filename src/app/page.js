@@ -26,7 +26,7 @@ export default async function Home() {
         <H1 text="Recipe Sharer" />
         <div className="mt-10">
           <H2 text="Recent Recipes" />
-          <div>
+          <div className="flex justify-center">
             <RecentRecipes
               allLikes={allLikes}
               currentUserId={currentUserId}

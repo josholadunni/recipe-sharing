@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import "../../styles/RecipeCard.css";
 import { createLike, removeLike } from "../lib/actions";
 import { useState } from "react";
 import { deleteRecipe } from "../lib/actions";

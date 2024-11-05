@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import "../../styles/RecipeCard.css";
 import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
 import { formatDate, titleCase } from "../lib/utils";
@@ -29,10 +28,11 @@ const RecipeCard = (props) => {
   const categories = props.categories.map((category, index) => {
     const categoryId = category[1];
     const categoryName = category[0];
+
     return (
       <Link
         key={index}
-        className="mr-2"
+        className="bg-neutral-950 border-neutral-950 hover:bg-neutral-700 rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-xs  text-white"
         href={`/categories/${categoryName.toLowerCase()}/${categoryId}`}
       >
         {categoryName}
@@ -44,7 +44,7 @@ const RecipeCard = (props) => {
   const formattedTitle = titleCase(props.title);
 
   return (
-    <div className="flex flex-col shadow-lg w-72">
+    <div className="flex flex-col shadow-lg w-[22rem] md:w-72">
       <Link href={`/recipes/${props.slug}/${props.id}`}>
         <div className="relative h-60">
           <Image
@@ -57,7 +57,10 @@ const RecipeCard = (props) => {
         </div>
       </Link>
       <div className="flex flex-col p-4 flex-none">
-        <Link href={`/recipes/${props.slug}/${props.id}`}>
+        <Link
+          className="hover:text-orange-600"
+          href={`/recipes/${props.slug}/${props.id}`}
+        >
           <H3 text={formattedTitle} />
         </Link>
         <div className="mt-auto">
@@ -67,11 +70,11 @@ const RecipeCard = (props) => {
             }
             className={`border border-black rounded-full ${
               isLiked
-                ? "bg-black text-white hover:bg-white hover:text-black"
+                ? "bg-red-400 border-red-400 text-white hover:bg-red-500 hover:border-red-500 hover:text-white"
                 : "bg-white text-black hover:bg-black hover:text-white"
             }`}
           >
-            <span className="p-6">{isLiked ? "Unlike" : "Like"}</span>
+            <span className="p-6">{isLiked ? "Liked" : "Like"}</span>
           </button>
           <span className="ml-2">{likes} likes</span>
         </div>
