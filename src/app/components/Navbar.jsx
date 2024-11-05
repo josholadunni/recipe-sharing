@@ -21,7 +21,7 @@ function Navbar({ username }) {
 
   return (
     <nav
-      className={`${navStyles.navbar} text-sm flex justify-center sticky top-0 bg-white z-10`}
+      className={`${navStyles.navbar} text-sm flex justify-center sticky top-0 bg-white z-10 pb-1`}
     >
       <ul className="text-center py-2 gap-4 md:gap-1 flex flex-wrap flex-row justify-center items-center w-full">
         <li className="hover:text-orange-500 basis-1/6 md:basis-1/6 m-0 ">
@@ -67,15 +67,21 @@ function Navbar({ username }) {
             {/* Hamburger menu open */}
             {isMenuOpen && (
               <ul className="flex flex-col fixed top-[50px] left-0 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-full bg-white shadow-md rounded-md p-2 w-screen md:w-auto md:min-w-[150px] z-[100]">
-                <MenuItemMobile route="/browse" routeName="Browse" />
-                <MenuItemMobile route="/add-recipe" routeName="Add Recipe" />
+                <div className="hover:text-orange-500">
+                  <MenuItemMobile route="/browse" routeName="Browse" />
+                </div>
+                <div className="hover:text-orange-500">
+                  <MenuItemMobile route="/add-recipe" routeName="Add Recipe" />
+                </div>
                 <div className="mt-3">
                   {isAuthenticated && (
                     <>
                       <div className="md:hidden flex flex-row justify-center">
                         <ProfileIcon name={username} />
                       </div>
-                      <MenuItem route="/dashboard" routeName="Dashboard" />
+                      <div className="hover:text-orange-500">
+                        <MenuItem route="/dashboard" routeName="Dashboard" />
+                      </div>
                     </>
                   )}
                   <li

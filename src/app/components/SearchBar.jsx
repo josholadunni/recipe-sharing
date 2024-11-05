@@ -65,7 +65,7 @@ export default function SearchBar({ placeholder }) {
     >
       <form onSubmit={handleSubmit}>
         <input
-          className={`${searchStyles.searchInput} p-2 w-full rounded-md`}
+          className={`${searchStyles.searchInput} p-2 w-full rounded-md z-[60]`}
           type="text"
           placeholder={placeholder}
           onChange={(e) => {
@@ -76,12 +76,12 @@ export default function SearchBar({ placeholder }) {
         />
       </form>
       {isLoading && (
-        <div className="results-container z-[200] flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute w-screen md:w-auto md:min-w-[150px]">
+        <div className="results-container z-[50] flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute w-screen md:w-auto md:min-w-[150px]">
           <h2 className="text-lg font-bold mb-2">Searching...</h2>
         </div>
       )}
       {results.length > 0 && (
-        <div className="results-container z-[200] flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-screen md:w-auto md:min-w-[150px]">
+        <div className="results-container z-[50] flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-min md:w-auto md:min-w-[150px]">
           {results.map((result) => (
             <Link
               className="px-5"
