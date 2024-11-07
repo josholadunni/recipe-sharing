@@ -30,6 +30,7 @@ export default async function Home() {
               allLikes={allLikes}
               currentUserId={currentUserId}
               recipes={recentRecipes}
+              deleteButton={false}
             />
           </div>
           <div class="relative top-12 mt-10">
@@ -39,6 +40,7 @@ export default async function Home() {
                 allLikes={allLikes}
                 currentUserId={currentUserId}
                 recipes={popularRecipes}
+                deleteButton={false}
               />
             </div>
           </div>

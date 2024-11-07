@@ -3,6 +3,7 @@ import React from "react";
 import H1 from "../components/H1.jsx";
 import DeleteButton from "../components/DeleteButton.jsx";
 import MyRecipes from "../components/Dashboard/MyRecipes.jsx";
+import RecipeGrid from "../components/Home/RecipeGrid.jsx";
 import {
   fetchRecipeLikes,
   fetchMyRecipes,
@@ -24,10 +25,11 @@ export default async function Dashboard() {
           <>
             <DeleteButton currentUserId={currentUserId.result} />
             {myRecipes ? (
-              <MyRecipes
+              <RecipeGrid
                 allLikes={allLikes}
-                myRecipes={myRecipes}
+                recipes={myRecipes}
                 currentUserId={currentUserId.result}
+                deleteButton={true}
               />
             ) : (
               <p>No recipes found.</p>
