@@ -32,7 +32,7 @@ const RecipeCard = (props) => {
     return (
       <Link
         key={index}
-        className="bg-neutral-950 border-neutral-950 hover:bg-neutral-700 rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-xs  text-white"
+        className="bg-neutral-200 border-neutral-200 hover:bg-neutral-900 hover:text-white rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-sm text-black"
         href={`/categories/${categoryName.toLowerCase()}/${categoryId}`}
       >
         {categoryName}
@@ -44,7 +44,7 @@ const RecipeCard = (props) => {
   const formattedTitle = titleCase(props.title);
 
   return (
-    <div className="flex flex-col shadow-lg w-[22rem] md:w-72">
+    <div className="flex flex-col shadow-lg w-[22rem] md:w-72 rounded-lg">
       <Link href={`/recipes/${props.slug}/${props.id}`}>
         <div className="relative h-60">
           <Image
@@ -52,7 +52,7 @@ const RecipeCard = (props) => {
             alt={props.title + " recipe"}
             fill={true}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover"
+            className="object-cover rounded-t-lg"
           />
         </div>
       </Link>
