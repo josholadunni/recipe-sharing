@@ -24,10 +24,7 @@ function DeleteButton({ currentUserId }) {
   };
 
   return (
-    <button
-      onClick={handleDeleteUser}
-      className="border-2 border-rose-500 bg-rose-500"
-    >
+    <button onClick={handleDeleteUser} className="text-rose-500">
       Delete Account
     </button>
   );
