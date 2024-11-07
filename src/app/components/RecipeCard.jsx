@@ -1,13 +1,15 @@
 "use client";
 import React from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
 import { formatDate, titleCase } from "../lib/utils";
 import H3 from "./H3.jsx";
+import { deleteRecipe } from "../lib/actions";
 
 const RecipeCard = (props) => {
-  const { allLikes, currentUserId, id, createdAt } = props;
+  const { allLikes, currentUserId, id, createdAt, deletable } = props;
 
   const likeRecipeId = allLikes ? allLikes.map((like) => like.RecipeId) : [];
 
@@ -43,10 +45,39 @@ const RecipeCard = (props) => {
   const formattedDate = formatDate(createdAt);
   const formattedTitle = titleCase(props.title);
 
+  const [state, setState] = useState(null);
+
+  const handleClick = async (id) => {
+    let actionResult = undefined;
+    if (
+      window.confirm(
+        "Are you sure you want to delete this recipes? This can't be undone."
+      )
+    ) {
+      actionResult = await deleteRecipe(id);
+    }
+    setState(actionResult);
+  };
+
   return (
     <div className="flex flex-col shadow-lg w-[22rem] md:w-72 rounded-lg">
-      <Link href={`/recipes/${props.slug}/${props.id}`}>
-        <div className="relative h-60">
+      <div className="relative h-60">
+        {deletable && (
+          <>
+            <button
+              className="bg-rose-500 absolute top-0 right-0 z-10"
+              onClick={() => handleClick(props.id)}
+            >
+              Delete
+            </button>
+            {state?.result && (
+              <div className="absolute top-0 left-0 z-10 white">
+                {state?.message}
+              </div>
+            )}
+          </>
+        )}
+        <Link href={`/recipes/${props.slug}/${props.id}`}>
           <Image
             src={props.imgFileName}
             alt={props.title + " recipe"}
@@ -54,8 +85,8 @@ const RecipeCard = (props) => {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover rounded-t-lg"
           />
-        </div>
-      </Link>
+        </Link>
+      </div>
       <div className="flex flex-col p-4 flex-none">
         <Link
           className="hover:text-orange-600"
