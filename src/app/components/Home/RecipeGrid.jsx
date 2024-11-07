@@ -2,11 +2,7 @@
 import React from "react";
 import RecipeCard from "../RecipeCard.jsx";
 
-export default async function PopularRecipes({
-  allLikes,
-  recipes,
-  currentUserId,
-}) {
+export default async function RecipeGrid({ allLikes, recipes, currentUserId }) {
   let renderedRecipeCards = undefined;
 
   if (recipes) {
