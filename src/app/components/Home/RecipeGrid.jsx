@@ -18,7 +18,6 @@ export default async function RecipeGrid({
       ]);
 
       if (deleteButton) {
-        console.log("Deletable");
         return (
           <RecipeCard
             key={index}

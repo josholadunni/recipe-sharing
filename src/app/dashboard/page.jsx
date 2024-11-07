@@ -2,7 +2,6 @@
 import React from "react";
 import H1 from "../components/H1.jsx";
 import DeleteButton from "../components/DeleteButton.jsx";
-import MyRecipes from "../components/Dashboard/MyRecipes.jsx";
 import RecipeGrid from "../components/Home/RecipeGrid.jsx";
 import {
   fetchRecipeLikes,
@@ -19,24 +18,30 @@ export default async function Dashboard() {
     ]);
 
     return (
-      <div>
+      <div className="relative top-12 min-h-screen">
         <H1 text="Dashboard" />
+        <div className="flex justify-center">
+          {currentUserId && (
+            <>
+              {myRecipes ? (
+                <RecipeGrid
+                  allLikes={allLikes}
+                  recipes={myRecipes}
+                  currentUserId={currentUserId.result}
+                  deleteButton={true}
+                />
+              ) : (
+                <p>No recipes found.</p>
+              )}
+            </>
+          )}
+          {!currentUserId && <p>Not logged in</p>}
+        </div>
         {currentUserId && (
-          <>
+          <div className="flex justify-center mt-72">
             <DeleteButton currentUserId={currentUserId.result} />
-            {myRecipes ? (
-              <RecipeGrid
-                allLikes={allLikes}
-                recipes={myRecipes}
-                currentUserId={currentUserId.result}
-                deleteButton={true}
-              />
-            ) : (
-              <p>No recipes found.</p>
-            )}
-          </>
+          </div>
         )}
-        {!currentUserId && <p>Not logged in</p>}
       </div>
     );
   } catch (error) {
