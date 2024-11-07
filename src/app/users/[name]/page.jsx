@@ -5,10 +5,8 @@ import {
   fetchRecipesByUserId,
   fetchRecipeLikes,
 } from "../../lib/data";
-import { deleteUser } from "../../lib/actions";
-import RecipeCard from "../../components/RecipeCard";
+import RecipeGrid from "../../components/Home/RecipeGrid";
 import { findUserIdFromEmail } from "../../lib/data";
-import DeleteButton from "../../components/DeleteButton.jsx";
 
 export async function generateStaticParams() {
   const users = await fetchAllUsers();
@@ -21,7 +19,6 @@ export default async function UserPage(params) {
   const { name } = params.params;
   const user = await findUserFromUsername(name);
   const userId = user.result.id;
-  let renderedRecipes = undefined;
 
   if (!user) {
     return <div>User not found</div>;
@@ -31,36 +28,19 @@ export default async function UserPage(params) {
   const allLikes = await fetchRecipeLikes();
   const currentUserId = await findUserIdFromEmail();
 
-  if (recipeList) {
-    renderedRecipes = recipeList.map((recipe, index) => {
-      const categories = recipe.RecipeCategories.map((category) => [
-        category.name,
-        category.id,
-      ]);
-
-      return (
-        <RecipeCard
-          key={index}
-          id={recipe.id}
-          title={recipe.name}
-          imgFileName={recipe.imageURL}
-          description={recipe.short_description}
-          allLikes={allLikes}
-          currentUserId={currentUserId}
-          categories={categories}
-          username={recipe.username}
-          slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
-          createdAt={recipe.createdAt}
-        />
-      );
-    });
-
-    return (
-      <>
-        <H1 text={`${user.result.username}'s Recipes`}></H1>
-
-        {renderedRecipes}
-      </>
-    );
-  }
+  return (
+    <div className="relative top-12 min-h-screen">
+      <H1 text={`${user.result.username}'s Recipes`}></H1>
+      <div className="mt-10">
+        <div className="flex justify-center">
+          <RecipeGrid
+            allLikes={allLikes}
+            currentUserId={currentUserId}
+            recipes={recipeList}
+            deleteButton={false}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
