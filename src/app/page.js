@@ -33,12 +33,16 @@ export default async function Home() {
               recipes={recentRecipes}
             />
           </div>
-          <H2 text="Popular Recipes" />
-          <PopularRecipes
-            allLikes={allLikes}
-            currentUserId={currentUserId}
-            recipes={popularRecipes}
-          />
+          <div class="relative top-12 mt-10">
+            <H2 text="Popular Recipes" />
+            <div className="flex justify-center">
+              <PopularRecipes
+                allLikes={allLikes}
+                currentUserId={currentUserId}
+                recipes={popularRecipes}
+              />
+            </div>
+          </div>
         </div>
       </div>
     );
