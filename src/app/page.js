@@ -1,7 +1,6 @@
 import React from "react";
 import "../styles/Home.css";
-import PopularRecipes from "./components/Home/PopularRecipes.jsx";
-import RecentRecipes from "./components/Home/RecentRecipes.jsx";
+import RecipeGrid from "./components/Home/RecipeGrid.jsx";
 import fetchRecentRecipes from "./lib/data.js";
 import {
   fetchRecipeLikes,
@@ -27,7 +26,7 @@ export default async function Home() {
         <div className="mt-10">
           <H2 text="Recent Recipes" />
           <div className="flex justify-center">
-            <RecentRecipes
+            <RecipeGrid
               allLikes={allLikes}
               currentUserId={currentUserId}
               recipes={recentRecipes}
@@ -36,7 +35,7 @@ export default async function Home() {
           <div class="relative top-12 mt-10">
             <H2 text="Popular Recipes" />
             <div className="flex justify-center">
-              <PopularRecipes
+              <RecipeGrid
                 allLikes={allLikes}
                 currentUserId={currentUserId}
                 recipes={popularRecipes}
