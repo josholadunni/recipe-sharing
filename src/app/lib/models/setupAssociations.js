@@ -6,16 +6,23 @@ export default ({
   RecipeRecipeCategory,
 }) => {
   User.associate = () => {
-    User.hasMany(Recipe, { foreignKey: "UserId" });
-    User.hasMany(Like, { foreignKey: "UserId" });
-    User.belongsToMany(Recipe, { through: Like, as: "LikedRecipes" });
+    User.hasMany(Recipe, { foreignKey: "UserId", onDelete: "CASCADE" });
+    User.hasMany(Like, { foreignKey: "UserId", onDelete: "CASCADE" });
+    User.belongsToMany(Recipe, {
+      through: Like,
+      as: "LikedRecipes",
+      onDelete: "CASCADE",
+    });
   };
 
   Recipe.associate = () => {
-    Recipe.belongsTo(User, { foreignKey: "UserId" });
-    Recipe.hasMany(Like, { foreignKey: "RecipeId" });
-    Recipe.belongsToMany(User, { through: Like });
-    Recipe.belongsToMany(RecipeCategory, { through: RecipeRecipeCategory });
+    Recipe.belongsTo(User, { foreignKey: "UserId", onDelete: "CASCADE" });
+    Recipe.hasMany(Like, { foreignKey: "RecipeId", onDelete: "CASCADE" });
+    Recipe.belongsToMany(User, { through: Like, onDelete: "CASCADE" });
+    Recipe.belongsToMany(RecipeCategory, {
+      through: RecipeRecipeCategory,
+      onDelete: "CASCADE",
+    });
   };
 
   RecipeCategory.associate = () => {

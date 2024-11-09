@@ -26,15 +26,12 @@ export default (sequelize) => {
 
   RecipeCategory.createCategories = async function () {
     const categories = [
-      "italian",
       "vegetarian",
-      "dessert",
-      "american",
-      "lunch",
-      "brunch",
-      "dinner",
+      "vegan",
+      "meat",
+      "quick & easy",
+      "desserts",
       "breakfast",
-      "budget-friendly",
     ];
 
     const mappedCategories = await Promise.all(

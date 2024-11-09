@@ -52,7 +52,9 @@ export async function fetchPopularRecipes() {
 
 export async function fetchRecipeCategories() {
   try {
-    const categories = await RecipeCategory.findAll();
+    const categories = await RecipeCategory.findAll({
+      order: [["name", "ASC"]],
+    });
     return categories;
   } catch (error) {
     console.error("Couldn't fetch categories", error);
@@ -187,7 +189,7 @@ export async function findUsernameFromEmail(email) {
   const user = await User.findAll({
     where: { email: email },
   });
-  return user[0].dataValues.username;
+  return user[0]?.dataValues.username;
 }
 
 export async function fetchRecipesByCategoryId(id) {
