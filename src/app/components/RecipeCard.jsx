@@ -31,12 +31,35 @@ const RecipeCard = (props) => {
     const categoryId = category[1];
     const categoryName = category[0];
 
+    let bgColor = undefined;
+    let getCategoryColor = () => {
+      if (categoryName.toLowerCase() == "quick & easy") {
+        bgColor = "bg-sky-500";
+      } else if (categoryName.toLowerCase() == "breakfast") {
+        bgColor = "bg-orange-500";
+      } else if (categoryName.toLowerCase() == "meat") {
+        bgColor = "bg-red-500";
+      } else if (categoryName.toLowerCase() == "vegetarian") {
+        bgColor = "bg-emerald-500";
+      } else if (categoryName.toLowerCase() == "vegan") {
+        bgColor = "bg-lime-500";
+      } else if (categoryName.toLowerCase() == "budget-friendly") {
+        bgColor = "bg-orange-500";
+      } else if (categoryName.toLowerCase() == "dessert") {
+        bgColor = "bg-purple-500";
+      }
+    };
+    getCategoryColor();
+
     return (
       <Link
         key={index}
         className="bg-neutral-200 border-neutral-200 hover:bg-neutral-900 hover:text-white rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-sm text-black"
         href={`/categories/${categoryName.toLowerCase()}/${categoryId}`}
       >
+        <span
+          className={`inline-block w-2 h-2 ${bgColor} rounded-full mr-2`}
+        ></span>
         {categoryName}
       </Link>
     );
