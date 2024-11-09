@@ -1,7 +1,7 @@
 import { number } from "zod";
 
 export function capitalizeFirstLetter(word) {
-  return word.charAt(0).toUpperCase() + word.slice(1);
+  return word.replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 export function formatDate(dateString) {

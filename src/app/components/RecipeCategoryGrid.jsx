@@ -8,51 +8,41 @@ export default async function RecipeCategoryGrid(props) {
     let bgColor = undefined;
     let textColor = undefined;
     let getCategoryColor = () => {
-      if (category.name.toLowerCase() == "vegetarian") {
-        bgColor = "bg-orange-400";
-        textColor = "text-orange-900";
-      } else if (category.name.toLowerCase() == "brunch") {
-        bgColor = "bg-orange-400";
-        textColor = "text-orange-900";
-      } else if (category.name.toLowerCase() == "american") {
-        bgColor = "bg-orange-400";
-        textColor = "text-orange-900";
-      } else if (category.name.toLowerCase() == "italian") {
-        bgColor = "bg-orange-400";
-        textColor = "text-orange-900";
+      if (category.name.toLowerCase() == "quick & easy") {
+        bgColor = "bg-sky-500";
       } else if (category.name.toLowerCase() == "breakfast") {
-        bgColor = "bg-orange-400";
-        textColor = "text-orange-900";
-      } else if (category.name.toLowerCase() == "lunch") {
-        bgColor = "bg-orange-400";
-        textColor = "text-orange-900";
+        bgColor = "bg-orange-500";
+      } else if (category.name.toLowerCase() == "meat") {
+        bgColor = "bg-red-500";
+      } else if (category.name.toLowerCase() == "vegetarian") {
+        bgColor = "bg-emerald-500";
+      } else if (category.name.toLowerCase() == "vegan") {
+        bgColor = "bg-lime-500";
       } else if (category.name.toLowerCase() == "budget-friendly") {
-        bgColor = "bg-orange-400";
-        textColor = "text-orange-900";
+        bgColor = "bg-orange-500";
       } else if (category.name.toLowerCase() == "dessert") {
-        bgColor = "bg-orange-400";
-        textColor = "text-orange-900";
-      } else if (category.name.toLowerCase() == "dinner") {
-        bgColor = "bg-orange-400";
-        textColor = "text-orange-900";
+        bgColor = "bg-purple-500";
       }
     };
     getCategoryColor();
     return (
-      <Link
-        key={index}
-        href={`categories/${category.name.toLowerCase()}/${category.id}`}
-        className={`flex flex-col justify-center align-middle min-h-72 w-[22rem] rounded-xl ${bgColor} `}
-      >
-        <p className={`font-bold text-lg text-center ${textColor}`}>
-          {category.name}
-        </p>
-      </Link>
+      <div className={`flex flex-col justify-center align-middle rounded-xl `}>
+        <Link
+          key={index}
+          href={`categories/${category.name.toLowerCase()}/${category.id}`}
+          className="flex flex-col"
+        >
+          <div className={`${bgColor} w-40 h-40 md:w-52 md:h-52 mx-auto`}></div>
+          <p className={`font-bold text-lg text-center ${textColor} mt-4`}>
+            {category.name}
+          </p>
+        </Link>
+      </div>
     );
   });
 
   return (
-    <div className="grid grid-cols-1 gap-y-8 md:gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 recipe-grid justify-items-center">
+    <div className="grid grid-cols-2 gap-8 gap-y-8 md:gap-8 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 recipe-grid justify-center">
       {categoryElements}
     </div>
   );
