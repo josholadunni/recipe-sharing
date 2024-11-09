@@ -293,6 +293,7 @@ export async function search(term) {
 
 export async function deleteUser(userId) {
   try {
+    revalidatePath("/");
     await User.destroy({ where: { id: userId } });
     return { success: true, message: "User successfully deleted" };
   } catch (error) {
