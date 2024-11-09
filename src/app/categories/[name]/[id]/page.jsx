@@ -4,6 +4,7 @@ import H1 from "../../../components/H1";
 import { fetchRecipeLikes } from "../../../lib/data";
 import { capitalizeFirstLetter } from "../../../lib/utils";
 import { findUserIdFromEmail } from "../../../lib/data";
+import RecipeGrid from "../../../components/Home/RecipeGrid";
 
 export default async function CategoryPage(params) {
   let renderedRecipes = undefined;
@@ -39,9 +40,11 @@ export default async function CategoryPage(params) {
   }
 
   return (
-    <>
-      <H1 text={`${capitalizeFirstLetter(name)} Recipes`}></H1>
-      {renderedRecipes}
-    </>
+    <div className="relative top-12">
+      <H1
+        text={`${decodeURIComponent(capitalizeFirstLetter(name))} Recipes`}
+      ></H1>
+      <div className="mt-10 flex justify-center">{renderedRecipes}</div>
+    </div>
   );
 }

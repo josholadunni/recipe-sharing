@@ -53,7 +53,7 @@ export async function fetchPopularRecipes() {
 export async function fetchRecipeCategories() {
   try {
     const categories = await RecipeCategory.findAll({
-      order: [["name", "ASC"]],
+      order: [["createdAt", "ASC"]],
     });
     return categories;
   } catch (error) {
