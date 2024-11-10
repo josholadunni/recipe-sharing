@@ -29,7 +29,7 @@ export default async function RecipePage(params) {
             Ingredients
           </h2>
         </div>
-        <ul>
+        <ul className="list-disc">
           {ingredients.map((ingredient, index) => (
             <li key={index}>{ingredient}</li>
           ))}
@@ -45,9 +45,11 @@ export default async function RecipePage(params) {
         <h2 style={{ fontWeight: 600 }} className="text-left text-xl my-4">
           Method
         </h2>
-        <ul>
+        <ul className="list-decimal">
           {method.map((methodStep, index) => (
-            <li key={index}>{methodStep}</li>
+            <li className="mb-3" key={index}>
+              {methodStep}
+            </li>
           ))}
         </ul>
       </>
@@ -118,6 +120,7 @@ export default async function RecipePage(params) {
               height={350}
               className="object-cover rounded-t-lg"
             />
+            <div className="mt-7">{recipe.short_description}</div>
             <div className="mt-7">{renderCategories()}</div>
             <div className="flex-1 mt-7 min-w-[20rem] md:w-1/3">
               {renderIngredients()}
@@ -165,9 +168,9 @@ export default async function RecipePage(params) {
         </div>
 
         {/* Ingredients and method section */}
-        <div className="flex flex-col pl-5">
-          <div className="flex flex-col basis-1/2 mt-10">{renderMethod()}</div>
+        <div className="flex flex-col ml-8">
           <div className="basis 1/2 mt-10">{renderIngredients()}</div>
+          <div className="flex flex-col basis-1/2 mt-10">{renderMethod()}</div>
         </div>
       </div>
     </div>
