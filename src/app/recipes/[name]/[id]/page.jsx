@@ -132,18 +132,18 @@ export default async function RecipePage(params) {
         </div>
       </div>
       {/* Larger */}
-      <div className="min-w-[25rem] hidden sm:block sm:w-full">
-        <div className="flex flex-row justify-center mt-12 w-full relative">
-          <div className="basis-1/2 justify-center">
+      <div className="min-w-[25rem] hidden sm:block sm:w-full lg:mx-24 2xl:mx-80">
+        <div className="flex flex-row justify-center md:justify-start mt-12 w-full relative">
+          <div className="basis-1/2 md:basis-2/5 lg:basis-2/5 xl:basis-2/5 2xl:basis-2/5 justify-center">
             <Image
               src={recipe.imageURL}
               alt={recipe.title + " recipe"}
               width={350}
               height={350}
-              className="object-cover rounded-t-lg"
+              className="object-cover rounded-t-lg mx-auto"
             />
           </div>
-          <div className="flex flex-col align-middle my-auto basis-1/2 ml-7">
+          <div className="flex flex-col align-middle my-auto basis-1/2 md:basis-2/5 lg:basis-3/5 xl:basis-4/5 2xl:basis-4/5 ml-7">
             {
               <>
                 <h1
