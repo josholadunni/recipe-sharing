@@ -32,7 +32,9 @@ export default async function RecipeCategoryGrid(props) {
           href={`categories/${category.name.toLowerCase()}/${category.id}`}
           className="flex flex-col"
         >
-          <div className={`${bgColor} w-40 h-40 md:w-52 md:h-52 mx-auto`}></div>
+          <div
+            className={`${bgColor} w-40 h-40 md:w-52 md:h-52 mx-auto rounded-lg`}
+          ></div>
           <p className={`font-bold text-lg text-center ${textColor} mt-4`}>
             {category.name}
           </p>
