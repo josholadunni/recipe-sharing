@@ -25,15 +25,22 @@ export default async function RecipePage(params) {
     return (
       <>
         <div>
-          <h2 style={{ fontWeight: 600 }} className="text-left text-xl mb-3">
+          <h2
+            style={{ fontWeight: 600 }}
+            className="text-center text-2xl mb-6 text-[#3F3F3F]"
+          >
             Ingredients
           </h2>
         </div>
-        <ul className="list-disc">
-          {ingredients.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
-          ))}
-        </ul>
+        <div className="bg-white rounded-2xl px-10 py-6 mr-4 h-full">
+          <ul className="list-disc">
+            {ingredients.map((ingredient, index) => (
+              <li className="mb-3" key={index}>
+                {ingredient}
+              </li>
+            ))}
+          </ul>
+        </div>
       </>
     );
   };
@@ -42,16 +49,21 @@ export default async function RecipePage(params) {
     const method = recipe.method;
     return (
       <>
-        <h2 style={{ fontWeight: 600 }} className="text-left text-xl my-4">
+        <h2
+          style={{ fontWeight: 600 }}
+          className="text-center text-2xl mb-6 text-[#3F3F3F]"
+        >
           Method
         </h2>
-        <ul className="list-decimal">
-          {method.map((methodStep, index) => (
-            <li className="mb-3" key={index}>
-              {methodStep}
-            </li>
-          ))}
-        </ul>
+        <div className="px-14 py-6 mr-4">
+          <ul className="list-decimal">
+            {method.map((methodStep, index) => (
+              <li className="mb-3" key={index}>
+                {methodStep}
+              </li>
+            ))}
+          </ul>
+        </div>
       </>
     );
   };
@@ -99,7 +111,7 @@ export default async function RecipePage(params) {
   };
 
   return (
-    <div className="flex flex-wrap w-full justify-center relative top-12 mx-auto px-10">
+    <div className="flex flex-wrap w-full justify-center relative top-12 mx-auto">
       {/* Mobile */}
       <div className="min-w-[20rem] md:w-1/3 sm:hidden">
         <H1 text={recipe.name}></H1>
@@ -132,45 +144,50 @@ export default async function RecipePage(params) {
         </div>
       </div>
       {/* Larger */}
-      <div className="min-w-[25rem] hidden sm:block sm:w-full md:mx-16 lg:mx-24 2xl:mx-60">
-        <div className="flex flex-row justify-center md:justify-start w-full relative">
-          <div className="basis-1/2 md:basis-2/5 lg:basis-2/5 xl:basis-2/5 2xl:basis-2/5 justify-center">
-            <Image
-              src={recipe.imageURL}
-              alt={recipe.title + " recipe"}
-              width={350}
-              height={350}
-              className="object-cover rounded-t-lg mx-auto"
-            />
-          </div>
-          <div className="flex flex-col align-middle my-auto basis-1/2 md:basis-3/5 lg:basis-3/5 xl:basis-4/5 2xl:basis-3/5 ml-7">
-            {
-              <>
-                <h1
-                  style={{ fontWeight: 900 }}
-                  className="text-3xl font-medium pb-3"
-                >
-                  {recipe.name}
-                </h1>
-                <div className="flex">
-                  <Link
-                    className="text-center text-orange-600 underline text-under"
-                    href={`/users/${username}`}
+      <div className="min-w-[25rem] hidden sm:block sm:w-full">
+        {/* <div className="bg-[#F0F2F5]"> */}
+        <div className="md:mx-16 lg:mx-24 2xl:mx-60">
+          <div className="flex flex-row justify-center md:justify-start w-full relative">
+            <div className="basis-1/2 md:basis-2/5 lg:basis-2/5 xl:basis-2/5 2xl:basis-2/5 justify-center">
+              <Image
+                src={recipe.imageURL}
+                alt={recipe.title + " recipe"}
+                width={350}
+                height={350}
+                className="object-cover rounded-t-lg mx-auto"
+              />
+            </div>
+            <div className="flex flex-col align-middle my-auto basis-1/2 md:basis-3/5 lg:basis-3/5 xl:basis-4/5 2xl:basis-3/5 ml-7">
+              {
+                <>
+                  <h1
+                    style={{ fontWeight: 900 }}
+                    className="text-3xl font-medium pb-3"
                   >
-                    {username}
-                  </Link>
-                </div>
-              </>
-            }
-            <div className="mt-10">{recipe.short_description}</div>
-            <div className="mt-7">{renderCategories()}</div>
+                    {recipe.name}
+                  </h1>
+                  <div className="flex">
+                    <Link
+                      className="text-center text-orange-600 underline text-under"
+                      href={`/users/${username}`}
+                    >
+                      {username}
+                    </Link>
+                  </div>
+                </>
+              }
+              <div className="mt-10">{recipe.short_description}</div>
+              <div className="mt-7">{renderCategories()}</div>
+            </div>
           </div>
         </div>
 
         {/* Ingredients and method section */}
-        <div className="flex flex-col ml-8 2xl:ml-36">
-          <div className="basis 1/2 mt-10">{renderIngredients()}</div>
-          <div className="flex flex-col basis-1/2 mt-10">{renderMethod()}</div>
+        <div className="w-full pl-8 2xl:ml-36 min-h-full bg-[#F8F8F8] mt-20 pt-10">
+          <div className="flex flex-row md:mx-8 lg:mx-24 2xl:mx-60">
+            <div className="basis-1/2">{renderIngredients()}</div>
+            <div className="flex flex-col basis-1/2">{renderMethod()}</div>
+          </div>
         </div>
       </div>
     </div>
