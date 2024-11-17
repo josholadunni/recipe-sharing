@@ -26,10 +26,10 @@ export default async function RecipePage(params) {
       <>
         <div>
           <h2
-            style={{ fontWeight: 600 }}
+            style={{ fontWeight: 300 }}
             className="text-center text-2xl mb-6 text-[#3F3F3F]"
           >
-            Ingredients
+            INGREDIENTS
           </h2>
         </div>
         <div className="bg-white rounded-2xl px-10 py-6 mr-4">
@@ -50,12 +50,12 @@ export default async function RecipePage(params) {
     return (
       <>
         <h2
-          style={{ fontWeight: 600 }}
+          style={{ fontWeight: 300 }}
           className="text-center text-2xl mb-6 text-[#3F3F3F]"
         >
-          Method
+          METHOD
         </h2>
-        <div className="px-14 py-6 mr-4">
+        <div className="bg-white rounded-2xl px-14 py-6 mr-4">
           <ul className="list-decimal">
             {method.map((methodStep, index) => (
               <li className="mb-3" key={index}>
@@ -134,6 +134,8 @@ export default async function RecipePage(params) {
             />
             <div className="mt-7">{recipe.short_description}</div>
             <div className="mt-7">{renderCategories()}</div>
+          </div>
+          <div className="bg-neutral-100 w-screen mt-10 px-10 rounded-3xl">
             <div className="flex-1 mt-7 min-w-[20rem] md:w-1/3">
               {renderIngredients()}
             </div>
@@ -183,7 +185,7 @@ export default async function RecipePage(params) {
         </div>
 
         {/* Ingredients and method section */}
-        <div className="w-full pl-8 2xl:ml-36 min-h-full bg-[#F8F8F8] mt-20 pt-10">
+        <div className="w-full pl-8 2xl:ml-36 min-h-full bg-neutral-100 mt-20 pt-10">
           <div className="flex flex-row md:mx-8 lg:mx-24 2xl:mx-60">
             <div className="basis-1/2">{renderIngredients()}</div>
             <div className="flex flex-col basis-1/2">{renderMethod()}</div>
