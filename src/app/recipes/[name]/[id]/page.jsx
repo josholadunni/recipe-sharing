@@ -32,7 +32,7 @@ export default async function RecipePage(params) {
             INGREDIENTS
           </h2>
         </div>
-        <div className="bg-white rounded-2xl px-10 py-6 mr-4">
+        <div className="bg-white rounded-2xl px-10 py-6 md:mr-4">
           <ul className="list-disc">
             {ingredients.map((ingredient, index) => (
               <li className="mb-3" key={index}>
@@ -135,7 +135,7 @@ export default async function RecipePage(params) {
             <div className="mt-7">{recipe.short_description}</div>
             <div className="mt-7">{renderCategories()}</div>
           </div>
-          <div className="bg-neutral-100 w-screen mt-10 px-10 rounded-3xl">
+          <div className="bg-neutral-100 w-screen mt-10 px-10 pb-20 rounded-3xl">
             <div className="flex-1 mt-7 min-w-[20rem] md:w-1/3">
               {renderIngredients()}
             </div>
@@ -148,7 +148,7 @@ export default async function RecipePage(params) {
       {/* Larger */}
       <div className="min-w-[25rem] hidden sm:block sm:w-full">
         {/* <div className="bg-[#F0F2F5]"> */}
-        <div className="md:mx-16 lg:mx-24 2xl:mx-60">
+        <div className="sm:mx-10 md:mx-16 lg:mx-24 2xl:mx-60">
           <div className="flex flex-row justify-center md:justify-start w-full relative">
             <div className="basis-1/2 md:basis-2/5 lg:basis-2/5 xl:basis-2/5 2xl:basis-2/5 justify-center">
               <Image
@@ -185,10 +185,12 @@ export default async function RecipePage(params) {
         </div>
 
         {/* Ingredients and method section */}
-        <div className="w-full pl-8 2xl:ml-36 min-h-full bg-neutral-100 mt-20 pt-10">
-          <div className="flex flex-row md:mx-8 lg:mx-24 2xl:mx-60">
+        <div className="w-full 2xl:ml-36 min-h-fit bg-neutral-100 mt-20 pt-10 pb-28">
+          <div className="flex flex-col md:flex-row sm:mx-10 md:mx-8 lg:mx-24 2xl:mx-60">
             <div className="basis-1/2">{renderIngredients()}</div>
-            <div className="flex flex-col basis-1/2">{renderMethod()}</div>
+            <div className="flex flex-col sm:mt-6 md:mt-0 basis-1/2">
+              {renderMethod()}
+            </div>
           </div>
         </div>
       </div>
