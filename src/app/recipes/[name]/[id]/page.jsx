@@ -32,7 +32,7 @@ export default async function RecipePage(params) {
             Ingredients
           </h2>
         </div>
-        <div className="bg-white rounded-2xl px-10 py-6 mr-4 h-full">
+        <div className="bg-white rounded-2xl px-10 py-6 mr-4">
           <ul className="list-disc">
             {ingredients.map((ingredient, index) => (
               <li className="mb-3" key={index}>
