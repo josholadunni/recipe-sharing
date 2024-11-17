@@ -111,7 +111,7 @@ export default async function RecipePage(params) {
   };
 
   return (
-    <div className="flex flex-wrap w-full justify-center relative top-12 mx-auto">
+    <div className="flex flex-wrap w-full justify-center relative top-8 mx-auto">
       {/* Mobile */}
       <div className="min-w-[20rem] md:w-1/3 sm:hidden">
         <H1 text={recipe.name}></H1>
@@ -148,7 +148,7 @@ export default async function RecipePage(params) {
       {/* Larger */}
       <div className="min-w-[25rem] hidden sm:block sm:w-full">
         {/* <div className="bg-[#F0F2F5]"> */}
-        <div className="sm:mx-10 md:mx-16 lg:mx-24 2xl:mx-60">
+        <div className="sm:mx-10 md:mx-16 lg:mx-24 2xl:mx-80">
           <div className="flex flex-row justify-center md:justify-start w-full relative">
             <div className="basis-1/2 md:basis-2/5 lg:basis-2/5 xl:basis-2/5 2xl:basis-2/5 justify-center">
               <Image
@@ -185,8 +185,8 @@ export default async function RecipePage(params) {
         </div>
 
         {/* Ingredients and method section */}
-        <div className="w-full 2xl:ml-36 min-h-fit bg-neutral-100 mt-20 pt-10 pb-28">
-          <div className="flex flex-col md:flex-row sm:mx-10 md:mx-8 lg:mx-24 2xl:mx-60">
+        <div className="w-full min-h-fit bg-neutral-100 mt-20 pt-10 pb-28">
+          <div className="flex flex-col md:flex-row sm:mx-10 md:mx-8 lg:mx-24 2xl:mx-72">
             <div className="basis-1/2">{renderIngredients()}</div>
             <div className="flex flex-col sm:mt-6 md:mt-0 basis-1/2">
               {renderMethod()}
