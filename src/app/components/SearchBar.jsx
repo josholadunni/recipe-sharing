@@ -28,7 +28,7 @@ export default function SearchBar({ placeholder }) {
         } finally {
           setIsLoading(false);
         }
-      }, 1000);
+      }, 500);
 
       setTimeoutId(newTimeoutId);
 
@@ -65,7 +65,7 @@ export default function SearchBar({ placeholder }) {
     >
       <form onSubmit={handleSubmit}>
         <input
-          className={`${searchStyles.searchInput} p-2 w-full rounded-md z-[60]`}
+          className={`${searchStyles.searchInput} p-2 w-full rounded-md z-[60] outline-none`}
           type="text"
           placeholder={placeholder}
           onChange={(e) => {
@@ -81,23 +81,28 @@ export default function SearchBar({ placeholder }) {
         </div>
       )}
       {results.length > 0 && (
-        <div className="results-container z-[50] flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-min md:w-auto md:min-w-[150px]">
-          {results.map((result) => (
-            <Link
-              className="px-5"
-              key={result.id}
-              href={`/recipes/${result.name
-                .replace(/\s+/g, "-")
-                .toLowerCase()}/${result.id}`}
-            >
-              <p className="text-base py-4  hover:text-orange-500">
-                {result.name}
-              </p>
-              <div className="flex flex-row justify-center">
-                <hr className="flex border-gray-300 w-80"></hr>
-              </div>
-            </Link>
-          ))}
+        <div className="results-container z-[50] flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-full md:w-auto md:min-w-[150px] min-h-[400px]">
+          <div className="flex-2 justify-center text-center relative top-8">
+            <H3 text="Recipes" />
+          </div>
+          <div className="flex-1 flex flex-col justify-start mt-10">
+            {results.map((result) => (
+              <Link
+                className="px-5"
+                key={result.id}
+                href={`/recipes/${result.name
+                  .replace(/\s+/g, "-")
+                  .toLowerCase()}/${result.id}`}
+              >
+                <p className="text-base py-4  hover:text-orange-500">
+                  {result.name}
+                </p>
+                <div className="flex flex-row justify-center">
+                  <hr className="flex border-gray-200 w-full"></hr>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       )}
       {isResults === false && (
