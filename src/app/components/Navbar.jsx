@@ -14,6 +14,7 @@ import ProfileIcon from "./ProfileIcon.jsx";
 function Navbar({ username }) {
   const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [results, setResults] = useState([]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -22,6 +23,9 @@ function Navbar({ username }) {
   return (
     <nav
       className={`${navStyles.navbar} text-sm flex justify-center sticky top-0 bg-white z-10 pb-1`}
+      onMouseLeave={() => {
+        setResults([]);
+      }}
     >
       <ul className="text-center py-2 gap-4 md:gap-1 flex flex-wrap flex-row justify-center items-center w-full">
         <li className="hover:text-orange-500 basis-1/6 md:basis-1/6 m-0 ">
@@ -31,7 +35,11 @@ function Navbar({ username }) {
           <Link href="/browse">Browse</Link>
         </li>
         <li className="basis-3/6 md:basis-1/6 m-0">
-          <SearchBar placeholder="Search Recipes" />
+          <SearchBar
+            setResults={setResults}
+            results={results}
+            placeholder="Search Recipes"
+          />
         </li>
         <li className="hover:text-orange-500 hidden md:block basis-1/6 m-0">
           <Link href="/add-recipe">Add Recipe</Link>
