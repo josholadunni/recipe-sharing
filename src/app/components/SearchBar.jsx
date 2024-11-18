@@ -6,11 +6,10 @@ import Link from "next/link";
 import searchStyles from "./SearchBar.module.css";
 import H3 from "./H3";
 
-export default function SearchBar({ placeholder }) {
+export default function SearchBar({ placeholder, setResults, results }) {
   const [timeoutId, setTimeoutId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [results, setResults] = useState([]);
   let [isResults, setIsResults] = useState(undefined);
   const router = useRouter();
 
@@ -57,12 +56,7 @@ export default function SearchBar({ placeholder }) {
   }
 
   return (
-    <div
-      className="search-bar"
-      onMouseLeave={() => {
-        setResults([]);
-      }}
-    >
+    <div className="search-bar">
       <form onSubmit={handleSubmit}>
         <input
           className={`${searchStyles.searchInput} p-2 w-full rounded-md z-[60] outline-none`}
