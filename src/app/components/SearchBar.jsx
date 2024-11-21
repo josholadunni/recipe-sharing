@@ -35,6 +35,8 @@ export default function SearchBar({ placeholder, setResults, results }) {
 
       //Clears time out when the component is unmounted or the search term is changed
       return () => clearTimeout(newTimeoutId);
+    } else {
+      setIsLoading(false);
     }
   }, [searchTerm]);
 
@@ -144,7 +146,7 @@ export default function SearchBar({ placeholder, setResults, results }) {
         </div>
       )}
       {isResults === false && isFocus === true && isSearchTerm === true && (
-        <div className="results-container z-10 flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute">
+        <div className="results-container z-10 flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-full md:w-auto md:min-w-[150px] min-h-[100px]">
           <h2 className="text-lg font-bold mb-2">No recipes found</h2>
         </div>
       )}
