@@ -9,7 +9,9 @@ import H3 from "./H3";
 export default function SearchBar({ placeholder, setResults, results }) {
   const [timeoutId, setTimeoutId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFocus, setIsFocus] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSearchTerm, setIsSearchTerm] = useState(false);
   let [isResults, setIsResults] = useState(undefined);
   const router = useRouter();
 
@@ -36,6 +38,16 @@ export default function SearchBar({ placeholder, setResults, results }) {
     }
   }, [searchTerm]);
 
+  useEffect(() => {
+    if (searchTerm) {
+      if (searchTerm.length > 0) {
+        setIsSearchTerm(true);
+      } else {
+        setIsSearchTerm(false);
+      }
+    }
+  }, [searchTerm]);
+
   function handleInputChange(term) {
     //Clears the timeout if it exists
     if (timeoutId) {
@@ -44,6 +56,7 @@ export default function SearchBar({ placeholder, setResults, results }) {
     if (term) {
       setSearchTerm(term);
     } else {
+      setSearchTerm(null);
       setIsResults(true);
     }
   }
@@ -51,23 +64,54 @@ export default function SearchBar({ placeholder, setResults, results }) {
   function handleSubmit(e) {
     e.preventDefault();
     const input = e.target.firstChild;
-
     router.push(`/search/${input.value}`);
   }
+
+  let exitButton = () => {
+    if (searchTerm) {
+      return (
+        <button
+          type="button"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          onClick={() => {
+            handleInputChange("");
+            setIsResults(false);
+            setResults([]);
+            // Clear the input value
+            const input = document.querySelector("input");
+            if (input) input.value = "";
+          }}
+        >
+          ✕
+        </button>
+      );
+    } else {
+      return null;
+    }
+  };
 
   return (
     <div className="search-bar">
       <form onSubmit={handleSubmit}>
-        <input
-          className={`${searchStyles.searchInput} p-2 w-full rounded-md z-[60] outline-none`}
-          type="text"
-          placeholder={placeholder}
-          onChange={(e) => {
-            const term = e.target.value;
-            handleInputChange(term);
-            setResults([]);
-          }}
-        />
+        <div className="relative">
+          <input
+            className={`${searchStyles.searchInput} p-2 w-full rounded-md z-[60] outline-none`}
+            type="text"
+            placeholder={placeholder}
+            onChange={(e) => {
+              const term = e.target.value;
+              handleInputChange(term);
+              setResults([]);
+            }}
+            onFocus={() => {
+              setIsFocus(true);
+            }}
+            onBlur={() => {
+              setIsFocus(false);
+            }}
+          />
+          {exitButton()}
+        </div>
       </form>
       {isLoading && (
         <div className="results-container z-[50] flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute w-screen md:w-auto md:min-w-[150px]">
@@ -99,7 +143,7 @@ export default function SearchBar({ placeholder, setResults, results }) {
           </div>
         </div>
       )}
-      {isResults === false && (
+      {isResults === false && isFocus === true && isSearchTerm === true && (
         <div className="results-container z-10 flex flex-col left-1/2 -translate-x-1/2 bg-white shadow-md absolute">
           <h2 className="text-lg font-bold mb-2">No recipes found</h2>
         </div>
