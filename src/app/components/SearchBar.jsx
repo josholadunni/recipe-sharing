@@ -133,6 +133,14 @@ export default function SearchBar({ placeholder, setResults, results }) {
                 href={`/recipes/${result.name
                   .replace(/\s+/g, "-")
                   .toLowerCase()}/${result.id}`}
+                onClick={() => {
+                  handleInputChange("");
+                  setIsResults(false);
+                  setResults([]);
+                  // Clear the input value
+                  const input = document.querySelector("input");
+                  if (input) input.value = "";
+                }}
               >
                 <p className="text-base py-4  hover:text-orange-500">
                   {result.name}
