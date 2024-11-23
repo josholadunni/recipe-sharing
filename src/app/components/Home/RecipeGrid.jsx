@@ -11,16 +11,28 @@ export default async function RecipeGrid({
   let renderedRecipeCards = undefined;
 
   if (recipes) {
+    const totalRecipes = recipes.length;
     renderedRecipeCards = recipes.map((recipe, index) => {
       const categories = recipe.RecipeCategories.map((category) => [
         category.name,
         category.id,
       ]);
 
+      // Calculate column start class for XL screens when there are 1 or 2 items
+      let colStartClass = "";
+      if (totalRecipes <= 2) {
+        if (totalRecipes === 1) {
+          colStartClass = "xl:col-start-3"; // Center single item
+        } else if (totalRecipes === 2) {
+          colStartClass = index === 0 ? "xl:col-start-2" : "xl:col-start-3"; // Position two items in middle
+        }
+      }
+
       if (deleteButton) {
         return (
           <RecipeCard
             key={index}
+            className={colStartClass}
             id={recipe.id}
             title={recipe.name}
             imgFileName={recipe.imageURL}
@@ -38,6 +50,7 @@ export default async function RecipeGrid({
         return (
           <RecipeCard
             key={index}
+            className={colStartClass}
             id={recipe.id}
             title={recipe.name}
             imgFileName={recipe.imageURL}

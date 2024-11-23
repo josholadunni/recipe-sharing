@@ -7,6 +7,7 @@ import Link from "next/link";
 import { formatDate, titleCase } from "../lib/utils";
 import H3 from "./H3.jsx";
 import { deleteRecipe } from "../lib/actions";
+import { Skeleton } from "@nextui-org/skeleton";
 
 const RecipeCard = (props) => {
   const { allLikes, currentUserId, id, createdAt, deletable } = props;
@@ -82,8 +83,12 @@ const RecipeCard = (props) => {
     setState(actionResult);
   };
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
-    <div className="flex flex-col shadow-lg w-[22rem] md:w-72 rounded-lg">
+    <div
+      className={`flex flex-col shadow-lg w-[22rem] md:w-72 rounded-lg ${props.className}`}
+    >
       <div className="relative h-60">
         {deletable && (
           <>
@@ -114,14 +119,23 @@ const RecipeCard = (props) => {
             )}
           </>
         )}
+
         <Link href={`/recipes/${props.slug}/${props.id}`}>
-          <Image
-            src={props.imgFileName}
-            alt={props.title + " recipe"}
-            fill={true}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover rounded-t-lg"
-          />
+          <Skeleton
+            isLoaded={isLoaded}
+            className="rounded-lg relative w-full h-full"
+          >
+            <Image
+              src={props.imgFileName}
+              alt={props.title + " recipe"}
+              fill={true}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover rounded-t-lg"
+              onLoadingComplete={() => {
+                setIsLoaded(!isLoaded);
+              }}
+            />
+          </Skeleton>
         </Link>
       </div>
       <div className="flex flex-col p-4 flex-none">
