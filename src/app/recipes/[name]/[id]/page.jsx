@@ -124,7 +124,7 @@ export default async function RecipePage(params) {
           </Link>
         </div>
         <div className="flex flex-col justify-center mt-5 w-full relative">
-          <div class="mx-auto">
+          <div className="mx-auto">
             <Image
               src={recipe.imageURL}
               alt={recipe.title + " recipe"}
