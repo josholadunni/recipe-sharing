@@ -1,14 +1,25 @@
-"use server";
+"use client";
 import React from "react";
+import { useEffect } from "react";
 import RecipeCard from "../RecipeCard.jsx";
+import useEmblaCarousel from "embla-carousel-react";
+import "../../../styles/RecipeCarousel.css";
 
-export default async function RecipeGrid({
+export default function RecipeGrid({
   allLikes,
   recipes,
   currentUserId,
   deleteButton,
 }) {
   let renderedRecipeCards = undefined;
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
+
+  useEffect(() => {
+    if (emblaApi) {
+      console.log(emblaApi.slideNodes());
+    }
+  }, [emblaApi]);
 
   if (recipes) {
     const totalRecipes = recipes.length;
@@ -18,58 +29,50 @@ export default async function RecipeGrid({
         category.id,
       ]);
 
-      // Calculate column start class for XL screens when there are 1 or 2 items
-      let colStartClass = "";
-      if (totalRecipes <= 2) {
-        if (totalRecipes === 1) {
-          colStartClass = "xl:col-start-3"; // Center single item
-        } else if (totalRecipes === 2) {
-          colStartClass = index === 0 ? "xl:col-start-2" : "xl:col-start-3"; // Position two items in middle
-        }
-      }
-
       if (deleteButton) {
         return (
-          <RecipeCard
-            key={index}
-            className={colStartClass}
-            id={recipe.id}
-            title={recipe.name}
-            imgFileName={recipe.imageURL}
-            description={recipe.short_description}
-            allLikes={allLikes}
-            currentUserId={currentUserId}
-            categories={categories}
-            username={recipe.username}
-            slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
-            createdAt={recipe.createdAt}
-            deletable={true}
-          />
+          <div className="embla__slide">
+            <RecipeCard
+              key={index}
+              id={recipe.id}
+              title={recipe.name}
+              imgFileName={recipe.imageURL}
+              description={recipe.short_description}
+              allLikes={allLikes}
+              currentUserId={currentUserId}
+              categories={categories}
+              username={recipe.username}
+              slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
+              createdAt={recipe.createdAt}
+              deletable={true}
+            />
+          </div>
         );
       } else {
         return (
-          <RecipeCard
-            key={index}
-            className={colStartClass}
-            id={recipe.id}
-            title={recipe.name}
-            imgFileName={recipe.imageURL}
-            description={recipe.short_description}
-            allLikes={allLikes}
-            currentUserId={currentUserId}
-            categories={categories}
-            username={recipe.username}
-            slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
-            createdAt={recipe.createdAt}
-            deletable={false}
-          />
+          <div className="embla__slide">
+            <RecipeCard
+              key={index}
+              id={recipe.id}
+              title={recipe.name}
+              imgFileName={recipe.imageURL}
+              description={recipe.short_description}
+              allLikes={allLikes}
+              currentUserId={currentUserId}
+              categories={categories}
+              username={recipe.username}
+              slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
+              createdAt={recipe.createdAt}
+              deletable={false}
+            />
+          </div>
         );
       }
     });
   }
   return (
-    <div className="grid grid-cols-1 gap-y-8 md:gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 recipe-grid justify-items-center">
-      {renderedRecipeCards}
+    <div className="embla" ref={emblaRef}>
+      <div className="embla__container">{renderedRecipeCards}</div>
     </div>
   );
 }

@@ -33,7 +33,7 @@ export default async function Home() {
               deleteButton={false}
             />
           </div>
-          <div class="relative top-12 mt-10">
+          <div className="relative top-12 mt-10">
             <H2 text="Popular Recipes" />
             <div className="flex justify-center">
               <RecipeGrid

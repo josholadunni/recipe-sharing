@@ -1,0 +1,49 @@
+.embla {
+  overflow: hidden;
+}
+.embla__container {
+  display: flex;
+  margin: 0 1.5rem;
+}
+.embla__slide {
+  flex: 0 0 60%;
+  min-width: 0;
+  margin-right: 8rem;
+}
+
+@media (min-width: 640px) {
+  /* sm: Small screens */
+  .embla__slide {
+    flex: 0 0 50%;
+    margin-right: 5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  /* md: Medium screens */
+  .embla__slide {
+    flex: 0 0 40%;
+    margin-right: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* lg: Large screens */
+  .embla__slide {
+    flex: 0 0 33.33%;
+  }
+}
+
+@media (min-width: 1280px) {
+  /* xl: Extra large screens */
+  .embla__slide {
+    flex: 0 0 25%;
+  }
+}
+
+@media (min-width: 1536px) {
+  /* 2xl: 2x Extra large screens */
+  .embla__slide {
+    flex: 0 0 20%;
+  }
+}
