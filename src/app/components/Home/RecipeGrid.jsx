@@ -1,33 +1,14 @@
-"use client";
-import React, { useCallback } from "react";
-import { useEffect } from "react";
+"use server";
+import React from "react";
 import RecipeCard from "../RecipeCard.jsx";
-import useEmblaCarousel from "embla-carousel-react";
-import "../../../styles/RecipeCarousel.css";
 
-export default function RecipeGrid({
+export default async function RecipeGrid({
   allLikes,
   recipes,
   currentUserId,
   deleteButton,
 }) {
   let renderedRecipeCards = undefined;
-
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
-
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (emblaApi) {
-      console.log(emblaApi.slideNodes());
-    }
-  }, [emblaApi]);
 
   if (recipes) {
     const totalRecipes = recipes.length;
@@ -37,58 +18,58 @@ export default function RecipeGrid({
         category.id,
       ]);
 
+      // Calculate column start class for XL screens when there are 1 or 2 items
+      let colStartClass = "";
+      if (totalRecipes <= 2) {
+        if (totalRecipes === 1) {
+          colStartClass = "xl:col-start-3"; // Center single item
+        } else if (totalRecipes === 2) {
+          colStartClass = index === 0 ? "xl:col-start-2" : "xl:col-start-3"; // Position two items in middle
+        }
+      }
+
       if (deleteButton) {
         return (
-          <div className="embla__slide">
-            <RecipeCard
-              key={index}
-              id={recipe.id}
-              title={recipe.name}
-              imgFileName={recipe.imageURL}
-              description={recipe.short_description}
-              allLikes={allLikes}
-              currentUserId={currentUserId}
-              categories={categories}
-              username={recipe.username}
-              slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
-              createdAt={recipe.createdAt}
-              deletable={true}
-            />
-          </div>
+          <RecipeCard
+            key={index}
+            className={colStartClass}
+            id={recipe.id}
+            title={recipe.name}
+            imgFileName={recipe.imageURL}
+            description={recipe.short_description}
+            allLikes={allLikes}
+            currentUserId={currentUserId}
+            categories={categories}
+            username={recipe.username}
+            slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
+            createdAt={recipe.createdAt}
+            deletable={true}
+          />
         );
       } else {
         return (
-          <div className="embla__slide">
-            <RecipeCard
-              key={index}
-              id={recipe.id}
-              title={recipe.name}
-              imgFileName={recipe.imageURL}
-              description={recipe.short_description}
-              allLikes={allLikes}
-              currentUserId={currentUserId}
-              categories={categories}
-              username={recipe.username}
-              slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
-              createdAt={recipe.createdAt}
-              deletable={false}
-            />
-          </div>
+          <RecipeCard
+            key={index}
+            className={colStartClass}
+            id={recipe.id}
+            title={recipe.name}
+            imgFileName={recipe.imageURL}
+            description={recipe.short_description}
+            allLikes={allLikes}
+            currentUserId={currentUserId}
+            categories={categories}
+            username={recipe.username}
+            slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
+            createdAt={recipe.createdAt}
+            deletable={false}
+          />
         );
       }
     });
   }
   return (
-    <div className="embla">
-      <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">{renderedRecipeCards}</div>
-      </div>
-      <button class="embla__prev" onClick={scrollPrev}>
-        Prev
-      </button>
-      <button class="embla__next" onClick={scrollNext}>
-        Next
-      </button>
+    <div className="grid grid-cols-1 gap-y-8 md:gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 recipe-grid justify-items-center">
+      {renderedRecipeCards}
     </div>
   );
 }
