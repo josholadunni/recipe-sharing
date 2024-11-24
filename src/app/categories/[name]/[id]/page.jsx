@@ -8,23 +8,38 @@ import RecipeGrid from "../../../components/Home/RecipeGrid";
 export default async function CategoryPage(params) {
   const { name, id } = params.params;
 
-  const recipeList = await fetchRecipesByCategoryId(id);
-  const allLikes = await fetchRecipeLikes();
-  const currentUserId = await findUserIdFromEmail();
+  try {
+    const [recipeList, allLikes, currentUserId] = await Promise.all([
+      fetchRecipesByCategoryId(id),
+      fetchRecipeLikes(),
+      findUserIdFromEmail(),
+    ]);
 
-  return (
-    <div className="relative top-12">
-      <H1
-        text={`${decodeURIComponent(capitalizeFirstLetter(name))} Recipes`}
-      ></H1>
-      <div className="mt-10 flex justify-center">
-        <RecipeGrid
-          allLikes={allLikes}
-          currentUserId={currentUserId}
-          recipes={recipeList}
-          deleteButton={false}
-        />
+    const serializedData = {
+      recipes: JSON.parse(JSON.stringify(recipeList)),
+      allLikes: JSON.parse(JSON.stringify(allLikes)),
+      currentUserId: currentUserId?.result || null,
+    };
+
+    console.log(serializedData);
+
+    return (
+      <div className="relative top-12">
+        <H1
+          text={`${decodeURIComponent(capitalizeFirstLetter(name))} Recipes`}
+        ></H1>
+        <div className="mt-10 flex justify-center">
+          <RecipeGrid
+            allLikes={serializedData.allLikes}
+            currentUserId={serializedData.currentUserId}
+            recipes={serializedData.recipes}
+            deleteButton={false}
+          />
+        </div>
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error("Error loading category page:", error);
+    return <div>Error loading recipes. Please try again later.</div>;
+  }
 }
