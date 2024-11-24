@@ -20,9 +20,6 @@ export default async function CategoryPage(params) {
       allLikes: JSON.parse(JSON.stringify(allLikes)),
       currentUserId: currentUserId?.result || null,
     };
-
-    console.log(serializedData);
-
     return (
       <div className="relative top-12">
         <H1
