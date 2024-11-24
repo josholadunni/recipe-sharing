@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect } from "react";
 import RecipeCard from "../RecipeCard.jsx";
 import useEmblaCarousel from "embla-carousel-react";
@@ -14,6 +14,14 @@ export default function RecipeGrid({
   let renderedRecipeCards = undefined;
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
 
   useEffect(() => {
     if (emblaApi) {
@@ -71,8 +79,16 @@ export default function RecipeGrid({
     });
   }
   return (
-    <div className="embla" ref={emblaRef}>
-      <div className="embla__container">{renderedRecipeCards}</div>
+    <div className="embla">
+      <div className="embla__viewport" ref={emblaRef}>
+        <div className="embla__container">{renderedRecipeCards}</div>
+      </div>
+      <button class="embla__prev" onClick={scrollPrev}>
+        Prev
+      </button>
+      <button class="embla__next" onClick={scrollNext}>
+        Next
+      </button>
     </div>
   );
 }
