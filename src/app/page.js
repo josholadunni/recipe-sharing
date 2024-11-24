@@ -23,7 +23,7 @@ export default async function Home() {
     return (
       <div className="relative top-12">
         <H1 text="Recipe Sharer" color="text-orange-600" />
-        <div className="mt-10 mx-2 sm:mx-14 md:mx-20 lg:mx-36 xl:mx-52 2xl:mx-80">
+        <div className="mt-10 mx-2 sm:mx-3 md:mx-5 lg:mx-15 xl:mx-16 2xl:mx-28">
           <H2 text="Recent Recipes" />
           <div className="flex justify-center">
             <RecipeCarousel

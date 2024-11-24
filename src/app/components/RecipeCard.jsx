@@ -87,7 +87,7 @@ const RecipeCard = (props) => {
 
   return (
     <div
-      className={`flex flex-col shadow-lg w-[22rem] md:w-72 rounded-lg ${props.className}`}
+      className={`flex flex-col shadow-lg w-[22rem] md:w-72 rounded-lg h-full ${props.className}`}
     >
       <div className="relative h-60">
         {deletable && (
