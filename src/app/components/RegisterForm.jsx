@@ -71,6 +71,7 @@ export default function RegisterForm() {
           </button>
           <p>{state?.errors && renderErrors(state.errors)}</p>
           <p>{state?.success && state.message}</p>
+          <div></div>
         </div>
       </form>
     </div>
