@@ -53,10 +53,14 @@ export async function createRecipe(prevState, formData) {
     }
 
     const fileName = `${file.name}${Date.now()}`;
+
     const buffer = Buffer.from(await file.arrayBuffer());
+
     await uploadFileToS3(buffer, fileName);
 
     const userId = await findUserIdFromEmail();
+
+    console.log(userId);
     const user = await User.findByPk(userId.result);
 
     const ingredientFields = formData.getAll("ingredient");
@@ -79,6 +83,7 @@ export async function createRecipe(prevState, formData) {
     };
 
     if (isValidated()) {
+      console.log("Validated");
       const newRecipe = await user.createRecipe({
         name: formData.get("rname"),
         imageURL:
