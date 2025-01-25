@@ -52,7 +52,7 @@ export async function createRecipe(prevState, formData) {
       };
     }
 
-    const fileName = `${file.name}${Date.now()}`;
+    const fileName = `${file.name}`;
 
     const buffer = Buffer.from(await file.arrayBuffer());
 
