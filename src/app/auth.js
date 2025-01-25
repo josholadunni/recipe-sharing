@@ -5,6 +5,8 @@ import GoogleProvider from "next-auth/providers/google";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { getUser } from "./lib/userUtils.js";
+import { findUserIdFromEmail } from "./lib/data";
+import { User } from "./lib/models/index.js";
 
 export const {
   handlers: { GET, POST },
@@ -42,4 +44,18 @@ export const {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
   ],
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      const email = user.email;
+      console.log(email);
+      const emailExists = await findUserIdFromEmail(email);
+      if (emailExists === undefined) {
+        await User.create({
+          username: user.name,
+          email: user.email,
+        });
+      }
+      return true;
+    },
+  },
 });

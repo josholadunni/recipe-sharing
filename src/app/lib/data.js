@@ -129,6 +129,7 @@ export async function fetchAllRecipeIds() {
 
 export async function findUserIdFromEmail(inputEmail) {
   const session = await auth();
+  console.log(session);
   let email = undefined;
   if (!session || !session.user || !session.user.email) {
     if (!inputEmail) {
@@ -138,12 +139,14 @@ export async function findUserIdFromEmail(inputEmail) {
     email = inputEmail;
   } else {
     // Use session email if available, or inputEmail if provided
+    console.log(session.user.email);
     email = inputEmail || session.user.email;
   }
 
   const user = await User.findAll({
     where: { email: email },
   });
+  console.log(user);
   if (user.length > 0) {
     return { result: user[0].dataValues.id, message: "Email already exists" };
   } else {
