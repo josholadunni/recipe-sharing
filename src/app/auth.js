@@ -48,8 +48,6 @@ export const {
     async signIn({ user }) {
       const email = user.email;
       const username = user.name.replace(/\s+/g, "").toLowerCase();
-      console.log(username);
-      console.log(email);
       const emailExists = await findUserIdFromEmail(email);
       if (emailExists === undefined) {
         await User.create({
