@@ -74,7 +74,6 @@ export async function createRecipe(prevState, formData) {
 
     let isValidated = () => {
       if (categories.length <= 5) {
-        console.log(categories.length);
         return true;
       } else {
         validationError = "Too many categories, please select 5 or fewer.";
