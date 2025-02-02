@@ -30,18 +30,18 @@ function Navbar({ username }) {
     >
       <div>
         <div className="flex flex-row justify-between">
-          <div className="flex flex-row text-recipe-red hover:text-red-500 basis-2/6 md:basis-4/6 m-0 ">
+          <div className="flex flex-row text-recipe-red hover:text-red-500 basis-3/12 m-0 ">
             <H1 text="Recipe Sharer" />
           </div>
-          <ul className="text-center py-2 gap-4 md:gap-1 flex flex-row flex-wrap justify-center items-center">
-            <li className="hover:text-orange-500 hidden md:block basis-1/6 m-0">
+          <ul className="text-center py-2 gap-4 md:gap-14 lg:gap-24 flex flex-row justify-end flex-wrap basis-9/12 items-center">
+            <li className="hover:text-orange-500 hidden md:block m-0">
               <Link href="/browse">Browse</Link>
             </li>
-            <li className="hover:text-orange-500 hidden md:block basis-1/6 m-0">
+            <li className="hover:text-orange-500 hidden md:block m-0">
               <Link href="/add-recipe">Add Recipe</Link>
             </li>
             {!isAuthenticated && (
-              <ul className="hidden md:flex flex-row justify-center md:basis-1/6">
+              <ul className="hidden md:flex flex-row justify-center">
                 <li className={`flex justify-center md:mx-5 my-auto`}>
                   <LogInOutBtn isLoggedIn={isAuthenticated} />
                 </li>
@@ -54,7 +54,7 @@ function Navbar({ username }) {
               onClick={() => {
                 toggleMenu();
               }}
-              className="relative basis-1/6 md:basis-1/6 m-0"
+              className="relative m-0"
             >
               <div className="relative">
                 <div className="md:hidden rotate-90">
