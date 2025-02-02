@@ -52,7 +52,7 @@ function Navbar({ username }) {
     >
       <div>
         <div className="flex flex-row justify-between">
-          <div className="flex flex-row text-recipe-red hover:text-red-500 basis-3/12 m-0 ">
+          <div className="flex flex-row text-recipe-red hover:text-red-500 basis-3/12 m-0 items-center ">
             <H1 text="Recipe Sharer" />
           </div>
           <ul className="text-center py-2 gap-4 md:gap-14 lg:gap-24 flex flex-row justify-end flex-wrap basis-9/12 items-center">
