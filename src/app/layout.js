@@ -23,13 +23,15 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Providers>
-          <AuthProvider>
-            <Navbar username={username} />
-            {children}
-          </AuthProvider>
-        </Providers>
+      <body className={`${inter.className} px-5 pt-8`}>
+        <div className="bg-[#F9F9F9] border-[#E4E4E7] border-1 rounded-t-xl">
+          <Providers>
+            <AuthProvider>
+              <Navbar username={username} />
+              {children}
+            </AuthProvider>
+          </Providers>
+        </div>
       </body>
     </html>
   );
