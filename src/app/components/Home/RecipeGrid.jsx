@@ -68,7 +68,7 @@ export default async function RecipeGrid({
     });
   }
   return (
-    <div className="grid grid-cols-1 gap-y-8 md:gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 recipe-grid justify-items-center">
+    <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 recipe-grid gap-x-8 gap-y-8 md:gap-8 justify-items-center">
       {renderedRecipeCards}
     </div>
   );
