@@ -32,26 +32,6 @@ const RecipeCard = (props) => {
     const categoryId = category[1];
     const categoryName = category[0];
 
-    let bgColor = undefined;
-    let getCategoryColor = () => {
-      if (categoryName.toLowerCase() == "quick & easy") {
-        bgColor = "bg-sky-500";
-      } else if (categoryName.toLowerCase() == "breakfast") {
-        bgColor = "bg-orange-500";
-      } else if (categoryName.toLowerCase() == "meat") {
-        bgColor = "bg-red-500";
-      } else if (categoryName.toLowerCase() == "vegetarian") {
-        bgColor = "bg-emerald-500";
-      } else if (categoryName.toLowerCase() == "vegan") {
-        bgColor = "bg-lime-500";
-      } else if (categoryName.toLowerCase() == "budget-friendly") {
-        bgColor = "bg-orange-500";
-      } else if (categoryName.toLowerCase() == "dessert") {
-        bgColor = "bg-purple-500";
-      }
-    };
-    getCategoryColor();
-
     return (
       <Link
         key={index}
@@ -151,28 +131,42 @@ const RecipeCard = (props) => {
               </Link>
             </Link>
           </div>
-          <div className="flex flex-col relative">
-            <button
-              onClick={
-                isLiked ? () => removeLike(props) : () => createLike(props)
-              }
-              className={`border border-black rounded-full ${
-                isLiked
-                  ? "bg-red-400 border-red-400 text-white hover:bg-red-500 hover:border-red-500 hover:text-white"
-                  : "bg-white text-black hover:bg-black hover:text-white"
-              }`}
-            >
-              <span className="p-1 text-sm">{isLiked ? "Liked" : "Like"}</span>
-            </button>
-            <span className="text-sm">{likes} likes</span>
+          <div
+            className={`flex flex-col relative border-[#E4E4E7] border-1 ${
+              isLiked && "border-t-white"
+            }`}
+          >
+            <div className={`flex flex-row relative`}>
+              <button
+                onClick={
+                  isLiked ? () => removeLike(props) : () => createLike(props)
+                }
+                className={`border-b-1 ${
+                  isLiked && "rounded-md"
+                } px-2 min-w-[61.4px] ${
+                  isLiked
+                    ? "bg-recipe-red border-recipe-red text-white hover:bg-red-500 hover:border-red-500 hover:text-white"
+                    : "bg-white text-black hover:bg-[#E4E4E7] hover:text-white"
+                }`}
+              >
+                <span
+                  className={`p-1 text-sm ${
+                    isLiked ? "text-white" : "text-recipe-red"
+                  }`}
+                >
+                  {isLiked ? "Liked" : "Like"}
+                </span>
+              </button>
+            </div>
+            <div className="flex flex-row justify-center">
+              <span className="text-sm">{likes} likes</span>
+            </div>
           </div>
         </div>
         <div className="flex flex-row">
           <div className="flex flex-col">
-            <div className="mt-auto">
-              <p className="mt-2 flex flex-wrap">{categories}</p>
-            </div>
-            <p className="text-sm">{formattedDate}</p>
+            <p className="mt-2 flex flex-wrap">{categories}</p>
+            <p className="mt-2 text-sm text-[#71717A]">{formattedDate}</p>
           </div>
         </div>
       </div>
