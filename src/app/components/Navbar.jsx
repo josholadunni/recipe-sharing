@@ -45,7 +45,7 @@ function Navbar({ username }) {
 
   return (
     <nav
-      className={`${navStyles.navbar} flex flex-col text-sm justify-center sticky top-0 z-10 pb-1 bg-[#F9F9F9]`}
+      className={`${navStyles.navbar} flex flex-col text-sm justify-center sticky top-0 z-10 border-b-[1.5px] border-b-[#E4E4E7] bg-[#F9F9F9]`}
       onMouseLeave={() => {
         setResults([]);
       }}
@@ -135,9 +135,9 @@ function Navbar({ username }) {
         </div>
       </div>
       <div
-        className={`flex-row w-full overflow-hidden transition-all duration-300 ease-in-out ${
-          isScrolledUp ? "opacity-100 max-h-20" : "opacity-0 max-h-0"
-        }`}
+        className={`flex-row w-full overflow-hidden transition-all duration-500 ease-in-out ${
+          isScrolledUp ? "pb-4" : "pb-2"
+        } ${isScrolledUp ? "opacity-100 max-h-20" : "opacity-0 max-h-0"}`}
       >
         <SearchBar
           setResults={setResults}
