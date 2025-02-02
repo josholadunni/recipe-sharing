@@ -93,7 +93,7 @@ export default function SearchBar({ placeholder, setResults, results }) {
   };
 
   return (
-    <div className="search-bar">
+    <div className="search-bar w-full">
       <form onSubmit={handleSubmit}>
         <div className="relative">
           <input
