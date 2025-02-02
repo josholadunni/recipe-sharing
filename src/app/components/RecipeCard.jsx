@@ -58,9 +58,6 @@ const RecipeCard = (props) => {
         className="bg-neutral-200 border-neutral-200 hover:bg-neutral-900 hover:text-white rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-sm text-black"
         href={`/categories/${categoryName.toLowerCase()}/${categoryId}`}
       >
-        <span
-          className={`inline-block w-2 h-2 ${bgColor} rounded-full mr-2`}
-        ></span>
         {categoryName}
       </Link>
     );
@@ -87,9 +84,9 @@ const RecipeCard = (props) => {
 
   return (
     <div
-      className={`flex flex-col shadow-lg w-[22rem] md:w-72 rounded-lg h-full ${props.className}`}
+      className={`flex flex-col w-[250px] md:w-72 rounded-lg h-full border-[0.5px] border-[#D2D2D4] shadow-md bg-white ${props.className}`}
     >
-      <div className="relative h-60">
+      <div className="relative p-2 h-60">
         {deletable && (
           <>
             <button
@@ -130,7 +127,7 @@ const RecipeCard = (props) => {
               alt={props.title + " recipe"}
               fill={true}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover rounded-t-lg"
+              className="object-cover rounded-lg"
               onLoadingComplete={() => {
                 setIsLoaded(true);
               }}
@@ -138,34 +135,46 @@ const RecipeCard = (props) => {
           </Skeleton>
         </Link>
       </div>
-      <div className="flex flex-col p-4 flex-none">
-        <Link
-          className="hover:text-orange-600"
-          href={`/recipes/${props.slug}/${props.id}`}
-        >
-          <H3 text={formattedTitle} />
-        </Link>
-        <div className="mt-auto">
-          <button
-            onClick={
-              isLiked ? () => removeLike(props) : () => createLike(props)
-            }
-            className={`border border-black rounded-full ${
-              isLiked
-                ? "bg-red-400 border-red-400 text-white hover:bg-red-500 hover:border-red-500 hover:text-white"
-                : "bg-white text-black hover:bg-black hover:text-white"
-            }`}
-          >
-            <span className="p-6">{isLiked ? "Liked" : "Like"}</span>
-          </button>
-          <span className="ml-2">{likes} likes</span>
+      <div className="p-4">
+        <div className="flex flex-row justify-between w-fullflex-none">
+          <div className="flex flex-col">
+            <Link
+              className="hover:text-orange-600"
+              href={`/recipes/${props.slug}/${props.id}`}
+            >
+              <H3 text={formattedTitle} />
+              <Link
+                className="text-[#71717A]"
+                href={`/users/${props.username}`}
+              >
+                {props.username}
+              </Link>
+            </Link>
+          </div>
+          <div className="flex flex-col relative">
+            <button
+              onClick={
+                isLiked ? () => removeLike(props) : () => createLike(props)
+              }
+              className={`border border-black rounded-full ${
+                isLiked
+                  ? "bg-red-400 border-red-400 text-white hover:bg-red-500 hover:border-red-500 hover:text-white"
+                  : "bg-white text-black hover:bg-black hover:text-white"
+              }`}
+            >
+              <span className="p-1 text-sm">{isLiked ? "Liked" : "Like"}</span>
+            </button>
+            <span className="text-sm">{likes} likes</span>
+          </div>
         </div>
-        <p className="mt-4">{props.description}</p>
-        <div className="mt-auto">
-          <p className="mt-2 flex flex-wrap">{categories}</p>
-          <Link href={`/users/${props.username}`}>{props.username}</Link>
+        <div className="flex flex-row">
+          <div className="flex flex-col">
+            <div className="mt-auto">
+              <p className="mt-2 flex flex-wrap">{categories}</p>
+            </div>
+            <p className="text-sm">{formattedDate}</p>
+          </div>
         </div>
-        <p>{formattedDate}</p>
       </div>
     </div>
   );
