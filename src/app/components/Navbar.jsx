@@ -3,7 +3,7 @@
 import Link from "next/link";
 import LogInOutBtn from "../components/LogInOutBtn.jsx";
 import SearchBar from "../components/SearchBar.jsx";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SignUpBtn from "./SignUpBtn.jsx";
 import { useAuth } from "../context/AuthContext";
 import navStyles from "./Navbar.module.css";
@@ -16,6 +16,28 @@ function Navbar({ username }) {
   const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [results, setResults] = useState([]);
+  const [isScrolledUp, setIsScrolledUp] = useState(true);
+
+  let lastScrollTop = 0;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      var st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop) {
+        setIsScrolledUp(false);
+      } else if (st < lastScrollTop) {
+        setIsScrolledUp(true);
+      } else {
+        console.log();
+      }
+      lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -112,7 +134,11 @@ function Navbar({ username }) {
           </ul>
         </div>
       </div>
-      <div className="flex flex-row w-full">
+      <div
+        className={`flex-row w-full overflow-hidden transition-all duration-300 ease-in-out ${
+          isScrolledUp ? "opacity-100 max-h-20" : "opacity-0 max-h-0"
+        }`}
+      >
         <SearchBar
           setResults={setResults}
           results={results}
