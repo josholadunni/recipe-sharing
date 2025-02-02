@@ -22,7 +22,7 @@ function Navbar({ username }) {
 
   return (
     <nav
-      className={`${navStyles.navbar} text-sm flex justify-center sticky top-0 bg-white z-10 pb-1`}
+      className={`${navStyles.navbar} text-sm flex justify-center sticky top-0 z-10 pb-1`}
       onMouseLeave={() => {
         setResults([]);
       }}
