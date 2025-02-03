@@ -23,9 +23,9 @@ export default async function Home() {
 
     return (
       <div className="relative top-12">
-        <div className="mt-10 mx-2 sm:mx-3 md:mx-5 lg:mx-15 xl:mx-16 2xl:mx-28">
+        <div className="mt-10 mx-2">
           <H2 text="Recent Recipes" />
-          <div className="flex justify-center">
+          <div className="flex">
             <RecipeCarousel
               allLikes={allLikes}
               currentUserId={currentUserId}

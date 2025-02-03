@@ -8,7 +8,6 @@
 .embla__container {
   display: flex;
   touch-action: pan-y pinch-zoom;
-  padding: 0 1.5rem 1rem 1.5rem;
   align-items: stretch;
 }
 
