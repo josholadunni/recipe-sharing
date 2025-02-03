@@ -16,6 +16,10 @@ module.exports = {
       },
       colors: {
         "recipe-red": "#FC353C",
+        "recipe-gray-50": "#F9F9F9",
+        "recipe-gray-100": "#E4E4E7",
+        "recipe-gray-150": "#D2D2D4",
+        "recipe-gray-200": "#71717A",
       },
     },
   },

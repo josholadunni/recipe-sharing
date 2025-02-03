@@ -64,7 +64,7 @@ const RecipeCard = (props) => {
 
   return (
     <div
-      className={`flex flex-col w-[250px] md:w-72 rounded-lg h-full border-[0.5px] border-[#D2D2D4] shadow-md bg-white ${props.className}`}
+      className={`flex flex-col w-[250px] md:w-72 rounded-lg h-full border-[0.5px] border-recipe-gray-150 shadow-md bg-white ${props.className}`}
     >
       <div className="relative p-2 h-60">
         {deletable && (
@@ -124,7 +124,7 @@ const RecipeCard = (props) => {
             >
               <H3 text={formattedTitle} />
               <Link
-                className="text-[#71717A]"
+                className="text-recipe-gray-200"
                 href={`/users/${props.username}`}
               >
                 {props.username}
@@ -132,7 +132,7 @@ const RecipeCard = (props) => {
             </Link>
           </div>
           <div
-            className={`flex flex-col relative border-[#E4E4E7] border-1 ${
+            className={`flex flex-col relative border-recipe-gray-100 border-1 ${
               isLiked && "border-t-white"
             }`}
           >
@@ -146,7 +146,7 @@ const RecipeCard = (props) => {
                 } px-2 min-w-[61.4px] ${
                   isLiked
                     ? "bg-recipe-red border-recipe-red text-white hover:bg-red-500 hover:border-red-500 hover:text-white"
-                    : "bg-white text-black hover:bg-[#E4E4E7] hover:text-white"
+                    : "bg-white text-black hover:bg-recipe-gray-100 hover:text-white"
                 }`}
               >
                 <span
@@ -166,7 +166,7 @@ const RecipeCard = (props) => {
         <div className="flex flex-row">
           <div className="flex flex-col">
             <p className="mt-2 flex flex-wrap">{categories}</p>
-            <p className="mt-2 text-sm text-[#71717A]">{formattedDate}</p>
+            <p className="mt-2 text-sm text-recipe-gray-200">{formattedDate}</p>
           </div>
         </div>
       </div>
