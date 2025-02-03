@@ -28,7 +28,6 @@ export default function RecipeGrid({
 
   useEffect(() => {
     if (emblaApi) {
-      console.log(emblaApi.slideNodes());
     }
   }, [emblaApi]);
 
