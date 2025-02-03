@@ -13,7 +13,6 @@ export default function RecipeGrid({
     recipes.slice(0, visibleItemCount)
   );
   const handleSeeMore = () => {
-    console.log("Working");
     setVisibleItemCount((prevCount) => prevCount + 4);
     setDisplayedData(recipes.slice(0, visibleItemCount + 4));
   };
@@ -21,7 +20,7 @@ export default function RecipeGrid({
   const totalRecipes = recipes.length;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-20 pb-10">
       <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 recipe-grid gap-x-8 gap-y-8 md:gap-8 justify-items-center">
         {displayedData.map((recipe, index) => {
           const categories = recipe.RecipeCategories.map((category) => [
@@ -78,7 +77,14 @@ export default function RecipeGrid({
           }
         })}
       </div>
-      <button onClick={handleSeeMore}>See More</button>
+      <div className="flex flex-row justify-center">
+        <button
+          className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+          onClick={handleSeeMore}
+        >
+          SEE MORE
+        </button>
+      </div>
     </div>
   );
 }
