@@ -25,14 +25,9 @@ export default async function RecipePage(params) {
     return (
       <>
         <div>
-          <h2
-            style={{ fontWeight: 300 }}
-            className="text-center text-2xl mb-6 text-[#3F3F3F]"
-          >
-            INGREDIENTS
-          </h2>
+          <H2 text={"Ingredients"} />
         </div>
-        <div className="bg-white rounded-2xl px-10 py-6 md:mr-4">
+        <div className="bg-white rounded-2xl md:mr-4">
           <ul className="list-disc">
             {ingredients.map((ingredient, index) => (
               <li className="mb-3" key={index}>
@@ -49,13 +44,8 @@ export default async function RecipePage(params) {
     const method = recipe.method;
     return (
       <>
-        <h2
-          style={{ fontWeight: 300 }}
-          className="text-center text-2xl mb-6 text-[#3F3F3F]"
-        >
-          METHOD
-        </h2>
-        <div className="bg-white rounded-2xl px-14 py-6 mr-4">
+        <H2 text={"Method"} />
+        <div className="bg-white rounded-2xl mr-4">
           <ul className="list-decimal">
             {method.map((methodStep, index) => (
               <li className="mb-3" key={index}>
@@ -75,35 +65,12 @@ export default async function RecipePage(params) {
       const categoryId = category.id;
       const categoryName = category.name;
 
-      let bgColor = undefined;
-      let getCategoryColor = () => {
-        if (categoryName.toLowerCase() == "quick & easy") {
-          bgColor = "bg-sky-500";
-        } else if (categoryName.toLowerCase() == "breakfast") {
-          bgColor = "bg-orange-500";
-        } else if (categoryName.toLowerCase() == "meat") {
-          bgColor = "bg-red-500";
-        } else if (categoryName.toLowerCase() == "vegetarian") {
-          bgColor = "bg-emerald-500";
-        } else if (categoryName.toLowerCase() == "vegan") {
-          bgColor = "bg-lime-500";
-        } else if (categoryName.toLowerCase() == "budget-friendly") {
-          bgColor = "bg-orange-500";
-        } else if (categoryName.toLowerCase() == "dessert") {
-          bgColor = "bg-purple-500";
-        }
-      };
-      getCategoryColor();
-
       return (
         <Link
           key={index}
           className="bg-neutral-200 border-neutral-200 hover:bg-neutral-900 hover:text-white rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-sm text-black"
           href={`/categories/${categoryName.toLowerCase()}/${categoryId}`}
         >
-          <span
-            className={`inline-block w-2 h-2 ${bgColor} rounded-full mr-2`}
-          ></span>
           {categoryName}
         </Link>
       );
@@ -111,7 +78,7 @@ export default async function RecipePage(params) {
   };
 
   return (
-    <div className="flex flex-wrap w-full justify-center relative top-8 mx-auto">
+    <div className="flex flex-wrap w-full px-16 justify-center relative top-8 bg-white rounded-t-2xl shadow-md">
       {/* Mobile */}
       <div className="min-w-[20rem] md:w-1/3 sm:hidden">
         <H1 text={recipe.name}></H1>
@@ -135,7 +102,7 @@ export default async function RecipePage(params) {
             <div className="mt-7">{recipe.short_description}</div>
             <div className="mt-7">{renderCategories()}</div>
           </div>
-          <div className="bg-neutral-100 w-screen mt-10 px-10 pb-20 rounded-3xl">
+          <div className="w-screen mt-10 px-10 pb-20 rounded-3xl">
             <div className="flex-1 mt-7 min-w-[20rem] md:w-1/3">
               {renderIngredients()}
             </div>
@@ -146,52 +113,50 @@ export default async function RecipePage(params) {
         </div>
       </div>
       {/* Larger */}
-      <div className="min-w-[25rem] hidden sm:block sm:w-full">
-        {/* <div className="bg-[#F0F2F5]"> */}
-        <div className="sm:mx-10 md:mx-16 lg:mx-24 2xl:mx-80">
-          <div className="flex flex-row justify-center md:justify-start w-full relative">
-            <div className="basis-1/2 md:basis-2/5 lg:basis-2/5 xl:basis-2/5 2xl:basis-2/5 justify-center">
+      <div className="min-w-[25rem] hidden sm:block sm:w-full mt-10 border-b-[1.5px] border-b-[#E4E4E7] pb-10">
+        <div className="flex flex-row justify-center md:justify-start w-full relative">
+          <div className="flex basis-1/4 justify-center items-center">
+            <div className="aspect-square w-[350px] relative">
               <Image
                 src={recipe.imageURL}
                 alt={recipe.title + " recipe"}
-                width={350}
-                height={350}
-                className="object-cover rounded-t-lg mx-auto"
+                fill
+                className="object-cover rounded-lg"
               />
             </div>
-            <div className="flex flex-col align-middle my-auto basis-1/2 md:basis-3/5 lg:basis-3/5 xl:basis-4/5 2xl:basis-3/5 ml-7">
-              {
-                <>
-                  <h1
-                    style={{ fontWeight: 900 }}
-                    className="text-3xl font-medium pb-3"
+          </div>
+          <div className="flex flex-col align-middle my-auto basis-3/4 ml-14">
+            {
+              <>
+                <h1
+                  style={{ fontWeight: 900 }}
+                  className="text-3xl font-medium"
+                >
+                  {recipe.name}
+                </h1>
+                <div className="py-4 flex flex-wrap">{renderCategories()}</div>
+                <div className="flex">
+                  <Link
+                    className="text-center text-orange-600 underline text-under"
+                    href={`/users/${username}`}
                   >
-                    {recipe.name}
-                  </h1>
-                  <div className="flex">
-                    <Link
-                      className="text-center text-orange-600 underline text-under"
-                      href={`/users/${username}`}
-                    >
-                      {username}
-                    </Link>
-                  </div>
-                </>
-              }
-              <div className="mt-10">{recipe.short_description}</div>
-              <div className="mt-7">{renderCategories()}</div>
-            </div>
+                    {username}
+                  </Link>
+                </div>
+              </>
+            }
+            <div className="mt-10">{recipe.short_description}</div>
           </div>
         </div>
+      </div>
 
-        {/* Ingredients and method section */}
-        <div className="w-full min-h-fit bg-neutral-100 mt-20 pt-10 pb-28">
-          <div className="flex flex-col md:flex-row sm:mx-10 md:mx-8 lg:mx-24 2xl:mx-72">
-            <div className="basis-1/2">{renderIngredients()}</div>
-            <div className="flex flex-col sm:mt-6 md:mt-0 basis-1/2">
-              {renderMethod()}
-            </div>
+      {/* Ingredients and method section */}
+      <div className="w-full min-h-fit md:pt-6 pb-28">
+        <div className="flex flex-col md:flex-row">
+          <div className="md:w-[200px] border-b-[1.5px] md:border-b-0 md:border-r-[1.5px] border-b-[#E4E4E7] pb-4">
+            {renderIngredients()}
           </div>
+          <div className="flex flex-col md:ml-14">{renderMethod()}</div>
         </div>
       </div>
     </div>
