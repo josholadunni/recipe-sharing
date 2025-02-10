@@ -28,7 +28,7 @@ export default async function RecipePage(params) {
           <H2 text={"Ingredients"} />
         </div>
         <div className="bg-white rounded-2xl md:mr-4">
-          <ul className="list-disc">
+          <ul className="list-disc list-inside">
             {ingredients.map((ingredient, index) => (
               <li className="mb-3" key={index}>
                 {ingredient}
@@ -46,7 +46,7 @@ export default async function RecipePage(params) {
       <>
         <H2 text={"Method"} />
         <div className="bg-white rounded-2xl mr-4">
-          <ul className="list-decimal">
+          <ul className="list-decimal list-inside">
             {method.map((methodStep, index) => (
               <li className="mb-3" key={index}>
                 {methodStep}
@@ -78,45 +78,38 @@ export default async function RecipePage(params) {
   };
 
   return (
-    <div className="flex flex-wrap w-full px-16 justify-center relative top-8 bg-white rounded-t-2xl shadow-md">
+    <div className="flex flex-wrap w-full mt-10 px-8 justify-center bg-white rounded-t-2xl shadow-md">
       {/* Mobile */}
-      <div className="min-w-[20rem] md:w-1/3 sm:hidden">
-        <H1 text={recipe.name}></H1>
-        <div className="flex mt-2 justify-center">
-          <Link
-            className="text-center text-orange-600 underline text-under"
-            href={`/users/${username}`}
-          >
-            {username}
-          </Link>
-        </div>
+      <div className="min-w-[20rem] w-full md:w-1/3 sm:hidden">
         <div className="flex flex-col justify-center mt-5 w-full relative">
-          <div className="mx-auto">
+          <div className="aspect-square w-full sm:w-[500px] md:w-[350px] relative">
             <Image
               src={recipe.imageURL}
               alt={recipe.title + " recipe"}
-              width={350}
-              height={350}
+              fill
               className="object-cover rounded-t-lg"
             />
-            <div className="mt-7">{recipe.short_description}</div>
-            <div className="mt-7">{renderCategories()}</div>
           </div>
-          <div className="w-screen mt-10 px-10 pb-20 rounded-3xl">
-            <div className="flex-1 mt-7 min-w-[20rem] md:w-1/3">
-              {renderIngredients()}
+          <div>
+            <H1 text={recipe.name}></H1>
+            <div className="flex mt-2">
+              <Link
+                className="text-center text-orange-600 underline text-under"
+                href={`/users/${username}`}
+              >
+                {username}
+              </Link>
             </div>
-            <div className="flex-1 min-w-[20rem] md:w-1/3 mt-6">
-              {renderMethod()}
-            </div>
+            <div className="mt-7">{recipe.short_description}</div>
+            <div className="mt-7 flex flex-wrap">{renderCategories()}</div>
           </div>
         </div>
       </div>
       {/* Larger */}
       <div className="min-w-[25rem] hidden sm:block sm:w-full mt-10 border-b-[1.5px] border-b-[#E4E4E7] pb-10">
-        <div className="flex flex-row justify-center md:justify-start w-full relative">
+        <div className="flex flex-col md:flex-row justify-center md:justify-start w-full relative">
           <div className="flex basis-1/4 justify-center items-center">
-            <div className="aspect-square w-[350px] relative">
+            <div className="aspect-square sm:w-[500px] md:w-[350px] relative">
               <Image
                 src={recipe.imageURL}
                 alt={recipe.title + " recipe"}
@@ -125,7 +118,7 @@ export default async function RecipePage(params) {
               />
             </div>
           </div>
-          <div className="flex flex-col align-middle my-auto basis-3/4 ml-14">
+          <div className="flex flex-col align-middle my-auto basis-3/4 md:ml-14 sm:pt-5 md:pt-0">
             {
               <>
                 <h1
@@ -151,9 +144,9 @@ export default async function RecipePage(params) {
       </div>
 
       {/* Ingredients and method section */}
-      <div className="w-full min-h-fit md:pt-6 pb-28">
+      <div className="w-full min-h-fit md:pt-6 pb-10">
         <div className="flex flex-col md:flex-row">
-          <div className="md:w-[200px] border-b-[1.5px] md:border-b-0 md:border-r-[1.5px] border-b-[#E4E4E7] pb-4">
+          <div className="md:w-[250px] lg:w-[350px] border-b-[1.5px] md:border-b-0 md:border-r-[1.5px] border-b-[#E4E4E7] pb-4">
             {renderIngredients()}
           </div>
           <div className="flex flex-col md:ml-14">{renderMethod()}</div>
