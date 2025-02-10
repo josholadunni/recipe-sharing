@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer";
 import Providers from "./components/Providers.jsx";
 import { auth } from "./auth";
 import { AuthProvider } from "./context/AuthContext";
@@ -33,6 +34,7 @@ export default async function RootLayout({ children }) {
               </AuthProvider>
             </Providers>
           </div>
+          <Footer />
         </div>
       </body>
     </html>
