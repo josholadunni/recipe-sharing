@@ -138,7 +138,7 @@ export default async function RecipePage(params) {
                 </div>
               </>
             }
-            <div className="mt-10">{recipe.short_description}</div>
+            <div className="mt-4">{recipe.short_description}</div>
           </div>
         </div>
       </div>
