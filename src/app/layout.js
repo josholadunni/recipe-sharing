@@ -23,9 +23,9 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={`${inter.className} px-5 pt-8`}>
+      <body className={`${inter.className} sm:px-5 sm:pt-8`}>
         <div className="max-w-[1536px] mx-auto bg-recipe-gray-50 border-recipe-gray-100 border-1 rounded-t-xl">
-          <div className="max-w-[1280px] mx-auto px-10">
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-10">
             <Providers>
               <AuthProvider>
                 <Navbar username={username} />
