@@ -17,9 +17,11 @@ export default async function AddRecipes() {
     .sort();
 
   return (
-    <div>
-      <H1 text="Add Recipe" />
-      <Form categoryNames={categoryNames} />
+    <div className="flex justify-center">
+      <div className="bg-white w-fit min-h-[600px] mt-10 rounded-t-2xl shadow-md px-32 py-4 relative">
+        <H1 text="Add Recipe" className="text-center" />
+        <Form categoryNames={categoryNames} />
+      </div>
     </div>
   );
 }
