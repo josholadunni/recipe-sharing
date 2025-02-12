@@ -42,13 +42,21 @@ export async function createRecipe(prevState, formData) {
   await Recipe.sync();
   await RecipeCategory.sync();
 
+  console.log(formData);
+
   try {
     const file = formData.get("file");
+    if (!file) {
+      return {
+        status: "error",
+        message: "Please select a file.",
+      };
+    }
 
     if (file.size === 0) {
       return {
         status: "error",
-        message: "Please select a file.",
+        message: "Selected file is empty.",
       };
     }
 

@@ -11,6 +11,7 @@ import { useFormStatus } from "react-dom";
 import $ from "jquery";
 import Image from "next/image";
 import H2 from "./H2.jsx";
+import Link from "next/link.js";
 
 export default function Form(props) {
   const initialState = { message: null };
@@ -362,6 +363,59 @@ export default function Form(props) {
           >
             Previous
           </button>
+          <button
+            className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+            onClick={handleNextStep}
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>,
+    //Step 5
+    <div className="flex flex-col mt-10">
+      <div className="flex flex-row border-b-[1.5px] border-b-[#E4E4E7] pb-10">
+        <div className="basis-1/3">
+          <Image />
+        </div>
+        <div className="basis-2/3">
+          <div className="flex flex-col">
+            <H2 text="Recipe Title"></H2>
+            <div className="flex flex-row">
+              <div className="bg-neutral-200 border-neutral-200 hover:bg-neutral-900 hover:text-white rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-sm text-black">
+                Category
+              </div>
+            </div>
+            <p>
+              Recipe description Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Sunt provident, perferendis sit neque eos
+              numquam laboriosam nemo commodi, asperiores deserunt maxime!
+              Possimus beatae pariatur voluptatibus praesentium repellendus!
+              Voluptatum, aliquid sint!
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-row mt-10 ">
+        <div className="basis-1/3">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>Lorem ipsum</li>
+            <li>Lorem ipsum</li>
+            <li>Lorem ipsum</li>
+            <li>Lorem ipsum</li>
+            <li>Lorem ipsum</li>
+          </ul>
+        </div>
+        <div className="basis-2/3 border-l-[1.5px] border-[#E4E4E7] pl-12">
+          <h3>Method</h3>
+          <ul>
+            <li>Lorem ipsum</li>
+            <li>Lorem ipsum</li>
+            <li>Lorem ipsum</li>
+            <li>Lorem ipsum</li>
+            <li>Lorem ipsum</li>
+          </ul>
         </div>
       </div>
     </div>,
@@ -369,7 +423,7 @@ export default function Form(props) {
 
   return (
     <div>
-      <H2 text={`Step ${currentStep + 1} of 4`} className="text-center" />
+      <H2 text={`Step ${currentStep + 1} of 5`} className="text-center" />
       <div>
         <p className="text-center">
           Give your recipe a name and take a snap of it
