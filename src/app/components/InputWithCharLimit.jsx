@@ -10,11 +10,17 @@ export default function InputWithCharLimit({
   onWordCountChange,
   index,
   charLimit,
+  formState,
+  setFormState,
 }) {
   let isOverWordCount = null;
   const handleInputChange = (e) => {
-    const inputValue = e.target.value;
-    const count = inputValue.length;
+    const { name, value } = e.target;
+    setFormState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    const count = value.length;
     count > charLimit ? (isOverWordCount = true) : (isOverWordCount = false);
     onWordCountChange(index, count, isOverWordCount); // Call the callback to update the word count in the parent
   };
@@ -28,6 +34,7 @@ export default function InputWithCharLimit({
           className="border-2"
           type={type}
           name={name}
+          value={formState[name]}
           placeholder={placeholder}
           onChange={handleInputChange}
           required
