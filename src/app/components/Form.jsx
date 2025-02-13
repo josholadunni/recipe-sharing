@@ -16,11 +16,60 @@ import Link from "next/link.js";
 export default function Form(props) {
   const initialState = { message: null };
 
-  const [state, formAction] = useFormState(createRecipe, initialState);
   const categoryNames = props.categoryNames;
 
   const [ingredients, setIngredients] = useState([{ id: 1 }]);
+
+  const [method, setMethodStep] = useState([{ id: 1 }]);
+
   const [checkedCategories, setCheckedCategory] = useState([]);
+
+  const [formState, setFormState] = useState({
+    rname: "",
+    rdescription: "",
+    srdescription: "",
+    file: null,
+    categories: checkedCategories,
+    ingredients: ingredients.map((i) => i.value || ""),
+    method: method.map((m) => m.value || ""),
+  });
+
+  const [serverState, formAction] = useFormState(
+    async (prevState, formData) => {
+      // Create a new FormData object
+      const finalFormData = new FormData();
+
+      // Add all the state data to formData
+      Object.entries(formState).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach((item) => finalFormData.append(key, item));
+        } else if (value !== null) {
+          finalFormData.append(key, value);
+        }
+      });
+
+      // Call original createRecipe with our complete formData
+      return createRecipe(prevState, finalFormData);
+    },
+    initialState
+  );
+
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormState((prev) => ({
+        ...prev,
+        file: file,
+      }));
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+    }
+  };
 
   const addIngredientField = () => {
     const newId = ingredients.length + 1;
@@ -32,8 +81,6 @@ export default function Form(props) {
       setIngredients(ingredients.filter((ingredient) => ingredient.id !== id));
     }
   };
-
-  const [method, setMethodStep] = useState([{ id: 1 }]);
 
   const addMethodField = () => {
     const newId = method.length + 1;
@@ -144,19 +191,6 @@ export default function Form(props) {
   //   }
   // };
 
-  const [imagePreview, setImagePreview] = useState(null);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-    }
-  };
-
   const [currentStep, setCurrentStep] = useState(0);
 
   const handlePrevStep = () => {
@@ -185,6 +219,8 @@ export default function Form(props) {
                     name="rname"
                     type="text"
                     placeholder="Recipe Name"
+                    formState={formState}
+                    setFormState={setFormState}
                     wordCount={wordCounts[0]}
                     onWordCountChange={handleWordCountChange}
                     index={0}
@@ -195,6 +231,8 @@ export default function Form(props) {
                     name="rdescription"
                     type="text"
                     placeholder="Recipe Description"
+                    formState={formState}
+                    setFormState={setFormState}
                     wordCount={wordCounts[1]}
                     onWordCountChange={handleWordCountChange}
                     index={1}
@@ -205,6 +243,8 @@ export default function Form(props) {
                     name="srdescription"
                     type="text"
                     placeholder="Recipe short Description"
+                    formState={formState}
+                    setFormState={setFormState}
                     wordCount={wordCounts[2]}
                     onWordCountChange={handleWordCountChange}
                     index={2}
@@ -439,11 +479,11 @@ export default function Form(props) {
           </div>
         </form>
 
-        {state?.status && <div>{state?.message}</div>}
-        {state?.errorMessage && (
-          <p class="text-red-600">{state?.errorMessage}</p>
+        {serverState?.status && <div>{serverState?.message}</div>}
+        {serverState?.errorMessage && (
+          <p class="text-red-600">{serverState?.errorMessage}</p>
         )}
-        {state?.status === "success" && redirect("/")}
+        {serverState?.status === "success" && redirect("/")}
       </div>
     </div>
   );
