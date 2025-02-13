@@ -344,10 +344,12 @@ export default function Form(props) {
                     key={ingredient.id}
                     id={`ingredient-${ingredient.id}`}
                     label={ingredient.id === 1 ? "Ingredients" : ""}
-                    name={`ingredient`}
+                    name={`ingredients`}
                     type="text"
                     placeholder={"Enter Ingredient"}
                     onRemove={() => removeIngredientField(ingredient.id)}
+                    formState={formState}
+                    setFormState={setFormState}
                   />
                 ))}
                 <div className="text-left">
