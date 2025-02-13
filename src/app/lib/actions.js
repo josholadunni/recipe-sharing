@@ -31,7 +31,7 @@ async function uploadFileToS3(file, fileName) {
   const command = new PutObjectCommand(params);
   try {
     const response = await s3Client.send(command);
-    console.log(response);
+    // console.log(response);
     return fileName;
   } catch (error) {
     throw error;
@@ -41,8 +41,6 @@ async function uploadFileToS3(file, fileName) {
 export async function createRecipe(prevState, formData) {
   await Recipe.sync();
   await RecipeCategory.sync();
-
-  console.log(formData);
 
   try {
     const file = formData.get("file");
@@ -68,14 +66,13 @@ export async function createRecipe(prevState, formData) {
 
     const userId = await findUserIdFromEmail();
 
-    console.log(userId);
     const user = await User.findByPk(userId.result);
 
     const ingredientFields = formData.getAll("ingredient");
     const methodFields = formData.getAll("method");
 
     const categories = await RecipeCategory.findAll({
-      where: { name: formData.getAll("rcselect") },
+      where: { name: formData.getAll("categories") },
     });
 
     let validationError = null;
@@ -233,8 +230,6 @@ export async function createLike(e) {
 
 export async function removeLike(e) {
   const userId = await findUserIdFromEmail();
-  console.log(userId);
-  console.log(typeof userId.result);
   try {
     const recipe = await Recipe.findByPk(e.id);
 

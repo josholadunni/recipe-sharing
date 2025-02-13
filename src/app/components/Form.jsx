@@ -36,10 +36,8 @@ export default function Form(props) {
 
   const [serverState, formAction] = useFormState(
     async (prevState, formData) => {
-      // Create a new FormData object
       const finalFormData = new FormData();
 
-      // Add all the state data to formData
       Object.entries(formState).forEach(([key, value]) => {
         if (Array.isArray(value)) {
           value.forEach((item) => finalFormData.append(key, item));
@@ -48,7 +46,6 @@ export default function Form(props) {
         }
       });
 
-      // Call original createRecipe with our complete formData
       return createRecipe(prevState, finalFormData);
     },
     initialState
@@ -95,15 +92,25 @@ export default function Form(props) {
 
   const addCategoryClick = (e) => {
     if (checkedCategories.includes(e.target.value)) {
-      setCheckedCategory(
-        checkedCategories.filter((category) => category !== e.target.value)
+      const updatedCategories = checkedCategories.filter(
+        (category) => category !== e.target.value
       );
-    } else {
-      setCheckedCategory((prevCategories) => {
-        const updatedCategories = [...prevCategories, e.target.value];
 
-        return updatedCategories;
-      });
+      setCheckedCategory(updatedCategories);
+
+      setFormState((prev) => ({
+        ...prev,
+        categories: updatedCategories,
+      }));
+    } else {
+      const updatedCategories = [...checkedCategories, e.target.value];
+
+      setCheckedCategory(updatedCategories);
+
+      setFormState((prev) => ({
+        ...prev,
+        categories: updatedCategories,
+      }));
     }
   };
 
