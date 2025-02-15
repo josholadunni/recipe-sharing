@@ -16,12 +16,20 @@ export default function Input({
   let isOverWordCount = null;
   const handleInputChange = (e) => {
     const { name, value, id } = e.target;
-    setFormState((prev) => ({
-      ...prev,
-      [name]: { ...prev[name], [id]: value },
-    }));
+    const index = parseInt(id.split("-")[1]);
+
+    setFormState((prev) => {
+      const updatedValue = [...prev[name]];
+
+      updatedValue[index] = value;
+
+      return {
+        ...prev,
+        [name]: updatedValue,
+      };
+    });
   };
-  console.log(formState);
+
   return (
     <div id={id} className="py-2 flex flex-col w-60 mx-auto">
       <label htmlFor={name}>{label}</label>
