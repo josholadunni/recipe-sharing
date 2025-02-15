@@ -30,7 +30,7 @@ export default function Form(props) {
     srdescription: "",
     file: null,
     categories: checkedCategories,
-    ingredients: ingredients.map((i) => i.value || ""),
+    ingredients: [],
     method: method.map((m) => m.value || ""),
   });
 
