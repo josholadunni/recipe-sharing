@@ -22,6 +22,9 @@ export default async function RecipePage(params) {
 
   const renderIngredients = () => {
     const ingredients = recipe.ingredients;
+    const filteredIngredients = ingredients.filter(
+      (ingredient) => ingredient !== "undefined"
+    );
     return (
       <>
         <div>
@@ -29,7 +32,7 @@ export default async function RecipePage(params) {
         </div>
         <div className="bg-white rounded-2xl md:mr-4">
           <ul className="list-disc list-inside">
-            {ingredients.map((ingredient, index) => (
+            {filteredIngredients.map((ingredient, index) => (
               <li className="mb-3" key={index}>
                 {ingredient}
               </li>
@@ -42,12 +45,13 @@ export default async function RecipePage(params) {
 
   const renderMethod = () => {
     const method = recipe.method;
+    const filteredMethod = method.filter((method) => method !== "");
     return (
       <>
         <H2 text={"Method"} />
         <div className="bg-white rounded-2xl mr-4">
           <ul className="list-decimal list-inside">
-            {method.map((methodStep, index) => (
+            {filteredMethod.map((methodStep, index) => (
               <li className="mb-3" key={index}>
                 {methodStep}
               </li>

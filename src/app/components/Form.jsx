@@ -392,6 +392,8 @@ export default function Form(props) {
                     onRemove={() => {
                       removeMethodField(methodStep.id);
                     }}
+                    formState={formState}
+                    setFormState={setFormState}
                   />
                 ))}
                 <div className="text-left">
