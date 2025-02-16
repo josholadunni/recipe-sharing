@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function InputWithCharLimit({
   id,
@@ -13,7 +13,7 @@ export default function InputWithCharLimit({
   formState,
   setFormState,
 }) {
-  let isOverWordCount = null;
+  let [isOverWordCount, setIsOverWordCount] = useState(false);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormState((prev) => ({
@@ -21,7 +21,7 @@ export default function InputWithCharLimit({
       [name]: value,
     }));
     const count = value.length;
-    count > charLimit ? (isOverWordCount = true) : (isOverWordCount = false);
+    count > charLimit ? setIsOverWordCount(true) : setIsOverWordCount(false);
     onWordCountChange(id, name, index, count, isOverWordCount); // Call the callback to update the word count in the parent
   };
 
@@ -40,7 +40,7 @@ export default function InputWithCharLimit({
           required
         />
       </div>
-      {wordCount > charLimit && (
+      {isOverWordCount && (
         <p className="text-red-600">Too many characters. Please reduce.</p>
       )}
     </div>

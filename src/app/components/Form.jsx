@@ -181,12 +181,7 @@ export default function Form(props) {
   // });
 
   const handleWordCountChange = (id, name, index, count, isOverWordCount) => {
-    const stateValue = formState[name].find(
-      (item, index) => id === `ingredient-${index}`
-    );
-
     if (isOverWordCount) {
-      console.log(true);
       setFormState((prev) => ({
         ...prev,
         overWordCount: prev.overWordCount.includes(id)
@@ -201,7 +196,6 @@ export default function Form(props) {
         return { ...prev, overWordCount: updatedWordCountArr };
       });
     }
-    console.log(formState);
   };
 
   useEffect(() => {
@@ -252,7 +246,7 @@ export default function Form(props) {
                     // wordCount={wordCounts[0]}
                     onWordCountChange={handleWordCountChange}
                     index={0}
-                    charLimit={100}
+                    charLimit={25}
                   />
                   <InputWithCharLimit
                     id={"recipe-description"}
@@ -265,7 +259,7 @@ export default function Form(props) {
                     // wordCount={wordCounts[1]}
                     onWordCountChange={handleWordCountChange}
                     index={1}
-                    charLimit={200}
+                    charLimit={50}
                   />
                   <InputWithCharLimit
                     id="short-description"
@@ -278,7 +272,7 @@ export default function Form(props) {
                     // wordCount={wordCounts[2]}
                     onWordCountChange={handleWordCountChange}
                     index={2}
-                    charLimit={50}
+                    charLimit={25}
                   />
                   <Input
                     label="Image"
