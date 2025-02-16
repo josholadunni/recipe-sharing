@@ -14,7 +14,7 @@ export default function Input({
   setFormState,
   onWordCountChange,
 }) {
-  let isOverWordCount = null;
+  let isOverWordCount = false;
   //Change the field's formState on input change
   const handleInputChange = (e) => {
     const { name, value, id } = e.target;
@@ -27,10 +27,12 @@ export default function Input({
         [name]: updatedValue,
       };
     });
+
     //Check if the field is over the word count
     const count = value.length;
-    count > charLimit ? (isOverWordCount = true) : (isOverWordCount = false);
-    onWordCountChange(id, index, count, isOverWordCount);
+    isOverWordCount = count > charLimit;
+    console.log("ListInput isOverWordCount:", isOverWordCount, "id:", id); // Better debugging
+    onWordCountChange(id, name, index, count, isOverWordCount);
   };
 
   return (
@@ -54,7 +56,7 @@ export default function Input({
           x
         </span>
       </div>
-      {wordCount > charLimit && (
+      {isOverWordCount && (
         <p className="text-red-600">Too many characters. Please reduce.</p>
       )}
     </div>

@@ -22,7 +22,7 @@ export default function InputWithCharLimit({
     }));
     const count = value.length;
     count > charLimit ? (isOverWordCount = true) : (isOverWordCount = false);
-    onWordCountChange(id, index, count, isOverWordCount); // Call the callback to update the word count in the parent
+    onWordCountChange(id, name, index, count, isOverWordCount); // Call the callback to update the word count in the parent
   };
 
   return (
