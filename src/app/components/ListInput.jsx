@@ -12,22 +12,25 @@ export default function Input({
   onRemove,
   formState,
   setFormState,
+  onWordCountChange,
 }) {
   let isOverWordCount = null;
+  //Change the field's formState on input change
   const handleInputChange = (e) => {
     const { name, value, id } = e.target;
     const index = parseInt(id.split("-")[1]);
-
     setFormState((prev) => {
       const updatedValue = [...prev[name]];
-
       updatedValue[index] = value;
-
       return {
         ...prev,
         [name]: updatedValue,
       };
     });
+    //Check if the field is over the word count
+    const count = value.length;
+    count > charLimit ? (isOverWordCount = true) : (isOverWordCount = false);
+    onWordCountChange(id, index, count, isOverWordCount);
   };
 
   return (
@@ -51,6 +54,9 @@ export default function Input({
           x
         </span>
       </div>
+      {wordCount > charLimit && (
+        <p className="text-red-600">Too many characters. Please reduce.</p>
+      )}
     </div>
   );
 }

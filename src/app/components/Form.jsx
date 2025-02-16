@@ -169,7 +169,8 @@ export default function Form(props) {
 
   const [overWordCounts, setOverWordCounts] = useState([false, false, false]);
 
-  const handleWordCountChange = (index, count, isOverWordCount) => {
+  const handleWordCountChange = (id, index, count, isOverWordCount) => {
+    console.log(id);
     const newWordCounts = [...wordCounts];
     newWordCounts[index] = count; // Assign the specific index
     setWordCounts(newWordCounts); // Update newWordCounts array
@@ -222,6 +223,7 @@ export default function Form(props) {
               <div key="step1" className="flex flex-col h-full">
                 <div className="flex flex-col">
                   <InputWithCharLimit
+                    id={"recipe-name"}
                     label="Recipe Name"
                     name="rname"
                     type="text"
@@ -234,6 +236,7 @@ export default function Form(props) {
                     charLimit={100}
                   />
                   <InputWithCharLimit
+                    id={"recipe-description"}
                     label="Recipe Description"
                     name="rdescription"
                     type="text"
@@ -246,6 +249,7 @@ export default function Form(props) {
                     charLimit={200}
                   />
                   <InputWithCharLimit
+                    id="short-description"
                     label="Short Recipe Description"
                     name="srdescription"
                     type="text"
@@ -350,6 +354,7 @@ export default function Form(props) {
                     onRemove={() => removeIngredientField(ingredient.id)}
                     formState={formState}
                     setFormState={setFormState}
+                    onWordCountChange={handleWordCountChange}
                   />
                 ))}
                 <div className="text-left">
@@ -384,7 +389,7 @@ export default function Form(props) {
                 {method.map((methodStep) => (
                   <ListInput
                     key={methodStep.id}
-                    id={`ingredient-${methodStep.id}`}
+                    id={`method-${methodStep.id}`}
                     label={methodStep.id === 1 ? "Method" : ""}
                     name={`method`}
                     type="text"
@@ -394,6 +399,7 @@ export default function Form(props) {
                     }}
                     formState={formState}
                     setFormState={setFormState}
+                    onWordCountChange={handleWordCountChange}
                   />
                 ))}
                 <div className="text-left">
