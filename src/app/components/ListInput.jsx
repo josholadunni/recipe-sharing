@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function Input({
   id,
@@ -14,7 +14,8 @@ export default function Input({
   setFormState,
   onWordCountChange,
 }) {
-  let isOverWordCount = false;
+  let [isOverWordCount, setIsOverWordCount] = useState(false);
+
   //Change the field's formState on input change
   const handleInputChange = (e) => {
     const { name, value, id } = e.target;
@@ -30,8 +31,7 @@ export default function Input({
 
     //Check if the field is over the word count
     const count = value.length;
-    isOverWordCount = count > charLimit;
-    console.log("ListInput isOverWordCount:", isOverWordCount, "id:", id); // Better debugging
+    count > charLimit ? setIsOverWordCount(true) : setIsOverWordCount(false);
     onWordCountChange(id, name, index, count, isOverWordCount);
   };
 
