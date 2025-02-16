@@ -14,6 +14,7 @@ export default function Input({
   setFormState,
   onWordCountChange,
 }) {
+  const idNumber = Number(id.split("-")[1]);
   let [isOverWordCount, setIsOverWordCount] = useState(false);
 
   //Change the field's formState on input change
@@ -46,6 +47,7 @@ export default function Input({
           type={type}
           name={name}
           placeholder={placeholder}
+          value={formState[name][idNumber]}
           onChange={handleInputChange}
           required
         />
