@@ -31,7 +31,8 @@ export default function Form(props) {
     file: null,
     categories: checkedCategories,
     ingredients: [],
-    method: method.map((m) => m.value || ""),
+    method: [],
+    overWordCount: [],
   });
 
   const [serverState, formAction] = useFormState(
@@ -165,28 +166,45 @@ export default function Form(props) {
   }, [addCategoryClick]);
 
   //Check word counts
-  const [wordCounts, setWordCounts] = useState([0, 0, 0]); //An initial zero for each field
+  // const [wordCounts, setWordCounts] = useState({
+  //   "method-1": false,
+  //   "recipe-description": false,
+  //   "short-description": false,
+  // });
 
-  const [overWordCounts, setOverWordCounts] = useState([false, false, false]);
+  // const [overWordCounts, setOverWordCounts] = useState({
+  //   "recipe-name": false,
+  //   "recipe-description": false,
+  //   "short-description": false,
+  //   "ingredient"
 
-  const handleWordCountChange = (id, index, count, isOverWordCount) => {
-    console.log(id);
-    const newWordCounts = [...wordCounts];
-    newWordCounts[index] = count; // Assign the specific index
-    setWordCounts(newWordCounts); // Update newWordCounts array
+  // });
+
+  const handleWordCountChange = (id, name, index, count, isOverWordCount) => {
+    const stateValue = formState[name].find(
+      (item, index) => id === `ingredient-${index}`
+    );
+
     if (isOverWordCount) {
-      const newOverWordCounts = [...overWordCounts];
-      newOverWordCounts[index] = isOverWordCount;
-      setOverWordCounts(newOverWordCounts);
+      console.log(true);
+      setFormState((prev) => ({
+        ...prev,
+        overWordCount: prev.overWordCount.includes(id)
+          ? prev.overWordCount
+          : [...prev.overWordCount, id],
+      }));
     } else {
-      const newOverWordCounts = [...overWordCounts];
-      newOverWordCounts[index] = isOverWordCount;
-      setOverWordCounts(newOverWordCounts);
+      const updatedWordCountArr = formState.overWordCount.filter(
+        (e) => e !== id
+      );
+      setFormState((prev) => {
+        return { ...prev, overWordCount: updatedWordCountArr };
+      });
     }
   };
 
   useEffect(() => {
-    if (overWordCounts.includes(true)) {
+    if (formState.overWordCount.length > 0) {
       disableButton();
     } else {
       enableButton();
@@ -230,7 +248,7 @@ export default function Form(props) {
                     placeholder="Recipe Name"
                     formState={formState}
                     setFormState={setFormState}
-                    wordCount={wordCounts[0]}
+                    // wordCount={wordCounts[0]}
                     onWordCountChange={handleWordCountChange}
                     index={0}
                     charLimit={100}
@@ -243,7 +261,7 @@ export default function Form(props) {
                     placeholder="Recipe Description"
                     formState={formState}
                     setFormState={setFormState}
-                    wordCount={wordCounts[1]}
+                    // wordCount={wordCounts[1]}
                     onWordCountChange={handleWordCountChange}
                     index={1}
                     charLimit={200}
@@ -256,7 +274,7 @@ export default function Form(props) {
                     placeholder="Recipe short Description"
                     formState={formState}
                     setFormState={setFormState}
-                    wordCount={wordCounts[2]}
+                    // wordCount={wordCounts[2]}
                     onWordCountChange={handleWordCountChange}
                     index={2}
                     charLimit={50}
@@ -355,6 +373,7 @@ export default function Form(props) {
                     formState={formState}
                     setFormState={setFormState}
                     onWordCountChange={handleWordCountChange}
+                    charLimit={25}
                   />
                 ))}
                 <div className="text-left">
@@ -400,6 +419,7 @@ export default function Form(props) {
                     formState={formState}
                     setFormState={setFormState}
                     onWordCountChange={handleWordCountChange}
+                    charLimit={50}
                   />
                 ))}
                 <div className="text-left">
