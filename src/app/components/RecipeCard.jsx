@@ -123,12 +123,12 @@ const RecipeCard = (props) => {
               href={`/recipes/${props.slug}/${props.id}`}
             >
               <H3 text={formattedTitle} />
-              <Link
-                className="text-recipe-gray-200"
-                href={`/users/${props.username}`}
-              >
-                {props.username}
-              </Link>
+            </Link>
+            <Link
+              className="text-recipe-gray-200"
+              href={`/users/${props.username}`}
+            >
+              {props.username}
             </Link>
           </div>
           <div
