@@ -102,13 +102,32 @@ export default function Form(props) {
   };
 
   const addMethodField = () => {
-    const newId = method.length + 1;
+    // Find the highest existing ID
+    const maxId = method.reduce(
+      (max, methodStep) => Math.max(max, methodStep.id),
+      0
+    );
+    // Use the next number after the highest ID
+    const newId = maxId + 1;
     setMethodStep([...method, { id: newId }]);
   };
 
-  const removeMethodField = (id) => {
-    if (id !== 1) {
-      setMethodStep(method.filter((step) => step.id !== id));
+  const removeMethodField = (idNumber, id, name) => {
+    if (idNumber !== 1) {
+      setMethodStep(method.filter((step) => step.id !== idNumber));
+
+      setFormState((prev) => {
+        const idIndex = prev[name].findIndex((item) => item === id);
+        if (idIndex !== -1) {
+          const newArray = [...prev[name]];
+          newArray.splice(idIndex, 2);
+          return {
+            ...prev,
+            [name]: newArray,
+          };
+        }
+        return prev;
+      });
     }
   };
 
@@ -424,15 +443,13 @@ export default function Form(props) {
               <div>
                 {method.map((methodStep) => (
                   <ListInput
-                    key={methodStep.id}
                     id={`method-${methodStep.id}`}
+                    idNumber={methodStep.id}
                     label={methodStep.id === 1 ? "Method" : ""}
                     name={`method`}
                     type="text"
                     placeholder={"Enter Method Step"}
-                    onRemove={() => {
-                      removeMethodField(methodStep.id);
-                    }}
+                    onRemove={removeMethodField}
                     formState={formState}
                     setFormState={setFormState}
                     onWordCountChange={handleWordCountChange}
