@@ -41,9 +41,8 @@ export default function RecipeGrid({
 
       if (deleteButton) {
         return (
-          <div className="embla__slide">
+          <div className="embla__slide" key={index}>
             <RecipeCard
-              key={index}
               id={recipe.id}
               title={recipe.name}
               imgFileName={recipe.imageURL}
@@ -60,9 +59,8 @@ export default function RecipeGrid({
         );
       } else {
         return (
-          <div className="embla__slide">
+          <div className="embla__slide" key={index}>
             <RecipeCard
-              key={index}
               id={recipe.id}
               title={recipe.name}
               imgFileName={recipe.imageURL}
@@ -83,7 +81,7 @@ export default function RecipeGrid({
   return (
     <div className="carousel">
       <div className="embla">
-        <button class="embla__button embla__prev" onClick={scrollPrev}>
+        <button className="embla__button embla__prev" onClick={scrollPrev}>
           <svg className="embla__button__svg" viewBox="0 0 532 532">
             <path
               fill="currentColor"
@@ -91,7 +89,7 @@ export default function RecipeGrid({
             />
           </svg>
         </button>
-        <button class="embla__button embla__next" onClick={scrollNext}>
+        <button className="embla__button embla__next" onClick={scrollNext}>
           <svg className="embla__button__svg" viewBox="0 0 532 532">
             <path
               fill="currentColor"
