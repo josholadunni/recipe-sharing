@@ -70,13 +70,34 @@ export default function Form(props) {
   };
 
   const addIngredientField = () => {
-    const newId = ingredients.length + 1;
+    // Find the highest existing ID
+    const maxId = ingredients.reduce(
+      (max, ingredient) => Math.max(max, ingredient.id),
+      0
+    );
+    // Use the next number after the highest ID
+    const newId = maxId + 1;
     setIngredients([...ingredients, { id: newId }]);
   };
 
-  const removeIngredientField = (id) => {
-    if (id !== 1) {
-      setIngredients(ingredients.filter((ingredient) => ingredient.id !== id));
+  const removeIngredientField = (idNumber, id, name) => {
+    if (idNumber !== 1) {
+      setIngredients(
+        ingredients.filter((ingredient) => ingredient.id !== idNumber)
+      );
+
+      setFormState((prev) => {
+        const idIndex = prev[name].findIndex((item) => item === id);
+        if (idIndex !== -1) {
+          const newArray = [...prev[name]];
+          newArray.splice(idIndex, 2);
+          return {
+            ...prev,
+            [name]: newArray,
+          };
+        }
+        return prev;
+      });
     }
   };
 
@@ -359,13 +380,13 @@ export default function Form(props) {
               <div key="step3">
                 {ingredients.map((ingredient) => (
                   <ListInput
-                    key={ingredient.id}
                     id={`ingredient-${ingredient.id}`}
+                    idNumber={ingredient.id}
                     label={ingredient.id === 1 ? "Ingredients" : ""}
                     name={`ingredients`}
                     type="text"
                     placeholder={"Enter Ingredient"}
-                    onRemove={() => removeIngredientField(ingredient.id)}
+                    onRemove={removeIngredientField}
                     formState={formState}
                     setFormState={setFormState}
                     onWordCountChange={handleWordCountChange}

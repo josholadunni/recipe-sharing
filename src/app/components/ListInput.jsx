@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 export default function Input({
   id,
+  idNumber,
   type,
   name,
   label,
@@ -14,7 +15,6 @@ export default function Input({
   setFormState,
   onWordCountChange,
 }) {
-  const idNumber = Number(id.split("-")[1]);
   let [isOverWordCount, setIsOverWordCount] = useState(false);
 
   //Change the field's formState on input change
@@ -42,6 +42,7 @@ export default function Input({
     const count = value.length;
     count > charLimit ? setIsOverWordCount(true) : setIsOverWordCount(false);
     onWordCountChange(id, name, index, count, isOverWordCount);
+    console.log(formState);
   };
 
   const fieldValue = () => {
@@ -71,7 +72,7 @@ export default function Input({
         />
         <span
           className=" text-black border border-black rounded hover:bg-black hover:text-white px-2"
-          onClick={() => onRemove()}
+          onClick={() => onRemove(idNumber, id, name)}
         >
           x
         </span>
