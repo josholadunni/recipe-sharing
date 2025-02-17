@@ -18,29 +18,44 @@ export async function generateStaticParams() {
 export default async function UserPage(params) {
   const { name } = params.params;
   const user = await findUserFromUsername(name);
-  const userId = user.result.id;
 
-  if (!user) {
+  if (!user || !user.result) {
     return <div>User not found</div>;
   }
 
-  const recipeList = await fetchRecipesByUserId(userId);
-  const allLikes = await fetchRecipeLikes();
-  const currentUserId = await findUserIdFromEmail();
+  const userId = user.result.id;
 
-  return (
-    <div className="relative top-12 min-h-screen">
-      <H1 text={`${user.result.username}'s Recipes`}></H1>
-      <div className="mt-10">
-        <div className="flex justify-center">
-          <RecipeGrid
-            allLikes={allLikes}
-            currentUserId={currentUserId}
-            recipes={recipeList}
-            deleteButton={false}
-          />
+  try {
+    const [recipeList, allLikes, currentUserId] = await Promise.all([
+      fetchRecipesByUserId(userId),
+      fetchRecipeLikes(),
+      findUserIdFromEmail(),
+    ]);
+
+    // Serialize the data
+    const serializedData = {
+      recipes: JSON.parse(JSON.stringify(recipeList)),
+      allLikes: JSON.parse(JSON.stringify(allLikes)),
+      currentUserId: currentUserId?.result || null,
+    };
+
+    return (
+      <div className="relative top-12 min-h-screen">
+        <H1 text={`${user.result.username}'s Recipes`}></H1>
+        <div className="mt-10">
+          <div className="flex justify-center">
+            <RecipeGrid
+              allLikes={serializedData.allLikes}
+              currentUserId={serializedData.currentUserId}
+              recipes={serializedData.recipes}
+              deleteButton={false}
+            />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error("Error loading user page:", error);
+    return <div>Error loading recipes. Please try again later.</div>;
+  }
 }
