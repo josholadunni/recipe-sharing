@@ -22,18 +22,36 @@ export default function Input({
     const { name, value, id } = e.target;
     const index = parseInt(id.split("-")[1]);
     setFormState((prev) => {
-      const updatedValue = [...prev[name]];
-      updatedValue[index] = value;
-      return {
-        ...prev,
-        [name]: updatedValue,
-      };
+      const idIndex = prev[name].indexOf(id);
+      const updatedArray = [...prev[name]];
+      updatedArray[idIndex + 1] = value;
+      if (prev[name].includes(id)) {
+        return {
+          ...prev,
+          [name]: updatedArray,
+        };
+      } else {
+        return {
+          ...prev,
+          [name]: [...prev[name], id, value],
+        };
+      }
     });
 
     //Check if the field is over the word count
     const count = value.length;
     count > charLimit ? setIsOverWordCount(true) : setIsOverWordCount(false);
     onWordCountChange(id, name, index, count, isOverWordCount);
+  };
+
+  const fieldValue = () => {
+    // Search for this specific field's ID in the array
+    const idIndex = formState[name].findIndex((item) => item === id);
+    if (idIndex !== -1) {
+      // Get the value that follows this specific ID
+      return formState[name][idIndex + 1] || "";
+    }
+    return "";
   };
 
   return (
@@ -47,7 +65,7 @@ export default function Input({
           type={type}
           name={name}
           placeholder={placeholder}
-          value={formState[name][idNumber]}
+          value={fieldValue()}
           onChange={handleInputChange}
           required
         />
