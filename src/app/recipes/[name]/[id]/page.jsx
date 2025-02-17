@@ -23,7 +23,8 @@ export default async function RecipePage(params) {
   const renderIngredients = () => {
     const ingredients = recipe.ingredients;
     const filteredIngredients = ingredients.filter(
-      (ingredient) => ingredient !== "undefined"
+      (ingredient) =>
+        ingredient !== "undefined" && !ingredient.includes("ingredient-")
     );
     return (
       <>
@@ -45,7 +46,9 @@ export default async function RecipePage(params) {
 
   const renderMethod = () => {
     const method = recipe.method;
-    const filteredMethod = method.filter((method) => method !== "");
+    const filteredMethod = method.filter(
+      (method) => method !== "" && !method.includes("method-")
+    );
     return (
       <>
         <H2 text={"Method"} />
