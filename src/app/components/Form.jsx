@@ -196,6 +196,7 @@ export default function Form(props) {
         return { ...prev, overWordCount: updatedWordCountArr };
       });
     }
+    console.log(formState);
   };
 
   useEffect(() => {
