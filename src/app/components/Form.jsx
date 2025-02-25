@@ -5,12 +5,13 @@ import Input from "../components/Input.jsx";
 import InputWithCharLimit from "./InputWithCharLimit.jsx";
 import ListInput from "../components/ListInput.jsx";
 import { createRecipe } from "../lib/actions.js";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { redirect } from "next/navigation.js";
 import { useFormStatus } from "react-dom";
 import $ from "jquery";
 import Image from "next/image";
 import H2 from "./H2.jsx";
+import H3 from "./H3.jsx";
 import Link from "next/link.js";
 
 export default function Form(props) {
@@ -35,7 +36,7 @@ export default function Form(props) {
     overWordCount: [],
   });
 
-  const [serverState, formAction] = useFormState(
+  const [serverState, formAction] = useActionState(
     async (prevState, formData) => {
       const finalFormData = new FormData();
 
@@ -236,7 +237,6 @@ export default function Form(props) {
         return { ...prev, overWordCount: updatedWordCountArr };
       });
     }
-    console.log(formState);
   };
 
   useEffect(() => {
@@ -261,6 +261,67 @@ export default function Form(props) {
 
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
+  };
+
+  const renderCategories = () => {
+    return formState.categories.map((category, index) => {
+      const categoryName = category;
+
+      return (
+        <div
+          key={index}
+          className="bg-neutral-200 border-neutral-200 rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-sm text-black text-nowrap"
+          href={`/categories/${categoryName.toLowerCase()}`}
+        >
+          {categoryName}
+        </div>
+      );
+    });
+  };
+
+  const renderIngredients = () => {
+    const ingredients = formState.ingredients;
+    const filteredIngredients = ingredients.filter(
+      (ingredient) =>
+        ingredient !== "undefined" && !ingredient.includes("ingredient-")
+    );
+    return (
+      <>
+        <div>
+          <H3 text={"Ingredients"} />
+        </div>
+        <div className="bg-white rounded-2xl md:mr-4">
+          <ul className="list-disc list-inside">
+            {filteredIngredients.map((ingredient, index) => (
+              <li className="mb-3" key={index}>
+                {ingredient}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </>
+    );
+  };
+
+  const renderMethod = () => {
+    const method = formState.method;
+    const filteredMethod = method.filter(
+      (method) => method !== "" && !method.includes("method-")
+    );
+    return (
+      <>
+        <H3 text={"Method"} />
+        <div className="bg-white rounded-2xl mr-4">
+          <ul className="list-decimal list-inside">
+            {filteredMethod.map((methodStep, index) => (
+              <li className="mb-3" key={index}>
+                {methodStep}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </>
+    );
   };
 
   return (
@@ -399,6 +460,7 @@ export default function Form(props) {
               <div key="step3">
                 {ingredients.map((ingredient) => (
                   <ListInput
+                    key={`ingredient-${ingredient.id}`}
                     id={`ingredient-${ingredient.id}`}
                     idNumber={ingredient.id}
                     label={ingredient.id === 1 ? "Ingredients" : ""}
@@ -443,6 +505,7 @@ export default function Form(props) {
               <div>
                 {method.map((methodStep) => (
                   <ListInput
+                    key={`ingredient-${methodStep.id}`}
                     id={`method-${methodStep.id}`}
                     idNumber={methodStep.id}
                     label={methodStep.id === 1 ? "Method" : ""}
@@ -498,54 +561,65 @@ export default function Form(props) {
               </div>
             )}
             {currentStep === 4 && (
-              //Step 5
-              <div className="flex flex-col mt-10">
-                <div className="flex flex-row border-b-[1.5px] border-b-[#E4E4E7] pb-10">
-                  <div className="basis-1/3">
-                    <Image />
-                  </div>
-                  <div className="basis-2/3">
-                    <div className="flex flex-col">
-                      <H2 text="Recipe Title"></H2>
-                      <div className="flex flex-row">
-                        <div className="bg-neutral-200 border-neutral-200 hover:bg-neutral-900 hover:text-white rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-sm text-black">
-                          Category
+              <>
+                {/* //Step 5
+                // Larger */}
+                <div className="hidden md:flex flex-col mt-10">
+                  <div className="flex flex-row border-b-[1.5px] border-b-[#E4E4E7] pb-10">
+                    <div className="basis-1/3">
+                      <Image
+                        src={imagePreview}
+                        alt="Image Preview"
+                        width={500}
+                        height={500}
+                      />
+                    </div>
+                    <div className="basis-2/3 ml-10">
+                      <div className="flex flex-col">
+                        <H2 text={formState.rname}></H2>
+                        <div className="flex flex-row">
+                          {renderCategories()}
                         </div>
+                        <p>{formState.rdescription}</p>
                       </div>
-                      <p>
-                        Recipe description Lorem ipsum dolor sit amet
-                        consectetur adipisicing elit. Sunt provident,
-                        perferendis sit neque eos numquam laboriosam nemo
-                        commodi, asperiores deserunt maxime! Possimus beatae
-                        pariatur voluptatibus praesentium repellendus!
-                        Voluptatum, aliquid sint!
-                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row mt-10 ">
+                    <div className="basis-1/3">{renderIngredients()}</div>
+                    <div className="basis-2/3 border-l-[1.5px] border-[#E4E4E7] pl-12">
+                      {renderMethod()}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row mt-10 ">
-                  <div className="basis-1/3">
-                    <h3>Ingredients</h3>
-                    <ul>
-                      <li>Lorem ipsum</li>
-                      <li>Lorem ipsum</li>
-                      <li>Lorem ipsum</li>
-                      <li>Lorem ipsum</li>
-                      <li>Lorem ipsum</li>
-                    </ul>
+                {/* //Mobile */}
+                <div className="md:hidden flex flex-col mt-10">
+                  <div className="flex flex-col border-b-[1.5px] border-b-[#E4E4E7] pb-10">
+                    <div className="basis-1/3">
+                      <Image
+                        src={imagePreview}
+                        alt="Image Preview"
+                        width={500}
+                        height={500}
+                      />
+                    </div>
+                    <div>
+                      <div className="flex flex-col">
+                        <H2 text={formState.rname}></H2>
+                        <div className="flex flex-row">
+                          {renderCategories()}
+                        </div>
+                        <p>{formState.rdescription}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="basis-2/3 border-l-[1.5px] border-[#E4E4E7] pl-12">
-                    <h3>Method</h3>
-                    <ul>
-                      <li>Lorem ipsum</li>
-                      <li>Lorem ipsum</li>
-                      <li>Lorem ipsum</li>
-                      <li>Lorem ipsum</li>
-                      <li>Lorem ipsum</li>
-                    </ul>
+                  <div className="flex flex-col mt-3">
+                    <div>{renderIngredients()}</div>
+                    <div className="pt-6 border-t-[1.5px] border-[#E4E4E7]">
+                      {renderMethod()}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
         </form>

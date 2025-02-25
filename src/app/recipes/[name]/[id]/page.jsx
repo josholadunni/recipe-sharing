@@ -85,7 +85,7 @@ export default async function RecipePage(params) {
   };
 
   return (
-    <div className="flex flex-wrap w-full mt-10 px-8 justify-center bg-white rounded-t-2xl shadow-md">
+    <div className="flex flex-wrap w-full mt-10 px-8 justify-center bg-red rounded-t-2xl shadow-md">
       {/* Mobile */}
       <div className="min-w-[20rem] w-full md:w-1/3 sm:hidden">
         <div className="flex flex-col justify-center mt-5 w-full relative">
@@ -113,7 +113,7 @@ export default async function RecipePage(params) {
         </div>
       </div>
       {/* Larger */}
-      <div className="min-w-[25rem] hidden sm:block sm:w-full mt-10 border-b-[1.5px] border-b-[#E4E4E7] pb-10">
+      <div className="min-w-[25rem] hidden sm:block bg-yellow-100 sm:w-full mt-10 border-b-[1.5px] border-b-[#E4E4E7] pb-10">
         <div className="flex flex-col md:flex-row justify-center md:justify-start w-full relative">
           <div className="flex basis-1/4 justify-center items-center">
             <div className="aspect-square sm:w-[500px] md:w-[350px] relative">
