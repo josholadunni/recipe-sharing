@@ -42,7 +42,6 @@ export default function Input({
     const count = value.length;
     count > charLimit ? setIsOverWordCount(true) : setIsOverWordCount(false);
     onWordCountChange(id, name, index, count, isOverWordCount);
-    console.log(formState);
   };
 
   const fieldValue = () => {
