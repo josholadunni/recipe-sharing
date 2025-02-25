@@ -113,7 +113,7 @@ export default async function RecipePage(params) {
         </div>
       </div>
       {/* Larger */}
-      <div className="min-w-[25rem] hidden sm:block bg-yellow-100 sm:w-full mt-10 border-b-[1.5px] border-b-[#E4E4E7] pb-10">
+      <div className="min-w-[25rem] hidden sm:block sm:w-full mt-10 border-b-[1.5px] border-b-[#E4E4E7] pb-10">
         <div className="flex flex-col md:flex-row justify-center md:justify-start w-full relative">
           <div className="flex basis-1/4 justify-center items-center">
             <div className="aspect-square sm:w-[500px] md:w-[350px] relative">
