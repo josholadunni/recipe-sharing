@@ -5,11 +5,11 @@ import Input from "../components/Input.jsx";
 // import { useActionState } from "react";
 import { authenticate } from "../lib/actions.js";
 import { useRouter } from "next/navigation.js";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
-  const [state, formAction] = useFormState(authenticate, {
+  const [state, formAction] = useActionState(authenticate, {
     success: false,
     message: "",
   });
