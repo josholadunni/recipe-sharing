@@ -31,7 +31,7 @@ export default async function RecipePage(params) {
         <div>
           <H2 text={"Ingredients"} />
         </div>
-        <div className="bg-white rounded-2xl md:mr-4">
+        <div className="rounded-2xl md:mr-4">
           <ul className="list-disc list-inside">
             {filteredIngredients.map((ingredient, index) => (
               <li className="mb-3" key={index}>
@@ -52,7 +52,7 @@ export default async function RecipePage(params) {
     return (
       <>
         <H2 text={"Method"} />
-        <div className="bg-white rounded-2xl mr-4">
+        <div className="rounded-2xl mr-4">
           <ul className="list-decimal list-inside">
             {filteredMethod.map((methodStep, index) => (
               <li className="mb-3" key={index}>
