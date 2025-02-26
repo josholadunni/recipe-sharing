@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchRecipeLikes } from "../../../lib/data";
+import { fetchRecipeLikes } from "../../lib/data";
 
 export async function GET() {
   try {
