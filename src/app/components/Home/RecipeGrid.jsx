@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RecipeCard from "../RecipeCard.jsx";
 
 export default function RecipeGrid({
@@ -12,9 +12,28 @@ export default function RecipeGrid({
   const [displayedData, setDisplayedData] = useState(
     recipes.slice(0, visibleItemCount)
   );
+  const [recipesLeft, setRecipesLeft] = useState(recipes.length - 4);
+  const [maxItemsVisible, setMaxItemsVisible] = useState(false);
+
   const handleSeeMore = () => {
     setVisibleItemCount((prevCount) => prevCount + 4);
     setDisplayedData(recipes.slice(0, visibleItemCount + 4));
+    setRecipesLeft(recipesLeft - 4);
+  };
+
+  //If recipesLeft isn't totally divisible by 4, set the max items visible state to true
+  useEffect(() => {
+    if (recipesLeft % 4 < 0) {
+      setMaxItemsVisible(true);
+    } else {
+      setMaxItemsVisible(false);
+    }
+  }, [recipesLeft]);
+
+  const handleHide = () => {
+    setVisibleItemCount(4);
+    setDisplayedData(recipes.slice(0, 4));
+    setRecipesLeft(recipes.length - 4);
   };
 
   const totalRecipes = recipes.length;
@@ -78,12 +97,21 @@ export default function RecipeGrid({
         })}
       </div>
       <div className="flex flex-row justify-center">
-        <button
-          className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
-          onClick={handleSeeMore}
-        >
-          SEE MORE
-        </button>
+        {!maxItemsVisible ? (
+          <button
+            className="rounded-full border-1 border-recipe-red hover:bg-recipe-red mt-6 text-recipe-red hover:text-white px-4 py-1 text-sm tracking-widest font-bold"
+            onClick={handleSeeMore}
+          >
+            SEE MORE
+          </button>
+        ) : (
+          <button
+            className="rounded-full border-1 border-recipe-red hover:bg-recipe-red mt-6 text-recipe-red hover:text-white px-4 py-1 text-sm tracking-widest font-bold"
+            onClick={handleHide}
+          >
+            HIDE
+          </button>
+        )}
       </div>
     </div>
   );
