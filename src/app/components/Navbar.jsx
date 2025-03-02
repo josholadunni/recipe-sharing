@@ -28,7 +28,6 @@ function Navbar({ username }) {
       } else if (st < lastScrollTop) {
         setIsScrolledUp(true);
       } else {
-        console.log();
       }
       lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
     };
@@ -45,7 +44,7 @@ function Navbar({ username }) {
 
   return (
     <nav
-      className={`${navStyles.navbar} flex flex-col text-sm justify-center sticky top-0 z-10 border-b-[1.5px] border-b-[#E4E4E7] bg-[#F9F9F9] pt-6`}
+      className={`${navStyles.navbar} flex flex-col text-sm justify-center sticky top-0 z-10 bg-[#F9F9F9] pt-6 relative`}
       onMouseLeave={() => {
         setResults([]);
       }}
@@ -137,17 +136,21 @@ function Navbar({ username }) {
         </div>
       </div>
       <div
-        className={`flex-row w-full overflow-hidden transition-all duration-500 ease-in-out ${
-          isScrolledUp ? "my-4" : "my-0"
-        } ${isScrolledUp ? "pb-4" : "pb-4"} ${
-          isScrolledUp ? "opacity-100 max-h-20" : "opacity-0 max-h-0"
+        className={`absolute left-0 right-0 w-full transition-all duration-500 ease-in-out ${
+          isScrolledUp
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-full pointer-events-none"
         }`}
+        style={{ top: "100%" }}
       >
-        <SearchBar
-          setResults={setResults}
-          results={results}
-          placeholder="Search Recipes"
-        />
+        <div className="bg-[#F9F9F9] w-full px-4 pb-4">
+          <SearchBar
+            setResults={setResults}
+            results={results}
+            placeholder="Search Recipes"
+          />
+        </div>
+        <div className="border-b-[1.5px] border-b-[#E4E4E7] w-full"></div>
       </div>
     </nav>
   );
