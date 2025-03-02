@@ -143,7 +143,7 @@ function Navbar({ username }) {
         }`}
         style={{ top: "100%" }}
       >
-        <div className="bg-[#F9F9F9] w-full px-4 pb-4">
+        <div className="bg-[#F9F9F9] w-full pb-4">
           <SearchBar
             setResults={setResults}
             results={results}

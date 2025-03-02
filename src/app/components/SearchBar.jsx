@@ -121,7 +121,7 @@ export default function SearchBar({ placeholder, setResults, results }) {
         </div>
       )}
       {results.length > 0 && (
-        <div className="results-container z-[50] flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-full md:w-auto md:min-w-[150px] min-h-[400px]">
+        <div className="results-container z-[50] flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-full min-h-[400px]">
           <div className="flex-2 justify-center text-center relative top-8">
             <H3 text="Recipes" />
           </div>
@@ -154,7 +154,7 @@ export default function SearchBar({ placeholder, setResults, results }) {
         </div>
       )}
       {isResults === false && isFocus === true && isSearchTerm === true && (
-        <div className="results-container z-10 flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-full md:w-auto md:min-w-[150px] min-h-[100px]">
+        <div className="results-container z-10 flex flex-col justify-center left-1/2 -translate-x-1/2 bg-white shadow-md absolute text-sm w-full min-h-[100px]">
           <h2 className="text-lg font-bold mb-2">No recipes found</h2>
         </div>
       )}
