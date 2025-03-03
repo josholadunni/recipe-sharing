@@ -576,6 +576,25 @@ export default function Form(props) {
                       {renderMethod()}
                     </div>
                   </div>
+                  <div className="flex flex-row items-center justify-between mt-6">
+                    <button
+                      className="rounded-full border-1 border-recipe-red text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                      onClick={handlePrevStep}
+                    >
+                      Previous
+                    </button>
+                    <button
+                      id="submitBtn"
+                      className={`bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 ${
+                        isSubmitDisabled &&
+                        "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
+                      }`}
+                      type="submit"
+                      aria-disabled={pending}
+                    >
+                      {pending ? "Uploading..." : "Upload Recipe"}
+                    </button>
+                  </div>
                 </div>
                 {/* //Mobile */}
                 <div className="md:hidden flex flex-col mt-10">
