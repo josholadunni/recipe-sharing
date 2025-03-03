@@ -529,20 +529,6 @@ export default function Form(props) {
                   <br></br>
                 </div>
                 <div className="text-center">
-                  <div>
-                    <button
-                      id="submitBtn"
-                      className={`bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-12 ${
-                        isSubmitDisabled &&
-                        "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
-                      }`}
-                      type="submit"
-                      aria-disabled={pending}
-                    >
-                      {pending ? "Uploading..." : "Upload Recipe"}
-                    </button>
-                    <p>{errorMessage}</p>
-                  </div>
                   <div className="flex flex-row absolute bottom-10">
                     <button
                       className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
@@ -617,8 +603,28 @@ export default function Form(props) {
                     <div className="pt-6 border-t-[1.5px] border-[#E4E4E7]">
                       {renderMethod()}
                     </div>
+                    <div className="flex flex-row items-center justify-between mt-6">
+                      <button
+                        className="rounded-full border-1 border-recipe-red text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                        onClick={handlePrevStep}
+                      >
+                        Previous
+                      </button>
+                      <button
+                        id="submitBtn"
+                        className={`bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 ${
+                          isSubmitDisabled &&
+                          "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
+                        }`}
+                        type="submit"
+                        aria-disabled={pending}
+                      >
+                        {pending ? "Uploading..." : "Upload Recipe"}
+                      </button>
+                    </div>
                   </div>
                 </div>
+                <p className="text-center mt-2">{errorMessage}</p>
               </>
             )}
           </div>
