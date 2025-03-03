@@ -55,18 +55,25 @@ export default function Form(props) {
 
   const [imagePreview, setImagePreview] = useState(null);
 
+  const [imageError, setImageError] = useState(null);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    const fileSize = file.size;
     if (file) {
-      setFormState((prev) => ({
-        ...prev,
-        file: file,
-      }));
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
+      if (fileSize < 400000) {
+        setFormState((prev) => ({
+          ...prev,
+          file: file,
+        }));
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+          setImagePreview(reader.result);
+        };
+      } else {
+        setImageError("File size is too large. Please upload a smaller image.");
+      }
     }
   };
 
@@ -383,6 +390,9 @@ export default function Form(props) {
                     accept="images/*"
                     onChange={handleImageChange}
                   />
+                  {imageError && (
+                    <p>Image file size is too large. Please reduce.</p>
+                  )}
                   {imagePreview && (
                     <Image
                       src={imagePreview}
@@ -394,8 +404,14 @@ export default function Form(props) {
                 </div>
                 <div className="flex flex-row align-bottom absolute bottom-10">
                   <button
-                    className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                    className={`rounded-full border-1  mt-6 ${
+                      isSubmitDisabled
+                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                        : "border-recipe-red text-recipe-red"
+                    } px-4 py-1 text-sm tracking-widest font-bold`}
                     onClick={handleNextStep}
+                    disabled={isSubmitDisabled}
+                    aria-disabled={isSubmitDisabled}
                   >
                     Next
                   </button>
@@ -441,14 +457,24 @@ export default function Form(props) {
                 )}
                 <div className="flex flex-row absolute bottom-10">
                   <button
-                    className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                    className={`rounded-full border-1  mt-6 ${
+                      isSubmitDisabled
+                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                        : "border-recipe-red text-recipe-red"
+                    } px-4 py-1 text-sm tracking-widest font-bold`}
                     onClick={handlePrevStep}
                   >
                     Previous
                   </button>
                   <button
-                    className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                    className={`rounded-full border-1  mt-6 ${
+                      isSubmitDisabled
+                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                        : "border-recipe-red text-recipe-red"
+                    } px-4 py-1 text-sm tracking-widest font-bold`}
                     onClick={handleNextStep}
+                    disabled={isSubmitDisabled}
+                    aria-disabled={isSubmitDisabled}
                   >
                     Next
                   </button>
@@ -485,14 +511,24 @@ export default function Form(props) {
                 </div>
                 <div className="flex flex-row absolute bottom-10">
                   <button
-                    className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                    className={`rounded-full border-1  mt-6 ${
+                      isSubmitDisabled
+                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                        : "border-recipe-red text-recipe-red"
+                    } px-4 py-1 text-sm tracking-widest font-bold`}
                     onClick={handlePrevStep}
                   >
                     Previous
                   </button>
                   <button
-                    className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                    className={`rounded-full border-1  mt-6 ${
+                      isSubmitDisabled
+                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                        : "border-recipe-red text-recipe-red"
+                    } px-4 py-1 text-sm tracking-widest font-bold`}
                     onClick={handleNextStep}
+                    disabled={isSubmitDisabled}
+                    aria-disabled={isSubmitDisabled}
                   >
                     Next
                   </button>
@@ -531,14 +567,24 @@ export default function Form(props) {
                 <div className="text-center">
                   <div className="flex flex-row absolute bottom-10">
                     <button
-                      className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                      className={`rounded-full border-1  mt-6 ${
+                        isSubmitDisabled
+                          ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                          : "border-recipe-red text-recipe-red"
+                      } px-4 py-1 text-sm tracking-widest font-bold`}
                       onClick={handlePrevStep}
                     >
                       Previous
                     </button>
                     <button
-                      className="rounded-full border-1 border-recipe-red mt-6 text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                      className={`rounded-full border-1  mt-6 ${
+                        isSubmitDisabled
+                          ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                          : "border-recipe-red text-recipe-red"
+                      } px-4 py-1 text-sm tracking-widest font-bold`}
                       onClick={handleNextStep}
+                      disabled={isSubmitDisabled}
+                      aria-disabled={isSubmitDisabled}
                     >
                       Next
                     </button>
@@ -578,7 +624,11 @@ export default function Form(props) {
                   </div>
                   <div className="flex flex-row items-center justify-between mt-6">
                     <button
-                      className="rounded-full border-1 border-recipe-red text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                      className={`rounded-full border-1  mt-6 ${
+                        isSubmitDisabled
+                          ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                          : "border-recipe-red text-recipe-red"
+                      } px-4 py-1 text-sm tracking-widest font-bold`}
                       onClick={handlePrevStep}
                     >
                       Previous
@@ -624,7 +674,11 @@ export default function Form(props) {
                     </div>
                     <div className="flex flex-row items-center justify-between mt-6">
                       <button
-                        className="rounded-full border-1 border-recipe-red text-recipe-red px-4 py-1 text-sm tracking-widest font-bold"
+                        className={`rounded-full border-1  mt-6 ${
+                          isSubmitDisabled
+                            ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                            : "border-recipe-red text-recipe-red"
+                        } px-4 py-1 text-sm tracking-widest font-bold`}
                         onClick={handlePrevStep}
                       >
                         Previous
