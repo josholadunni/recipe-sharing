@@ -62,6 +62,7 @@ export default function Form(props) {
     const fileSize = file.size;
     if (file) {
       if (fileSize < 400000) {
+        setImageError(null);
         setFormState((prev) => ({
           ...prev,
           file: file,
@@ -72,10 +73,21 @@ export default function Form(props) {
           setImagePreview(reader.result);
         };
       } else {
+        setIsSubmitDisabled(true);
         setImageError("File size is too large. Please upload a smaller image.");
       }
     }
   };
+
+  // useEffect(() => {
+  //   if (imageError) {
+  //     console.log(true);
+  //     setIsSubmitDisabled(true);
+  //   } else {
+  //     console.log(false);
+  //     setIsSubmitDisabled(false);
+  //   }
+  // }, [imageError]);
 
   const addIngredientField = () => {
     // Find the highest existing ID
