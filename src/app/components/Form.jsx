@@ -340,16 +340,11 @@ export default function Form(props) {
     );
   };
 
-  const logFormState = () => {
-    console.log(formState);
-    console.log(currentStep);
-  };
-
   return (
     <div>
       <H2 text={`Step ${currentStep + 1} of 5`} className="text-center" />
       <div>
-        <p onClick={logFormState} className="text-center">
+        <p className="text-center">
           Give your recipe a name and take a snap of it
         </p>
         <form autoComplete="off" className="text-center" action={formAction}>
