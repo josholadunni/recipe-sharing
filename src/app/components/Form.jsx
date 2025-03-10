@@ -399,12 +399,14 @@ export default function Form(props) {
                   />
                   {imageError && <p className="text-red-600">{imageError}</p>}
                   {imagePreview && (
-                    <Image
-                      src={imagePreview}
-                      alt="Image Preview"
-                      width={500}
-                      height={500}
-                    />
+                    <div className="pb-20">
+                      <Image
+                        src={imagePreview}
+                        alt="Image Preview"
+                        width={350}
+                        height={350}
+                      />
+                    </div>
                   )}
                 </div>
                 <div className="flex flex-row align-bottom absolute bottom-10">
@@ -412,7 +414,7 @@ export default function Form(props) {
                     className={`rounded-full border-1 mt-6 ${
                       isSubmitDisabled
                         ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                        : "border-recipe-red text-recipe-red"
+                        : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
                     } px-4 py-1 text-sm tracking-widest font-bold`}
                     onClick={handleNextStep}
                     disabled={isSubmitDisabled}
@@ -453,7 +455,7 @@ export default function Form(props) {
                 )}
                 <div className="flex flex-row absolute bottom-10">
                   <button
-                    className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
+                    className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                     onClick={handlePrevStep}
                     type="button"
                   >
@@ -463,7 +465,7 @@ export default function Form(props) {
                     className={`rounded-full border-1 mt-6 ${
                       isSubmitDisabled
                         ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                        : "border-recipe-red text-recipe-red"
+                        : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
                     } px-4 py-1 text-sm tracking-widest font-bold`}
                     onClick={handleNextStep}
                     disabled={isSubmitDisabled}
@@ -505,7 +507,7 @@ export default function Form(props) {
                 </div>
                 <div className="flex flex-row absolute bottom-10">
                   <button
-                    className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
+                    className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                     onClick={handlePrevStep}
                     type="button"
                   >
@@ -515,7 +517,7 @@ export default function Form(props) {
                     className={`rounded-full border-1 mt-6 ${
                       isSubmitDisabled
                         ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                        : "border-recipe-red text-recipe-red"
+                        : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
                     } px-4 py-1 text-sm tracking-widest font-bold`}
                     onClick={handleNextStep}
                     disabled={isSubmitDisabled}
@@ -559,7 +561,7 @@ export default function Form(props) {
                 <div className="text-center">
                   <div className="flex flex-row absolute bottom-10">
                     <button
-                      className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
+                      className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                       onClick={handlePrevStep}
                       type="button"
                     >
@@ -569,7 +571,7 @@ export default function Form(props) {
                       className={`rounded-full border-1 mt-6 ${
                         isSubmitDisabled
                           ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                          : "border-recipe-red text-recipe-red"
+                          : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
                       } px-4 py-1 text-sm tracking-widest font-bold`}
                       onClick={handleNextStep}
                       disabled={isSubmitDisabled}
@@ -615,7 +617,7 @@ export default function Form(props) {
                   </div>
                   <div className="flex flex-row items-center justify-between mt-6">
                     <button
-                      className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
+                      className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                       onClick={handlePrevStep}
                       type="button"
                     >
@@ -623,7 +625,7 @@ export default function Form(props) {
                     </button>
                     <button
                       id="submitBtn"
-                      className={`bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 ${
+                      className={`rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold ${
                         isSubmitDisabled &&
                         "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
                       }`}
@@ -665,7 +667,7 @@ export default function Form(props) {
                     </div>
                     <div className="flex flex-row items-center justify-between mt-6">
                       <button
-                        className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
+                        className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                         onClick={handlePrevStep}
                         type="button"
                       >
@@ -673,7 +675,7 @@ export default function Form(props) {
                       </button>
                       <button
                         id="submitBtn"
-                        className={`bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 ${
+                        className={`rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold ${
                           isSubmitDisabled &&
                           "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
                         }`}
