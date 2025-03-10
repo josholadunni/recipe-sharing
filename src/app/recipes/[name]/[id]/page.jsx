@@ -3,6 +3,7 @@ import H1 from "../../../components/H1";
 import H2 from "../../../components/H2";
 import Image from "next/image";
 import Link from "next/link";
+import { Skeleton } from "@nextui-org/skeleton";
 
 export async function generateStaticParams() {
   const recipes = await fetchAllRecipes();
@@ -11,6 +12,8 @@ export async function generateStaticParams() {
     id: recipe.dataValues.id.toString(),
   }));
 }
+
+const [isLoaded, setIsLoaded] = useState(false);
 
 export default async function RecipePage(params) {
   const { name, id } = params.params;
@@ -26,6 +29,7 @@ export default async function RecipePage(params) {
       (ingredient) =>
         ingredient !== "undefined" && !ingredient.includes("ingredient-")
     );
+
     return (
       <>
         <div>
@@ -90,12 +94,20 @@ export default async function RecipePage(params) {
       <div className="min-w-[20rem] w-full md:w-1/3 sm:hidden">
         <div className="flex flex-col justify-center mt-5 w-full relative">
           <div className="aspect-square w-full sm:w-[500px] md:w-[350px] relative">
-            <Image
-              src={recipe.imageURL}
-              alt={recipe.title + " recipe"}
-              fill
-              className="object-cover rounded-t-lg"
-            />
+            <Skeleton
+              isLoaded={isLoaded}
+              className="rounded-lg relative w-full h-full"
+            >
+              <Image
+                src={recipe.imageURL}
+                alt={recipe.title + " recipe"}
+                fill
+                className="object-cover rounded-t-lg"
+                onLoadingComplete={() => {
+                  setIsLoaded(true);
+                }}
+              />
+            </Skeleton>
           </div>
           <div>
             <H1 text={recipe.name}></H1>
@@ -117,12 +129,20 @@ export default async function RecipePage(params) {
         <div className="flex flex-col md:flex-row justify-center md:justify-start w-full relative">
           <div className="flex basis-1/4 justify-center items-center">
             <div className="aspect-square sm:w-[500px] md:w-[350px] relative">
-              <Image
-                src={recipe.imageURL}
-                alt={recipe.title + " recipe"}
-                fill
-                className="object-cover rounded-lg"
-              />
+              <Skeleton
+                isLoaded={isLoaded}
+                className="rounded-lg relative w-full h-full"
+              >
+                <Image
+                  src={recipe.imageURL}
+                  alt={recipe.title + " recipe"}
+                  fill
+                  className="object-cover rounded-lg"
+                  onLoadingComplete={() => {
+                    setIsLoaded(true);
+                  }}
+                />
+              </Skeleton>
             </div>
           </div>
           <div className="flex flex-col align-middle my-auto basis-3/4 md:ml-14 sm:pt-5 md:pt-0">
