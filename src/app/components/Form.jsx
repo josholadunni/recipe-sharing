@@ -57,10 +57,73 @@ export default function Form(props) {
 
   const [imageError, setImageError] = useState(null);
 
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  let [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+
+  // Create a function to validate fields based on current step
+  const validateCurrentStep = () => {
+    switch (currentStep) {
+      case 0: // Step 1
+        const step1Fields = [
+          formState.rname,
+          formState.rdescription,
+          formState.srdescription,
+          formState.file,
+        ];
+        return (
+          !step1Fields.some((field) => !field) &&
+          !imageError &&
+          formState.overWordCount.length === 0
+        );
+
+      case 1: // Step 2
+        // Check if categories are valid (e.g., not too many)
+        return checkedCategories.length > 0 && checkedCategories.length <= 5;
+
+      case 2: // Step 3
+        // Check if ingredients are valid
+        return formState.ingredients.length > 0;
+
+      case 3: // Step 4
+        // Check if method steps are valid
+        return formState.method.length > 0;
+
+      case 4: // Step 5 (review)
+        // All previous steps should be valid
+        return formState.overWordCount.length === 0;
+
+      default:
+        return false;
+    }
+  };
+
+  // Update button state based on current step validation
+  const updateButtonState = () => {
+    const isValid = validateCurrentStep();
+
+    if (isValid) {
+      setIsSubmitDisabled(false);
+      $("#submitBtn").prop("disabled", false);
+      setErrorMessage("");
+    } else {
+      setIsSubmitDisabled(true);
+      $("#submitBtn").prop("disabled", true);
+      setErrorMessage("");
+    }
+  };
+
+  // Single useEffect to handle validation on step change or form state change
+  useEffect(() => {
+    updateButtonState();
+  }, [currentStep, formState, checkedCategories, imageError]);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const fileSize = file.size;
     if (file) {
+      const fileSize = file.size;
       if (fileSize < 400000) {
         setImageError(null);
         setFormState((prev) => ({
@@ -73,21 +136,10 @@ export default function Form(props) {
           setImagePreview(reader.result);
         };
       } else {
-        setIsSubmitDisabled(true);
         setImageError("File size is too large. Please upload a smaller image.");
       }
     }
   };
-
-  // useEffect(() => {
-  //   if (imageError) {
-  //     console.log(true);
-  //     setIsSubmitDisabled(true);
-  //   } else {
-  //     console.log(false);
-  //     setIsSubmitDisabled(false);
-  //   }
-  // }, [imageError]);
 
   const addIngredientField = () => {
     // Find the highest existing ID
@@ -176,20 +228,31 @@ export default function Form(props) {
   };
 
   const { pending } = useFormStatus();
-  const [errorMessage, setErrorMessage] = useState(null);
 
-  let [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
-
-  const disableButton = () => {
-    setIsSubmitDisabled(true);
-    $("#submitBtn").prop("disabled", true);
-    setErrorMessage("");
+  const handlePrevStep = () => {
+    setCurrentStep(currentStep - 1);
   };
 
-  const enableButton = () => {
-    setIsSubmitDisabled(false);
-    $("#submitBtn").prop("disabled", false);
-    setErrorMessage("");
+  const handleNextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  const handleWordCountChange = (id, name, index, count, isOverWordCount) => {
+    if (isOverWordCount) {
+      setFormState((prev) => ({
+        ...prev,
+        overWordCount: prev.overWordCount.includes(id)
+          ? prev.overWordCount
+          : [...prev.overWordCount, id],
+      }));
+    } else {
+      const updatedWordCountArr = formState.overWordCount.filter(
+        (e) => e !== id
+      );
+      setFormState((prev) => {
+        return { ...prev, overWordCount: updatedWordCountArr };
+      });
+    }
   };
 
   //Adding new ingredient and method fields using the enter key
@@ -214,73 +277,7 @@ export default function Form(props) {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [addIngredientField, addMethodField]);
-
-  //Validation & error messages
-  useEffect(() => {
-    if (checkedCategories.length > 5) {
-      disableButton();
-    } else {
-      enableButton();
-    }
-  }, [addCategoryClick]);
-
-  //Check word counts
-  // const [wordCounts, setWordCounts] = useState({
-  //   "method-1": false,
-  //   "recipe-description": false,
-  //   "short-description": false,
-  // });
-
-  // const [overWordCounts, setOverWordCounts] = useState({
-  //   "recipe-name": false,
-  //   "recipe-description": false,
-  //   "short-description": false,
-  //   "ingredient"
-
-  // });
-
-  const handleWordCountChange = (id, name, index, count, isOverWordCount) => {
-    if (isOverWordCount) {
-      setFormState((prev) => ({
-        ...prev,
-        overWordCount: prev.overWordCount.includes(id)
-          ? prev.overWordCount
-          : [...prev.overWordCount, id],
-      }));
-    } else {
-      const updatedWordCountArr = formState.overWordCount.filter(
-        (e) => e !== id
-      );
-      setFormState((prev) => {
-        return { ...prev, overWordCount: updatedWordCountArr };
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (formState.overWordCount.length > 0) {
-      disableButton();
-    } else {
-      enableButton();
-    }
-  }, [handleWordCountChange]);
-
-  // const handleSubmit = () => {
-  //   if (overWordCounts.includes(true)) {
-  //     setErrorMessage("Some fields are over their character limit");
-  //   }
-  // };
-
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const handlePrevStep = () => {
-    setCurrentStep(currentStep - 1);
-  };
-
-  const handleNextStep = () => {
-    setCurrentStep(currentStep + 1);
-  };
+  }, []);
 
   const renderCategories = () => {
     return formState.categories.map((category, index) => {
@@ -343,11 +340,16 @@ export default function Form(props) {
     );
   };
 
+  const logFormState = () => {
+    console.log(formState);
+    console.log(currentStep);
+  };
+
   return (
     <div>
       <H2 text={`Step ${currentStep + 1} of 5`} className="text-center" />
       <div>
-        <p className="text-center">
+        <p onClick={logFormState} className="text-center">
           Give your recipe a name and take a snap of it
         </p>
         <form autoComplete="off" className="text-center" action={formAction}>
@@ -364,7 +366,6 @@ export default function Form(props) {
                     placeholder="Recipe Name"
                     formState={formState}
                     setFormState={setFormState}
-                    // wordCount={wordCounts[0]}
                     onWordCountChange={handleWordCountChange}
                     index={0}
                     charLimit={25}
@@ -377,7 +378,6 @@ export default function Form(props) {
                     placeholder="Recipe Description"
                     formState={formState}
                     setFormState={setFormState}
-                    // wordCount={wordCounts[1]}
                     onWordCountChange={handleWordCountChange}
                     index={1}
                     charLimit={50}
@@ -390,7 +390,6 @@ export default function Form(props) {
                     placeholder="Recipe short Description"
                     formState={formState}
                     setFormState={setFormState}
-                    // wordCount={wordCounts[2]}
                     onWordCountChange={handleWordCountChange}
                     index={2}
                     charLimit={25}
@@ -402,9 +401,7 @@ export default function Form(props) {
                     accept="images/*"
                     onChange={handleImageChange}
                   />
-                  {imageError && (
-                    <p>Image file size is too large. Please reduce.</p>
-                  )}
+                  {imageError && <p className="text-red-600">{imageError}</p>}
                   {imagePreview && (
                     <Image
                       src={imagePreview}
@@ -416,7 +413,7 @@ export default function Form(props) {
                 </div>
                 <div className="flex flex-row align-bottom absolute bottom-10">
                   <button
-                    className={`rounded-full border-1  mt-6 ${
+                    className={`rounded-full border-1 mt-6 ${
                       isSubmitDisabled
                         ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
                         : "border-recipe-red text-recipe-red"
@@ -424,6 +421,7 @@ export default function Form(props) {
                     onClick={handleNextStep}
                     disabled={isSubmitDisabled}
                     aria-disabled={isSubmitDisabled}
+                    type="button"
                   >
                     Next
                   </button>
@@ -450,36 +448,22 @@ export default function Form(props) {
                       </div>
                     );
                   })}
-                  {/* <label htmlFor="rcslect">Recipe Category</label>
-            <br></br>
-            <select className="border-2" name="rcselect" required multiple>
-              {categoryNames.map((category, key) => {
-                return (
-                  <option key={key} value={category}>
-                    {category}
-                  </option>
-                );
-              })}
-            </select> */}
                 </div>
                 {checkedCategories?.length > 5 && (
-                  <p class="text-red-600">
+                  <p className="text-red-600">
                     Too many categories. Please choose 5 or less.
                   </p>
                 )}
                 <div className="flex flex-row absolute bottom-10">
                   <button
-                    className={`rounded-full border-1  mt-6 ${
-                      isSubmitDisabled
-                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                        : "border-recipe-red text-recipe-red"
-                    } px-4 py-1 text-sm tracking-widest font-bold`}
+                    className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                     onClick={handlePrevStep}
+                    type="button"
                   >
                     Previous
                   </button>
                   <button
-                    className={`rounded-full border-1  mt-6 ${
+                    className={`rounded-full border-1 mt-6 ${
                       isSubmitDisabled
                         ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
                         : "border-recipe-red text-recipe-red"
@@ -487,6 +471,7 @@ export default function Form(props) {
                     onClick={handleNextStep}
                     disabled={isSubmitDisabled}
                     aria-disabled={isSubmitDisabled}
+                    type="button"
                   >
                     Next
                   </button>
@@ -523,17 +508,14 @@ export default function Form(props) {
                 </div>
                 <div className="flex flex-row absolute bottom-10">
                   <button
-                    className={`rounded-full border-1  mt-6 ${
-                      isSubmitDisabled
-                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                        : "border-recipe-red text-recipe-red"
-                    } px-4 py-1 text-sm tracking-widest font-bold`}
+                    className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                     onClick={handlePrevStep}
+                    type="button"
                   >
                     Previous
                   </button>
                   <button
-                    className={`rounded-full border-1  mt-6 ${
+                    className={`rounded-full border-1 mt-6 ${
                       isSubmitDisabled
                         ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
                         : "border-recipe-red text-recipe-red"
@@ -541,6 +523,7 @@ export default function Form(props) {
                     onClick={handleNextStep}
                     disabled={isSubmitDisabled}
                     aria-disabled={isSubmitDisabled}
+                    type="button"
                   >
                     Next
                   </button>
@@ -553,7 +536,7 @@ export default function Form(props) {
               <div>
                 {method.map((methodStep) => (
                   <ListInput
-                    key={`ingredient-${methodStep.id}`}
+                    key={`method-${methodStep.id}`}
                     id={`method-${methodStep.id}`}
                     idNumber={methodStep.id}
                     label={methodStep.id === 1 ? "Method" : ""}
@@ -579,17 +562,14 @@ export default function Form(props) {
                 <div className="text-center">
                   <div className="flex flex-row absolute bottom-10">
                     <button
-                      className={`rounded-full border-1  mt-6 ${
-                        isSubmitDisabled
-                          ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                          : "border-recipe-red text-recipe-red"
-                      } px-4 py-1 text-sm tracking-widest font-bold`}
+                      className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                       onClick={handlePrevStep}
+                      type="button"
                     >
                       Previous
                     </button>
                     <button
-                      className={`rounded-full border-1  mt-6 ${
+                      className={`rounded-full border-1 mt-6 ${
                         isSubmitDisabled
                           ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
                           : "border-recipe-red text-recipe-red"
@@ -597,6 +577,7 @@ export default function Form(props) {
                       onClick={handleNextStep}
                       disabled={isSubmitDisabled}
                       aria-disabled={isSubmitDisabled}
+                      type="button"
                     >
                       Next
                     </button>
@@ -606,17 +587,18 @@ export default function Form(props) {
             )}
             {currentStep === 4 && (
               <>
-                {/* //Step 5
-                // Larger */}
+                {/* Step 5 - Preview */}
                 <div className="hidden md:flex flex-col mt-10">
                   <div className="flex flex-row border-b-[1.5px] border-b-[#E4E4E7] pb-10">
                     <div className="basis-1/3">
-                      <Image
-                        src={imagePreview}
-                        alt="Image Preview"
-                        width={500}
-                        height={500}
-                      />
+                      {imagePreview && (
+                        <Image
+                          src={imagePreview}
+                          alt="Image Preview"
+                          width={500}
+                          height={500}
+                        />
+                      )}
                     </div>
                     <div className="basis-2/3 ml-10">
                       <div className="flex flex-col">
@@ -636,12 +618,9 @@ export default function Form(props) {
                   </div>
                   <div className="flex flex-row items-center justify-between mt-6">
                     <button
-                      className={`rounded-full border-1  mt-6 ${
-                        isSubmitDisabled
-                          ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                          : "border-recipe-red text-recipe-red"
-                      } px-4 py-1 text-sm tracking-widest font-bold`}
+                      className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                       onClick={handlePrevStep}
+                      type="button"
                     >
                       Previous
                     </button>
@@ -652,22 +631,25 @@ export default function Form(props) {
                         "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
                       }`}
                       type="submit"
-                      aria-disabled={pending}
+                      aria-disabled={pending || isSubmitDisabled}
+                      disabled={pending || isSubmitDisabled}
                     >
                       {pending ? "Uploading..." : "Upload Recipe"}
                     </button>
                   </div>
                 </div>
-                {/* //Mobile */}
+                {/* Mobile */}
                 <div className="md:hidden flex flex-col mt-10">
                   <div className="flex flex-col border-b-[1.5px] border-b-[#E4E4E7] pb-10">
                     <div className="basis-1/3">
-                      <Image
-                        src={imagePreview}
-                        alt="Image Preview"
-                        width={500}
-                        height={500}
-                      />
+                      {imagePreview && (
+                        <Image
+                          src={imagePreview}
+                          alt="Image Preview"
+                          width={500}
+                          height={500}
+                        />
+                      )}
                     </div>
                     <div>
                       <div className="flex flex-col">
@@ -686,12 +668,9 @@ export default function Form(props) {
                     </div>
                     <div className="flex flex-row items-center justify-between mt-6">
                       <button
-                        className={`rounded-full border-1  mt-6 ${
-                          isSubmitDisabled
-                            ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                            : "border-recipe-red text-recipe-red"
-                        } px-4 py-1 text-sm tracking-widest font-bold`}
+                        className="rounded-full border-1 border-recipe-red text-recipe-red mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                         onClick={handlePrevStep}
+                        type="button"
                       >
                         Previous
                       </button>
@@ -702,7 +681,8 @@ export default function Form(props) {
                           "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
                         }`}
                         type="submit"
-                        aria-disabled={pending}
+                        aria-disabled={pending || isSubmitDisabled}
+                        disabled={pending || isSubmitDisabled}
                       >
                         {pending ? "Uploading..." : "Upload Recipe"}
                       </button>
@@ -717,7 +697,7 @@ export default function Form(props) {
 
         {serverState?.status && <div>{serverState?.message}</div>}
         {serverState?.errorMessage && (
-          <p class="text-red-600">{serverState?.errorMessage}</p>
+          <p className="text-red-600">{serverState?.errorMessage}</p>
         )}
         {serverState?.status === "success" && redirect("/")}
       </div>
