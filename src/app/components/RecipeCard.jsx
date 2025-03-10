@@ -10,7 +10,7 @@ import { deleteRecipe } from "../lib/actions";
 import { Skeleton } from "@nextui-org/skeleton";
 
 const RecipeCard = (props) => {
-  const { allLikes, currentUserId, id, createdAt, deletable } = props;
+  const { allLikes, currentUserId, id, createdAt, deletable, isSmall } = props;
 
   const likeRecipeId = allLikes ? allLikes.map((like) => like.RecipeId) : [];
 
@@ -64,7 +64,12 @@ const RecipeCard = (props) => {
 
   return (
     <div
-      className={`flex flex-col w-[250px] md:w-72 rounded-lg h-full border-[0.5px] border-recipe-gray-150 shadow-md bg-white ${props.className}`}
+      className={`flex flex-col w-[250px] md:w-72 rounded-lg h-full border-[0.5px] border-recipe-gray-150 shadow-md bg-white ${
+        props.className
+      } ${
+        isSmall &&
+        "flex flex-col w-full xs:max-w-[180px] max-w-[300px] md:w-[250px] rounded-lg h-full border-[0.5px] border-recipe-gray-150 shadow-md bg-white"
+      }`}
     >
       <div className="relative p-2 h-60">
         {deletable && (
