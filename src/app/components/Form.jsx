@@ -263,8 +263,9 @@ export default function Form(props) {
         e.target.nodeName === "INPUT" &&
         e.target.type === "text"
       ) {
+        console.log(true);
         e.preventDefault();
-        if (e.target.name === "ingredient") {
+        if (e.target.name === "ingredients") {
           addIngredientField();
         } else if (e.target.name === "method") {
           addMethodField();
@@ -277,7 +278,7 @@ export default function Form(props) {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [ingredients, method]);
 
   const renderCategories = () => {
     return formState.categories.map((category, index) => {
