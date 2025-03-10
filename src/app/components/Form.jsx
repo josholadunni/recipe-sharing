@@ -444,6 +444,7 @@ export default function Form(props) {
                           id={`${(category, i)}`}
                           name="rcselect"
                           value={category}
+                          defaultChecked={checkedCategories.includes(category)}
                         ></input>
                       </div>
                     );
