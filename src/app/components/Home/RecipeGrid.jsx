@@ -40,7 +40,7 @@ export default function RecipeGrid({
 
   return (
     <div className="flex flex-col mb-20 pb-10">
-      <div className="grid grid-cols-1 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 recipe-grid gap-x-8 gap-y-8 md:gap-8 justify-items-center">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 recipe-grid gap-x-8 gap-y-8 md:gap-8 justify-items-center">
         {displayedData.map((recipe, index) => {
           const categories = recipe.RecipeCategories.map((category) => [
             category.name,
