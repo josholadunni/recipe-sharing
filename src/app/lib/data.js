@@ -4,6 +4,7 @@ import {
   RecipeRecipeCategory,
   User,
   Like,
+  LikedRecipes,
 } from "./models/index.js";
 import { auth } from "../auth";
 import { sequelize } from "./models/index.js";
@@ -97,6 +98,32 @@ export async function fetchRecipeLikes() {
   } catch (error) {
     console.error("Couldn't fetch likes", error);
     return [];
+  }
+}
+
+export async function fetchLikedRecipes() {
+  const session = await auth();
+  if (session) {
+    const currentUserId = await findUserIdFromEmail();
+    if (currentUserId != undefined) {
+      try {
+        const recipes = await Recipe.findAll({
+          include: [
+            {
+              model: Like,
+              where: { UserId: currentUserId.result },
+              required: true,
+            },
+            { model: RecipeCategory, through: { attributes: [] } },
+          ],
+        });
+        return JSON.parse(JSON.stringify(recipes));
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      return [];
+    }
   }
 }
 

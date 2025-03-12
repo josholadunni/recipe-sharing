@@ -35,7 +35,7 @@ export default async function Home() {
           </div>
           <div className="relative top-12 mt-10">
             <H2 text="Popular Recipes" />
-            <div className="flex justify-center">
+            <div className="flex justify-center pb-32">
               <RecipeGrid
                 allLikes={allLikes}
                 currentUserId={currentUserId}
