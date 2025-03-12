@@ -21,8 +21,6 @@ export default function RecipeGrid({
     setRecipesLeft(recipesLeft - 4);
   };
 
-  console.log(recipesLeft);
-
   //If recipesLeft isn't totally divisible by 4, set the max items visible state to true
   useEffect(() => {
     if (recipesLeft % 4 <= 0) {
@@ -88,19 +86,12 @@ export default function RecipeGrid({
         })}
       </div>
       <div className="flex flex-row justify-center">
-        {!maxItemsVisible ? (
+        {totalRecipes > 4 && (
           <button
             className="rounded-full border-1 border-recipe-red hover:bg-recipe-red mt-6 text-recipe-red hover:text-white px-4 py-1 text-sm tracking-widest font-bold"
-            onClick={handleSeeMore}
+            onClick={maxItemsVisible ? handleHide : handleSeeMore}
           >
-            SEE MORE
-          </button>
-        ) : (
-          <button
-            className="rounded-full border-1 border-recipe-red hover:bg-recipe-red mt-6 text-recipe-red hover:text-white px-4 py-1 text-sm tracking-widest font-bold"
-            onClick={handleHide}
-          >
-            HIDE
+            {maxItemsVisible ? "HIDE" : "SEE MORE"}
           </button>
         )}
       </div>
