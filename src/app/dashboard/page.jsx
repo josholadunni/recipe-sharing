@@ -34,7 +34,7 @@ export default async function Dashboard() {
                   <RecipeGrid
                     allLikes={allLikes}
                     recipes={myRecipes}
-                    currentUserId={currentUserId.result}
+                    currentUserId={currentUserId}
                     deleteButton={true}
                   />
                 ) : (
@@ -50,11 +50,11 @@ export default async function Dashboard() {
             <div className="flex justify-center">
               {currentUserId && (
                 <>
-                  {myRecipes ? (
+                  {likedRecipes ? (
                     <RecipeGrid
                       allLikes={allLikes}
                       recipes={likedRecipes}
-                      currentUserId={currentUserId.result}
+                      currentUserId={currentUserId}
                       deleteButton={false}
                     />
                   ) : (
@@ -67,7 +67,7 @@ export default async function Dashboard() {
           </div>
           {currentUserId && (
             <div className="flex justify-center mt-20">
-              <DeleteButton currentUserId={currentUserId.result} />
+              <DeleteButton currentUserId={currentUserId} />
             </div>
           )}
         </div>
