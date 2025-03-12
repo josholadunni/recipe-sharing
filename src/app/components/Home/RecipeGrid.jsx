@@ -62,6 +62,7 @@ export default function RecipeGrid({
                 slug={recipe.name.replace(/\s+/g, "-").toLowerCase()}
                 createdAt={recipe.createdAt}
                 deletable={true}
+                isSmall={true}
               />
             );
           } else {
