@@ -68,7 +68,7 @@ const RecipeCard = (props) => {
         props.className
       } ${
         isSmall &&
-        "flex flex-col w-full xs:max-w-[180px] max-w-[300px] md:w-[250px] rounded-lg h-full border-[0.5px] border-recipe-gray-150 shadow-md bg-white"
+        "flex flex-col w-full xs:max-w-[180px] max-w-[300px] md:w-72 rounded-lg h-full border-[0.5px] border-recipe-gray-150 shadow-md bg-white"
       }`}
     >
       <div className="relative p-2 h-60">
