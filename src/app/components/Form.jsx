@@ -131,14 +131,12 @@ export default function Form(props) {
     if (image) {
       try {
         //Compress Image
-        const compressedImage = await imageCompression(image, options);
-        console.log(
-          "compressedImage instanceof Blob",
-          compressedImage instanceof Blob
-        ); // true
-        console.log(
-          `compressedImage size ${compressedImage.size / 1024 / 1024} MB`
-        );
+        let compressedImage = await imageCompression(image, options);
+
+        //Create a new File object from the compressed image
+        compressedImage = new File([compressedImage], image.name, {
+          type: compressedImage.type,
+        });
 
         //Remove any existing error messages and store the compressed file inside the formState
         setImageError(null);
