@@ -8,6 +8,7 @@ import {
 } from "./models/index.js";
 import { auth } from "../auth";
 import { sequelize } from "./models/index.js";
+import { unstable_cache } from "next/cache";
 
 export default async function fetchRecentRecipes() {
   try {
@@ -154,32 +155,45 @@ export async function fetchAllRecipeIds() {
   }
 }
 
-export async function findUserIdFromEmail(inputEmail) {
+export const findUserIdFromEmail = async (inputEmail) => {
+  // User lookup function (cached for 1 hour)
+  const getCachedUser = unstable_cache(
+    async (email) => {
+      const user = await User.findOne({
+        where: { email },
+        attributes: ["id"],
+      });
+
+      return user
+        ? { result: user.id, message: "Email already exists" }
+        : undefined;
+    },
+    ["user-by-email"], // Cache tag for revalidation
+    { revalidate: 3600 } // Cache for 1 hour
+  );
+
+  //Get the session from the auth object
   const session = await auth();
-  console.log(session);
+
+  //Initialise the email variable. This is what will be used as a parameter in getCachedUser
   let email = undefined;
+
+  //Check to see if currently logged in
   if (!session || !session.user || !session.user.email) {
     if (!inputEmail) {
       return undefined; // No email available
     }
-    // Use inputEmail if provided and no session available
     email = inputEmail;
   } else {
-    // Use session email if available, or inputEmail if provided
-    console.log(session.user.email);
+    //Email to search with is the function parameter or if no parameter, the session email
     email = inputEmail || session.user.email;
   }
+  //If no input email or session email, return undefined
+  if (!email) return undefined;
 
-  const user = await User.findAll({
-    where: { email: email },
-  });
-  console.log(user);
-  if (user.length > 0) {
-    return { result: user[0].dataValues.id, message: "Email already exists" };
-  } else {
-    return undefined;
-  }
-}
+  // Use the predefined function to get a User from the email. This function is cached to prevent excessive and unnecessary function calling
+  return getCachedUser(email);
+};
 
 export async function findUserFromUsername(username) {
   const user = await User.findAll({
