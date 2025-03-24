@@ -9,7 +9,7 @@ import {
   fetchMyRecipes,
   findUserIdFromEmail,
 } from "../lib/data.js";
-import RecipeSectionGrid from "../components/RecipeSectionGrid.jsx";
+import RecipeSection from "../components/RecipeSection.jsx";
 
 export default async function Dashboard() {
   try {
@@ -22,10 +22,11 @@ export default async function Dashboard() {
         <div className="mt-10">
           <H2 text="My Recipes" />
           {currentUserId ? (
-            <RecipeSectionGrid
+            <RecipeSection
               currentUserId={currentUserId}
               fetchRecipeLikes={fetchRecipeLikes}
               fetchRecipes={fetchMyRecipes}
+              layout={"grid"}
             />
           ) : (
             <p>Not Logged In</p>
@@ -33,10 +34,11 @@ export default async function Dashboard() {
           {/* Liked Recipes */}
           <div className="mt-10">
             <H2 text="Liked Recipes" />
-            <RecipeSectionGrid
+            <RecipeSection
               currentUserId={currentUserId}
               fetchRecipeLikes={fetchRecipeLikes}
               fetchRecipes={fetchLikedRecipes}
+              layout={"grid"}
             />
           </div>
           {currentUserId && (

@@ -1,46 +1,36 @@
 import React from "react";
 import "../styles/Home.css";
-import RecipeCarousel from "./components/Home/RecipeCarousel.jsx";
-import RecipeGrid from "./components/Home/RecipeGrid";
+import RecipeSection from "./components/RecipeSection";
 import fetchRecentRecipes from "./lib/data.js";
 import {
   fetchRecipeLikes,
   findUserIdFromEmail,
   fetchPopularRecipes,
 } from "./lib/data.js";
-import H1 from "./components/H1.jsx";
 import H2 from "./components/H2.jsx";
 
 export default async function Home() {
   try {
-    const [allLikes, recentRecipes, popularRecipes, currentUserId] =
-      await Promise.all([
-        fetchRecipeLikes(),
-        fetchRecentRecipes(),
-        fetchPopularRecipes(),
-        findUserIdFromEmail(),
-      ]);
+    const currentUserId = await findUserIdFromEmail();
 
     return (
       <div className="relative top-12">
         <div className="mt-10 mx-2">
           <H2 text="Recent Recipes" />
-          <div className="flex">
-            <RecipeCarousel
-              allLikes={allLikes}
-              currentUserId={currentUserId}
-              recipes={recentRecipes}
-              deleteButton={false}
-            />
-          </div>
+          <RecipeSection
+            currentUserId={currentUserId}
+            fetchRecipeLikes={fetchRecipeLikes}
+            fetchRecipes={fetchRecentRecipes}
+            layout={"carousel"}
+          />
           <div className="relative top-12 mt-10">
             <H2 text="Popular Recipes" />
-            <div className="flex justify-center pb-32">
-              <RecipeGrid
-                allLikes={allLikes}
+            <div className="pb-32">
+              <RecipeSection
                 currentUserId={currentUserId}
-                recipes={popularRecipes}
-                deleteButton={false}
+                fetchRecipeLikes={fetchRecipeLikes}
+                fetchRecipes={fetchPopularRecipes}
+                layout={"carousel"}
               />
             </div>
           </div>
