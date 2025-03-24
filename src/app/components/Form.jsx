@@ -13,6 +13,7 @@ import Image from "next/image";
 import H2 from "./H2.jsx";
 import H3 from "./H3.jsx";
 import Link from "next/link.js";
+import imageCompression from "browser-image-compression";
 
 export default function Form(props) {
   const initialState = { message: null };
@@ -120,23 +121,38 @@ export default function Form(props) {
     updateButtonState();
   }, [currentStep, formState, checkedCategories, imageError]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileSize = file.size;
-      if (fileSize < 400000) {
+  const handleImageChange = async (e) => {
+    const image = e.target.files[0];
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 500,
+      useWebWorker: true,
+    };
+    if (image) {
+      try {
+        //Compress Image
+        const compressedImage = await imageCompression(image, options);
+        console.log(
+          "compressedImage instanceof Blob",
+          compressedImage instanceof Blob
+        ); // true
+        console.log(
+          `compressedImage size ${compressedImage.size / 1024 / 1024} MB`
+        );
+
+        //Remove any existing error messages and store the compressed file inside the formState
         setImageError(null);
         setFormState((prev) => ({
           ...prev,
-          file: file,
+          file: compressedImage,
         }));
         const reader = new FileReader();
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(image);
         reader.onloadend = () => {
           setImagePreview(reader.result);
         };
-      } else {
-        setImageError("File size is too large. Please upload a smaller image.");
+      } catch (error) {
+        console.error(error);
       }
     }
   };
