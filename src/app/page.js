@@ -12,7 +12,6 @@ import H2 from "./components/H2.jsx";
 export default async function Home() {
   try {
     const currentUserId = await findUserIdFromEmail();
-
     return (
       <div className="relative top-12">
         <div className="mt-10 mx-2">
