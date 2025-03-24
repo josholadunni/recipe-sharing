@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "PLACEHOLDER_AWS_HOSTNAME",
+        hostname: process.env.NEXT_AWS_HOSTNAME,
         port: "",
         pathname: "**",
       },
