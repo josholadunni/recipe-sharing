@@ -3,15 +3,13 @@ import React from "react";
 import H1 from "../components/H1.jsx";
 import H2 from "../components/H2.jsx";
 import DeleteButton from "../components/DeleteButton.jsx";
-import RecipeGrid from "../components/Home/RecipeGrid.jsx";
-import MyRecipesSection from "../components/Dashboard/MyRecipesSection.jsx";
-import LikedRecipesSection from "../components/Dashboard/LikedRecipesSection.jsx";
 import {
   fetchRecipeLikes,
   fetchLikedRecipes,
   fetchMyRecipes,
   findUserIdFromEmail,
 } from "../lib/data.js";
+import RecipeSectionGrid from "../components/RecipeSectionGrid.jsx";
 
 export default async function Dashboard() {
   try {
@@ -24,14 +22,22 @@ export default async function Dashboard() {
         <div className="mt-10">
           <H2 text="My Recipes" />
           {currentUserId ? (
-            <MyRecipesSection currentUserId={currentUserId} />
+            <RecipeSectionGrid
+              currentUserId={currentUserId}
+              fetchRecipeLikes={fetchRecipeLikes}
+              fetchRecipes={fetchMyRecipes}
+            />
           ) : (
             <p>Not Logged In</p>
           )}
           {/* Liked Recipes */}
           <div className="mt-10">
             <H2 text="Liked Recipes" />
-            <LikedRecipesSection currentUserId={currentUserId} />
+            <RecipeSectionGrid
+              currentUserId={currentUserId}
+              fetchRecipeLikes={fetchRecipeLikes}
+              fetchRecipes={fetchLikedRecipes}
+            />
           </div>
           {currentUserId && (
             <div className="flex justify-center mt-20">

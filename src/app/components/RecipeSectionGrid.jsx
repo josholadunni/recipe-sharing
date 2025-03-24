@@ -1,12 +1,15 @@
 import React from "react";
-import ContentWithSkeleton from "../Wrappers/ContentWithSkeleton";
-import { fetchRecipeLikes, fetchMyRecipes } from "../../lib/data";
-import RecipeGrid from "../Home/RecipeGrid";
+import ContentWithSkeleton from "./Wrappers/ContentWithSkeleton";
+import RecipeGrid from "./Home/RecipeGrid";
 
-async function MyRecipesSection({ currentUserId }) {
+async function RecipeSectionGrid({
+  currentUserId,
+  fetchRecipeLikes,
+  fetchRecipes,
+}) {
   const [allLikes, myRecipes] = await Promise.all([
     fetchRecipeLikes(),
-    fetchMyRecipes(),
+    fetchRecipes(),
   ]);
   return (
     <div>
@@ -26,4 +29,4 @@ async function MyRecipesSection({ currentUserId }) {
   );
 }
 
-export default MyRecipesSection;
+export default RecipeSectionGrid;

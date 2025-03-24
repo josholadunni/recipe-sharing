@@ -34,8 +34,6 @@ export default function RecipeGrid({
     setVisibleItemCount(4);
     setDisplayedData(recipes.slice(0, 4));
     setRecipesLeft(recipes.length - 4);
-    console.log(maxItemsVisible);
-    console.log(recipesLeft);
   };
 
   const totalRecipes = recipes.length;
