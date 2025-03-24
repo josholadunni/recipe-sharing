@@ -9,9 +9,7 @@ import RecipeGrid from "../../components/Home/RecipeGrid";
 import { findUserIdFromEmail } from "../../lib/data";
 
 export async function generateStaticParams() {
-  console.log("Generating static params for users page");
   const users = await fetchAllUsers();
-  console.log(users);
   return users.map((user) => ({
     name: user.dataValues.username,
   }));
