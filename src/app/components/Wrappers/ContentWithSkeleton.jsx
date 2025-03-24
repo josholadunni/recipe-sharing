@@ -7,7 +7,14 @@ function ContentWithSkeleton({ children, data, fallback, className = "" }) {
 
   useEffect(() => {
     if (data) {
-      setIsLoaded(true);
+      // Delay to make transition smoother
+      const timer = setTimeout(() => {
+        setIsLoaded(true);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    } else {
+      setIsLoaded(false);
     }
   }, [data]);
 

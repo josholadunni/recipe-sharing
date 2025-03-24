@@ -23,7 +23,7 @@ export default function RecipeGrid({
 
   //If recipesLeft isn't totally divisible by 4, set the max items visible state to true
   useEffect(() => {
-    if (recipesLeft % 4 <= 0) {
+    if (recipesLeft === 0) {
       setMaxItemsVisible(true);
     } else {
       setMaxItemsVisible(false);
@@ -34,6 +34,8 @@ export default function RecipeGrid({
     setVisibleItemCount(4);
     setDisplayedData(recipes.slice(0, 4));
     setRecipesLeft(recipes.length - 4);
+    console.log(maxItemsVisible);
+    console.log(recipesLeft);
   };
 
   const totalRecipes = recipes.length;

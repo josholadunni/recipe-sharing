@@ -20,7 +20,6 @@ export default async function Dashboard() {
     return (
       <div className="relative top-12 min-h-screen">
         <H1 text="Dashboard" />
-
         {/* My Recipes */}
         <div className="mt-10">
           <H2 text="My Recipes" />
