@@ -28,6 +28,7 @@ export default async function CategoryPage(params) {
             fetchRecipeLikes={fetchRecipeLikes}
             fetchRecipes={fetchRecipesByCategoryId}
             categoryId={id}
+            isDeletable={false}
             layout={"grid"}
           />
         </div>

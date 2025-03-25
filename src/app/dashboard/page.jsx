@@ -26,6 +26,7 @@ export default async function Dashboard() {
               currentUserId={currentUserId}
               fetchRecipeLikes={fetchRecipeLikes}
               fetchRecipes={fetchMyRecipes}
+              isDeletable={true}
               layout={"grid"}
             />
           ) : (

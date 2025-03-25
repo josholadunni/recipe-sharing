@@ -8,6 +8,7 @@ async function RecipeSection({
   fetchRecipeLikes,
   fetchRecipes,
   categoryId,
+  isDeletable,
   layout,
 }) {
   const [allLikes, recipes] = await Promise.all([
@@ -29,7 +30,7 @@ async function RecipeSection({
             allLikes={serializedData.allLikes}
             recipes={serializedData.recipes}
             currentUserId={currentUserId}
-            deleteButton={true}
+            deleteButton={isDeletable}
           />
         ) : (
           <div className="flex">
@@ -37,6 +38,7 @@ async function RecipeSection({
               allLikes={serializedData.allLikes}
               recipes={serializedData.recipes}
               currentUserId={currentUserId}
+              deleteButton={isDeletable}
             />
           </div>
         )}
