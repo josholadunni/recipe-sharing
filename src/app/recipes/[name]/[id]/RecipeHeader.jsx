@@ -96,7 +96,11 @@ export default function RecipeHeader({ id, isMobile }) {
             isLoaded={isLoaded}
             className="aspect-square sm:w-[500px] md:w-[350px] rounded-lg"
           >
-            {recipe && <ImageWithSkeleton data={recipe} />}
+            {isLoaded && recipe && (
+              <div className="aspect-square w-full relative">
+                <ImageWithSkeleton data={recipe} />
+              </div>
+            )}
           </Skeleton>
         </div>
         <div className="flex flex-col align-middle my-auto basis-3/4 md:ml-14 sm:pt-5 md:pt-0">
