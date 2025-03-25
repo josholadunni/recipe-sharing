@@ -20,7 +20,7 @@ function ContentWithSkeleton({ children, data, fallback, className = "" }) {
 
   return (
     <Skeleton isLoaded={isLoaded} className={className}>
-      {isLoaded ? children : fallback}
+      {children}
     </Skeleton>
   );
 }
