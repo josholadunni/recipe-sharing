@@ -14,11 +14,35 @@ import H2 from "./H2.jsx";
 import H3 from "./H3.jsx";
 import Link from "next/link.js";
 import imageCompression from "browser-image-compression";
+import ContentWithSkeleton from "../components/Wrappers/ContentWithSkeleton.jsx";
+import { fetchCategories } from "../lib/actions.js";
 
-export default function Form(props) {
+export default function Form() {
   const initialState = { message: null };
 
-  const categoryNames = props.categoryNames;
+  const [categories, setCategories] = useState([]);
+
+  //Once mounted, await the fetchCategories server function and set the categories state to the fetched data
+  useEffect(() => {
+    const getCategories = async () => {
+      const fetchedCategories = await fetchCategories();
+      setCategories(fetchedCategories);
+    };
+    getCategories();
+    return () => {};
+  }, []);
+
+  const categoryNames = categories
+    ? categories
+        .map((category) => {
+          const categoryName = category.name;
+          const capitalized =
+            categoryName.charAt(0).toUpperCase() +
+            categoryName.slice(1).toLowerCase();
+          return capitalized;
+        })
+        .sort()
+    : [];
 
   const [ingredients, setIngredients] = useState([{ id: 1 }]);
 
@@ -356,224 +380,124 @@ export default function Form(props) {
   };
 
   return (
-    <div>
-      <H2 text={`Step ${currentStep + 1} of 5`} className="text-center" />
+    <ContentWithSkeleton data={categories}>
       <div>
-        <p className="text-center">
-          Give your recipe a name and take a snap of it
-        </p>
-        <form autoComplete="off" className="text-center" action={formAction}>
-          <div className="inline-block text-left">
-            {currentStep === 0 && (
-              // Step 1
-              <div key="step1" className="flex flex-col h-full">
-                <div className="flex flex-col">
-                  <InputWithCharLimit
-                    id={"recipe-name"}
-                    label="Recipe Name"
-                    name="rname"
-                    type="text"
-                    placeholder="Recipe Name"
-                    formState={formState}
-                    setFormState={setFormState}
-                    onWordCountChange={handleWordCountChange}
-                    index={0}
-                    charLimit={25}
-                  />
-                  <InputWithCharLimit
-                    id={"recipe-description"}
-                    label="Recipe Description"
-                    name="rdescription"
-                    type="text"
-                    placeholder="Recipe Description"
-                    formState={formState}
-                    setFormState={setFormState}
-                    onWordCountChange={handleWordCountChange}
-                    index={1}
-                    charLimit={50}
-                  />
-                  <InputWithCharLimit
-                    id="short-description"
-                    label="Short Recipe Description"
-                    name="srdescription"
-                    type="text"
-                    placeholder="Recipe short Description"
-                    formState={formState}
-                    setFormState={setFormState}
-                    onWordCountChange={handleWordCountChange}
-                    index={2}
-                    charLimit={25}
-                  />
-                  <Input
-                    label="Image"
-                    name="file"
-                    type="file"
-                    accept="images/*"
-                    onChange={handleImageChange}
-                  />
-                  {imageError && <p className="text-red-600">{imageError}</p>}
-                  {imagePreview && (
-                    <div className="pb-20">
-                      <Image
-                        src={imagePreview}
-                        alt="Image Preview"
-                        width={350}
-                        height={350}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-row align-bottom absolute bottom-10">
-                  <button
-                    className={`rounded-full border-1 mt-6 ${
-                      isSubmitDisabled
-                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                        : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
-                    } px-4 py-1 text-sm tracking-widest font-bold`}
-                    onClick={handleNextStep}
-                    disabled={isSubmitDisabled}
-                    aria-disabled={isSubmitDisabled}
-                    type="button"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            )}
-            {currentStep === 1 && (
-              //Step 2
-              <div key="step2" className={`flex-col`}>
-                <div className="py-2 flex flex-col w-60 mx-auto">
-                  <p>Recipe Category</p>
-                  {categoryNames.map((category, i) => {
-                    return (
-                      <div key={category}>
-                        <label htmlFor={category}>{category}</label>
-                        <input
-                          onClick={(e) => addCategoryClick(e)}
-                          className="category-select float-right"
-                          type="checkbox"
-                          id={`${(category, i)}`}
-                          name="rcselect"
-                          value={category}
-                          defaultChecked={checkedCategories.includes(category)}
-                        ></input>
+        <H2 text={`Step ${currentStep + 1} of 5`} className="text-center" />
+        <div>
+          <p className="text-center">
+            Give your recipe a name and take a snap of it
+          </p>
+          <form autoComplete="off" className="text-center" action={formAction}>
+            <div className="inline-block text-left">
+              {currentStep === 0 && (
+                // Step 1
+                <div
+                  key="step1"
+                  className="flex flex-col h-full justify-between"
+                >
+                  <div className="flex flex-col">
+                    <InputWithCharLimit
+                      id={"recipe-name"}
+                      label="Recipe Name"
+                      name="rname"
+                      type="text"
+                      placeholder="Recipe Name"
+                      formState={formState}
+                      setFormState={setFormState}
+                      onWordCountChange={handleWordCountChange}
+                      index={0}
+                      charLimit={25}
+                    />
+                    <InputWithCharLimit
+                      id={"recipe-description"}
+                      label="Recipe Description"
+                      name="rdescription"
+                      type="text"
+                      placeholder="Recipe Description"
+                      formState={formState}
+                      setFormState={setFormState}
+                      onWordCountChange={handleWordCountChange}
+                      index={1}
+                      charLimit={50}
+                    />
+                    <InputWithCharLimit
+                      id="short-description"
+                      label="Short Recipe Description"
+                      name="srdescription"
+                      type="text"
+                      placeholder="Recipe short Description"
+                      formState={formState}
+                      setFormState={setFormState}
+                      onWordCountChange={handleWordCountChange}
+                      index={2}
+                      charLimit={25}
+                    />
+                    <Input
+                      label="Image"
+                      name="file"
+                      type="file"
+                      accept="images/*"
+                      onChange={handleImageChange}
+                    />
+                    {imageError && <p className="text-red-600">{imageError}</p>}
+                    {imagePreview && (
+                      <div className="pb-20">
+                        <Image
+                          src={imagePreview}
+                          alt="Image Preview"
+                          width={350}
+                          height={350}
+                        />
                       </div>
-                    );
-                  })}
+                    )}
+                  </div>
+                  <div className="flex flex-row align-bottom mt-auto">
+                    <button
+                      className={`rounded-full border-1 mt-6 ${
+                        isSubmitDisabled
+                          ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                          : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
+                      } px-4 py-1 text-sm tracking-widest font-bold`}
+                      onClick={handleNextStep}
+                      disabled={isSubmitDisabled}
+                      aria-disabled={isSubmitDisabled}
+                      type="button"
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
-                {checkedCategories?.length > 5 && (
-                  <p className="text-red-600">
-                    Too many categories. Please choose 5 or less.
-                  </p>
-                )}
-                <div className="flex flex-row absolute bottom-10">
-                  <button
-                    className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
-                    onClick={handlePrevStep}
-                    type="button"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    className={`rounded-full border-1 mt-6 ${
-                      isSubmitDisabled
-                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                        : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
-                    } px-4 py-1 text-sm tracking-widest font-bold`}
-                    onClick={handleNextStep}
-                    disabled={isSubmitDisabled}
-                    aria-disabled={isSubmitDisabled}
-                    type="button"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            )}
-            {currentStep === 2 && (
-              //Step 3
-              <div key="step3">
-                {ingredients.map((ingredient) => (
-                  <ListInput
-                    key={`ingredient-${ingredient.id}`}
-                    id={`ingredient-${ingredient.id}`}
-                    idNumber={ingredient.id}
-                    label={ingredient.id === 1 ? "Ingredients" : ""}
-                    name={`ingredients`}
-                    type="text"
-                    placeholder={"Enter Ingredient"}
-                    onRemove={removeIngredientField}
-                    formState={formState}
-                    setFormState={setFormState}
-                    onWordCountChange={handleWordCountChange}
-                    charLimit={25}
-                  />
-                ))}
-                <div className="text-left">
-                  <span
-                    className="text-sm bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-7"
-                    onClick={addIngredientField}
-                  >
-                    Add Ingredient
-                  </span>
-                  <br></br>
-                </div>
-                <div className="flex flex-row absolute bottom-10">
-                  <button
-                    className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
-                    onClick={handlePrevStep}
-                    type="button"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    className={`rounded-full border-1 mt-6 ${
-                      isSubmitDisabled
-                        ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
-                        : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
-                    } px-4 py-1 text-sm tracking-widest font-bold`}
-                    onClick={handleNextStep}
-                    disabled={isSubmitDisabled}
-                    aria-disabled={isSubmitDisabled}
-                    type="button"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {currentStep === 3 && (
-              //Step 4
-              <div>
-                {method.map((methodStep) => (
-                  <ListInput
-                    key={`method-${methodStep.id}`}
-                    id={`method-${methodStep.id}`}
-                    idNumber={methodStep.id}
-                    label={methodStep.id === 1 ? "Method" : ""}
-                    name={`method`}
-                    type="text"
-                    placeholder={"Enter Method Step"}
-                    onRemove={removeMethodField}
-                    formState={formState}
-                    setFormState={setFormState}
-                    onWordCountChange={handleWordCountChange}
-                    charLimit={50}
-                  />
-                ))}
-                <div className="text-left">
-                  <span
-                    className="text-sm bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-7"
-                    onClick={addMethodField}
-                  >
-                    Add Method Step
-                  </span>
-                  <br></br>
-                </div>
-                <div className="text-center">
-                  <div className="flex flex-row absolute bottom-10">
+              )}
+              {currentStep === 1 && (
+                //Step 2
+                <div key="step2" className={`flex-col h-full justify-between`}>
+                  <div className="py-2 flex flex-col w-60 mx-auto">
+                    <p>Recipe Category</p>
+                    {categoryNames.map((category, i) => {
+                      return (
+                        <div key={category}>
+                          <label htmlFor={category}>{category}</label>
+                          <input
+                            onClick={(e) => addCategoryClick(e)}
+                            className="category-select float-right"
+                            type="checkbox"
+                            id={`${(category, i)}`}
+                            name="rcselect"
+                            value={category}
+                            defaultChecked={checkedCategories.includes(
+                              category
+                            )}
+                          ></input>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {checkedCategories?.length > 5 && (
+                    <p className="text-red-600">
+                      Too many categories. Please choose 5 or less.
+                    </p>
+                  )}
+                  <div className="flex flex-row align-bottom mt-auto">
                     <button
                       className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                       onClick={handlePrevStep}
@@ -596,40 +520,36 @@ export default function Form(props) {
                     </button>
                   </div>
                 </div>
-              </div>
-            )}
-            {currentStep === 4 && (
-              <>
-                {/* Step 5 - Preview */}
-                <div className="hidden md:flex flex-col mt-10">
-                  <div className="flex flex-row border-b-[1.5px] border-b-[#E4E4E7] pb-10">
-                    <div className="basis-1/3">
-                      {imagePreview && (
-                        <Image
-                          src={imagePreview}
-                          alt="Image Preview"
-                          width={500}
-                          height={500}
-                        />
-                      )}
-                    </div>
-                    <div className="basis-2/3 ml-10">
-                      <div className="flex flex-col">
-                        <H2 text={formState.rname}></H2>
-                        <div className="flex flex-row">
-                          {renderCategories()}
-                        </div>
-                        <p>{formState.rdescription}</p>
-                      </div>
-                    </div>
+              )}
+              {currentStep === 2 && (
+                //Step 3
+                <div key="step3">
+                  {ingredients.map((ingredient) => (
+                    <ListInput
+                      key={`ingredient-${ingredient.id}`}
+                      id={`ingredient-${ingredient.id}`}
+                      idNumber={ingredient.id}
+                      label={ingredient.id === 1 ? "Ingredients" : ""}
+                      name={`ingredients`}
+                      type="text"
+                      placeholder={"Enter Ingredient"}
+                      onRemove={removeIngredientField}
+                      formState={formState}
+                      setFormState={setFormState}
+                      onWordCountChange={handleWordCountChange}
+                      charLimit={25}
+                    />
+                  ))}
+                  <div className="text-left">
+                    <span
+                      className="text-sm bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-7"
+                      onClick={addIngredientField}
+                    >
+                      Add Ingredient
+                    </span>
+                    <br></br>
                   </div>
-                  <div className="flex flex-row mt-10 ">
-                    <div className="basis-1/3">{renderIngredients()}</div>
-                    <div className="basis-2/3 border-l-[1.5px] border-[#E4E4E7] pl-12">
-                      {renderMethod()}
-                    </div>
-                  </div>
-                  <div className="flex flex-row items-center justify-between mt-6">
+                  <div className="flex flex-row absolute mt-auto">
                     <button
                       className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
                       onClick={handlePrevStep}
@@ -638,46 +558,106 @@ export default function Form(props) {
                       Previous
                     </button>
                     <button
-                      id="submitBtn"
-                      className={`rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold ${
-                        isSubmitDisabled &&
-                        "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
-                      }`}
-                      type="submit"
-                      aria-disabled={pending || isSubmitDisabled}
-                      disabled={pending || isSubmitDisabled}
+                      className={`rounded-full border-1 mt-6 ${
+                        isSubmitDisabled
+                          ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                          : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
+                      } px-4 py-1 text-sm tracking-widest font-bold`}
+                      onClick={handleNextStep}
+                      disabled={isSubmitDisabled}
+                      aria-disabled={isSubmitDisabled}
+                      type="button"
                     >
-                      {pending ? "Uploading..." : "Upload Recipe"}
+                      Next
                     </button>
                   </div>
                 </div>
-                {/* Mobile */}
-                <div className="md:hidden flex flex-col mt-10">
-                  <div className="flex flex-col border-b-[1.5px] border-b-[#E4E4E7] pb-10">
-                    <div className="basis-1/3">
-                      {imagePreview && (
-                        <Image
-                          src={imagePreview}
-                          alt="Image Preview"
-                          width={500}
-                          height={500}
-                        />
-                      )}
-                    </div>
-                    <div>
-                      <div className="flex flex-col">
-                        <H2 text={formState.rname}></H2>
-                        <div className="flex flex-row">
-                          {renderCategories()}
-                        </div>
-                        <p>{formState.rdescription}</p>
-                      </div>
+              )}
+
+              {currentStep === 3 && (
+                //Step 4
+                <div>
+                  {method.map((methodStep) => (
+                    <ListInput
+                      key={`method-${methodStep.id}`}
+                      id={`method-${methodStep.id}`}
+                      idNumber={methodStep.id}
+                      label={methodStep.id === 1 ? "Method" : ""}
+                      name={`method`}
+                      type="text"
+                      placeholder={"Enter Method Step"}
+                      onRemove={removeMethodField}
+                      formState={formState}
+                      setFormState={setFormState}
+                      onWordCountChange={handleWordCountChange}
+                      charLimit={50}
+                    />
+                  ))}
+                  <div className="text-left">
+                    <span
+                      className="text-sm bg-white text-black border border-black rounded hover:bg-black hover:text-white p-1 mt-7"
+                      onClick={addMethodField}
+                    >
+                      Add Method Step
+                    </span>
+                    <br></br>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex flex-row absolute mt-auto">
+                      <button
+                        className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
+                        onClick={handlePrevStep}
+                        type="button"
+                      >
+                        Previous
+                      </button>
+                      <button
+                        className={`rounded-full border-1 mt-6 ${
+                          isSubmitDisabled
+                            ? "border-gray-400 text-gray-400 disabled:cursor-not-allowed"
+                            : "border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white"
+                        } px-4 py-1 text-sm tracking-widest font-bold`}
+                        onClick={handleNextStep}
+                        disabled={isSubmitDisabled}
+                        aria-disabled={isSubmitDisabled}
+                        type="button"
+                      >
+                        Next
+                      </button>
                     </div>
                   </div>
-                  <div className="flex flex-col mt-3">
-                    <div>{renderIngredients()}</div>
-                    <div className="pt-6 border-t-[1.5px] border-[#E4E4E7]">
-                      {renderMethod()}
+                </div>
+              )}
+              {currentStep === 4 && (
+                <>
+                  {/* Step 5 - Preview */}
+                  <div className="hidden md:flex flex-col mt-10">
+                    <div className="flex flex-row border-b-[1.5px] border-b-[#E4E4E7] pb-10">
+                      <div className="basis-1/3">
+                        {imagePreview && (
+                          <Image
+                            src={imagePreview}
+                            alt="Image Preview"
+                            width={500}
+                            height={500}
+                          />
+                        )}
+                      </div>
+                      <div className="basis-2/3 ml-10">
+                        <div className="flex flex-col">
+                          <H2 text={formState.rname}></H2>
+                          <div className="flex flex-row">
+                            {renderCategories()}
+                          </div>
+                          <p>{formState.rdescription}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-row mt-10 ">
+                      <div className="basis-1/3">{renderIngredients()}</div>
+                      <div className="basis-2/3 border-l-[1.5px] border-[#E4E4E7] pl-12">
+                        {renderMethod()}
+                      </div>
                     </div>
                     <div className="flex flex-row items-center justify-between mt-6">
                       <button
@@ -701,20 +681,71 @@ export default function Form(props) {
                       </button>
                     </div>
                   </div>
-                </div>
-                <p className="text-center mt-2">{errorMessage}</p>
-              </>
-            )}
-          </div>
-        </form>
+                  {/* Mobile */}
+                  <div className="md:hidden flex flex-col mt-10">
+                    <div className="flex flex-col border-b-[1.5px] border-b-[#E4E4E7] pb-10">
+                      <div className="basis-1/3">
+                        {imagePreview && (
+                          <Image
+                            src={imagePreview}
+                            alt="Image Preview"
+                            width={500}
+                            height={500}
+                          />
+                        )}
+                      </div>
+                      <div>
+                        <div className="flex flex-col">
+                          <H2 text={formState.rname}></H2>
+                          <div className="flex flex-row">
+                            {renderCategories()}
+                          </div>
+                          <p>{formState.rdescription}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col mt-3">
+                      <div>{renderIngredients()}</div>
+                      <div className="pt-6 border-t-[1.5px] border-[#E4E4E7]">
+                        {renderMethod()}
+                      </div>
+                      <div className="flex flex-row items-center justify-between mt-6">
+                        <button
+                          className="rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold"
+                          onClick={handlePrevStep}
+                          type="button"
+                        >
+                          Previous
+                        </button>
+                        <button
+                          id="submitBtn"
+                          className={`rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold ${
+                            isSubmitDisabled &&
+                            "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
+                          }`}
+                          type="submit"
+                          aria-disabled={pending || isSubmitDisabled}
+                          disabled={pending || isSubmitDisabled}
+                        >
+                          {pending ? "Uploading..." : "Upload Recipe"}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-center mt-2">{errorMessage}</p>
+                </>
+              )}
+            </div>
+          </form>
 
-        {serverState?.status && <div>{serverState?.message}</div>}
-        {serverState?.errorMessage && (
-          <p className="text-red-600">{serverState?.errorMessage}</p>
-        )}
-        {serverState?.status === "success" && redirect("/")}
+          {serverState?.status && <div>{serverState?.message}</div>}
+          {serverState?.errorMessage && (
+            <p className="text-red-600">{serverState?.errorMessage}</p>
+          )}
+          {serverState?.status === "success" && redirect("/")}
+        </div>
       </div>
-    </div>
+    </ContentWithSkeleton>
   );
 }
 

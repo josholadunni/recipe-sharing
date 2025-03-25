@@ -10,6 +10,7 @@ import z from "zod";
 import { Op } from "sequelize";
 import { redirect } from "next/navigation.js";
 import { fetchRecipeById } from "./data";
+import { initAndFetchCategories } from "./data";
 
 const s3Client = new S3Client({
   region: process.env.NEXT_AWS_S3_REGION,
@@ -319,5 +320,23 @@ export async function getRecipeById(id) {
   } catch (error) {
     console.error("Error fetching recipe:", error);
     return null;
+  }
+}
+
+export async function fetchCategories() {
+  "use server";
+  try {
+    //Get the raw object(?) of categories from the DB function
+    const categoriesRaw = await initAndFetchCategories();
+    //Map through the raw categories and return an array of category obejects
+    const categories = categoriesRaw.map((category) => {
+      return {
+        id: category.id,
+        name: category.name,
+      };
+    });
+    return categories;
+  } catch (error) {
+    console.error("Error fetching categories", error);
   }
 }

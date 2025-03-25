@@ -317,3 +317,14 @@ export async function fetchRecipeCategoriesByRecipeId(id) {
   });
   return categories;
 }
+
+// Create a cached version of the category initialization and fetching
+export const initAndFetchCategories = unstable_cache(
+  async () => {
+    await RecipeCategory.createCategories();
+    const categories = await RecipeCategory.fetchCategories();
+    return categories;
+  },
+  ["recipe-categories"],
+  { revalidate: 3600 } // Cache for 1 hour
+);
