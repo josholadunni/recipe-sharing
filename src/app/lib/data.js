@@ -10,18 +10,26 @@ import { auth } from "../auth";
 import { sequelize } from "./models/index.js";
 import { unstable_cache } from "next/cache";
 
-export default async function fetchRecentRecipes() {
-  try {
-    const recipes = await Recipe.findAll({
-      include: RecipeCategory,
-      limit: 10,
-      order: [["updatedAt", "DESC"]],
-    });
-    return JSON.parse(JSON.stringify(recipes));
-  } catch (error) {
-    console.error("Couldn't fetch recipes", error);
-  }
-}
+export const fetchRecentRecipes = async () => {
+  const getCachedRecentRecipes = unstable_cache(
+    async () => {
+      try {
+        const recipes = await Recipe.findAll({
+          include: RecipeCategory,
+          limit: 10,
+          order: [["updatedAt", "DESC"]],
+        });
+        return JSON.parse(JSON.stringify(recipes));
+      } catch (error) {
+        console.error("Couldn't fetch recipes", error);
+      }
+    },
+    ["recent-recipes"],
+    { revalidate: 60 } // Cache for 1 minute
+  );
+
+  return getCachedRecentRecipes();
+};
 
 export async function fetchAllRecipes() {
   try {
@@ -35,22 +43,30 @@ export async function fetchAllRecipes() {
   }
 }
 
-export async function fetchPopularRecipes() {
-  try {
-    const recipes = await Recipe.findAll({
-      include: [RecipeCategory, Like],
-      limit: 10,
-    });
-    const sortedRecipes = recipes.sort((a, b) => {
-      const likesA = a.Likes ? a.Likes.length : 0;
-      const likesB = b.Likes ? b.Likes.length : 0;
-      return likesB - likesA;
-    });
-    return JSON.parse(JSON.stringify(sortedRecipes));
-  } catch (error) {
-    console.error("Couldn't fetch recipes", error);
-  }
-}
+export const fetchPopularRecipes = async () => {
+  const getCachedPopularRecipes = unstable_cache(
+    async () => {
+      try {
+        const recipes = await Recipe.findAll({
+          include: [RecipeCategory, Like],
+          limit: 10,
+        });
+        const sortedRecipes = recipes.sort((a, b) => {
+          const likesA = a.Likes ? a.Likes.length : 0;
+          const likesB = b.Likes ? b.Likes.length : 0;
+          return likesB - likesA;
+        });
+        return JSON.parse(JSON.stringify(sortedRecipes));
+      } catch (error) {
+        console.error("Couldn't fetch recipes", error);
+      }
+    },
+    ["popular-recipes"],
+    { revalidate: 60 } // Cache for 1 minute
+  );
+
+  return getCachedPopularRecipes();
+};
 
 export async function fetchRecipeCategories() {
   try {
