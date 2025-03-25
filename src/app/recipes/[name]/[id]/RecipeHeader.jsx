@@ -89,50 +89,47 @@ export default function RecipeHeader({ id, isMobile }) {
   }
 
   return (
-    <Skeleton
-      isLoaded={isLoaded}
-      className="min-w-[25rem] hidden sm:block sm:w-full mt-10 border-b-[1.5px] border-b-[#E4E4E7] pb-10"
-    >
-      {isLoaded && recipe ? (
-        <div className="flex flex-col md:flex-row justify-center md:justify-start w-full relative">
-          <div className="flex basis-1/4 justify-center items-center">
-            <div className="aspect-square sm:w-[500px] md:w-[350px] relative">
-              <ImageWithSkeleton data={recipe} />
-            </div>
+    <div className="min-w-[25rem] hidden sm:block sm:w-full mt-10 border-b-[1.5px] border-b-[#E4E4E7] pb-10">
+      <div className="flex flex-col md:flex-row justify-center md:justify-start w-full relative">
+        <div className="flex basis-1/4 justify-center items-center">
+          <Skeleton
+            isLoaded={isLoaded}
+            className="aspect-square sm:w-[500px] md:w-[350px] rounded-lg"
+          >
+            {recipe && <ImageWithSkeleton data={recipe} />}
+          </Skeleton>
+        </div>
+        <div className="flex flex-col align-middle my-auto basis-3/4 md:ml-14 sm:pt-5 md:pt-0">
+          <Skeleton isLoaded={isLoaded} className="h-10 w-3/4 rounded-lg">
+            {recipe && (
+              <h1 style={{ fontWeight: 900 }} className="text-3xl font-medium">
+                {recipe.name}
+              </h1>
+            )}
+          </Skeleton>
+
+          <div className="py-4 flex flex-wrap">
+            <Skeleton isLoaded={isLoaded} className="w-full">
+              {isLoaded && renderCategories()}
+            </Skeleton>
           </div>
-          <div className="flex flex-col align-middle my-auto basis-3/4 md:ml-14 sm:pt-5 md:pt-0">
-            <h1 style={{ fontWeight: 900 }} className="text-3xl font-medium">
-              {recipe.name}
-            </h1>
-            <div className="py-4 flex flex-wrap">{renderCategories()}</div>
-            <div className="flex">
+
+          <Skeleton isLoaded={isLoaded} className="h-4 w-1/4 rounded-lg">
+            {recipe && (
               <Link
                 className="text-center text-orange-600 underline text-under"
                 href={`/users/${username}`}
               >
                 {username}
               </Link>
-            </div>
-            <div className="mt-4">{recipe.short_description}</div>
-          </div>
+            )}
+          </Skeleton>
+
+          <Skeleton isLoaded={isLoaded} className="h-4 w-full mt-4 rounded-lg">
+            {recipe && <div>{recipe.short_description}</div>}
+          </Skeleton>
         </div>
-      ) : (
-        <div className="flex flex-col md:flex-row justify-center md:justify-start w-full relative">
-          <div className="flex basis-1/4 justify-center items-center">
-            <div className="aspect-square sm:w-[500px] md:w-[350px] bg-gray-200 rounded-lg"></div>
-          </div>
-          <div className="flex flex-col align-middle my-auto basis-3/4 md:ml-14 sm:pt-5 md:pt-0">
-            <div className="h-10 w-3/4 bg-gray-200 rounded-lg"></div>
-            <div className="py-4 flex flex-wrap">
-              <div className="h-6 w-20 mr-2 my-1 bg-gray-200 rounded-full"></div>
-              <div className="h-6 w-24 mr-2 my-1 bg-gray-200 rounded-full"></div>
-              <div className="h-6 w-16 mr-2 my-1 bg-gray-200 rounded-full"></div>
-            </div>
-            <div className="h-4 w-1/4 bg-gray-200 rounded-lg"></div>
-            <div className="h-4 w-full mt-4 bg-gray-200 rounded-lg"></div>
-          </div>
-        </div>
-      )}
-    </Skeleton>
+      </div>
+    </div>
   );
 }

@@ -28,14 +28,14 @@ export default function RecipeDetails({ id, section }) {
 
   if (section === "ingredients") {
     return (
-      <Skeleton
-        isLoaded={isLoaded}
-        className="md:w-[250px] lg:w-[350px] border-b-[1.5px] md:border-b-0 md:border-r-[1.5px] border-b-[#E4E4E7] pb-4"
-      >
-        {isLoaded && recipe ? (
-          <div>
-            <H2 text={"Ingredients"} />
-            <div className="rounded-2xl md:mr-4">
+      <div className="md:w-[250px] lg:w-[350px] border-b-[1.5px] md:border-b-0 md:border-r-[1.5px] border-b-[#E4E4E7] pb-4">
+        <Skeleton isLoaded={isLoaded} className="h-8 w-32 mb-4 rounded-lg">
+          <H2 text={"Ingredients"} />
+        </Skeleton>
+
+        <div className="rounded-2xl md:mr-4">
+          <Skeleton isLoaded={isLoaded} className="w-full">
+            {isLoaded && recipe && (
               <ul className="list-disc list-inside">
                 {recipe.ingredients
                   .filter(
@@ -49,32 +49,23 @@ export default function RecipeDetails({ id, section }) {
                     </li>
                   ))}
               </ul>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div className="h-8 w-32 mb-4 bg-gray-200 rounded-lg"></div>
-            <div className="rounded-2xl md:mr-4">
-              <div className="h-4 w-full mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-5/6 mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-full mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-4/5 mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-full mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-3/4 mb-3 bg-gray-200 rounded-lg"></div>
-            </div>
-          </div>
-        )}
-      </Skeleton>
+            )}
+          </Skeleton>
+        </div>
+      </div>
     );
   }
 
   if (section === "method") {
     return (
-      <Skeleton isLoaded={isLoaded} className="flex flex-col md:ml-14">
-        {isLoaded && recipe ? (
-          <div>
-            <H2 text={"Method"} />
-            <div className="rounded-2xl mr-4">
+      <div className="flex flex-col md:ml-14">
+        <Skeleton isLoaded={isLoaded} className="h-8 w-24 mb-4 rounded-lg">
+          <H2 text={"Method"} />
+        </Skeleton>
+
+        <div className="rounded-2xl mr-4">
+          <Skeleton isLoaded={isLoaded} className="w-full">
+            {isLoaded && recipe && (
               <ul className="list-decimal list-inside">
                 {recipe.method
                   .filter(
@@ -86,22 +77,10 @@ export default function RecipeDetails({ id, section }) {
                     </li>
                   ))}
               </ul>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div className="h-8 w-24 mb-4 bg-gray-200 rounded-lg"></div>
-            <div className="rounded-2xl mr-4">
-              <div className="h-4 w-full mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-5/6 mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-full mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-4/5 mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-full mb-3 bg-gray-200 rounded-lg"></div>
-              <div className="h-4 w-3/4 mb-3 bg-gray-200 rounded-lg"></div>
-            </div>
-          </div>
-        )}
-      </Skeleton>
+            )}
+          </Skeleton>
+        </div>
+      </div>
     );
   }
 
