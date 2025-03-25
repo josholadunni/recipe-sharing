@@ -7,27 +7,35 @@ async function RecipeSection({
   currentUserId,
   fetchRecipeLikes,
   fetchRecipes,
+  categoryId,
   layout,
 }) {
   const [allLikes, recipes] = await Promise.all([
     fetchRecipeLikes(),
-    fetchRecipes(),
+    fetchRecipes(categoryId),
   ]);
+  const serializedData = {
+    recipes: JSON.parse(JSON.stringify(recipes)),
+    allLikes: JSON.parse(JSON.stringify(allLikes)),
+    // currentUserId: currentUserId?.result || null,
+  };
   return (
     <div>
-      <ContentWithSkeleton data={(allLikes, recipes)}>
+      <ContentWithSkeleton
+        data={(serializedData.allLikes, serializedData.recipes)}
+      >
         {layout === "grid" ? (
           <RecipeGrid
-            allLikes={allLikes}
-            recipes={recipes}
+            allLikes={serializedData.allLikes}
+            recipes={serializedData.recipes}
             currentUserId={currentUserId}
             deleteButton={true}
           />
         ) : (
           <div className="flex">
             <RecipeCarousel
-              allLikes={allLikes}
-              recipes={recipes}
+              allLikes={serializedData.allLikes}
+              recipes={serializedData.recipes}
               currentUserId={currentUserId}
             />
           </div>
