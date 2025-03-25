@@ -16,6 +16,16 @@ const nextConfig = {
       },
     ],
   },
+  // Add webpack configuration to ignore problematic files
+  webpack: (config, { isServer }) => {
+    // Add a rule to handle the problematic file
+    config.module.rules.push({
+      test: /node_modules\/@mapbox\/node-pre-gyp\/lib\/util\/nw-pre-gyp\/index\.html$/,
+      use: "ignore-loader",
+    });
+
+    return config;
+  },
 };
 
 export default nextConfig;

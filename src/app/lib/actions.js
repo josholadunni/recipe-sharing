@@ -9,6 +9,7 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import z from "zod";
 import { Op } from "sequelize";
 import { redirect } from "next/navigation.js";
+import { fetchRecipeById } from "./data";
 
 const s3Client = new S3Client({
   region: process.env.NEXT_AWS_S3_REGION,
@@ -307,5 +308,16 @@ export async function deleteUser(userId) {
   } catch (error) {
     console.error("Error deleting user:", error);
     return { success: false, message: "Failed to delete user" };
+  }
+}
+
+export async function getRecipeById(id) {
+  "use server";
+  try {
+    const recipe = await fetchRecipeById(id);
+    return recipe;
+  } catch (error) {
+    console.error("Error fetching recipe:", error);
+    return null;
   }
 }
