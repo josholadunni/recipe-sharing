@@ -17,6 +17,25 @@ import imageCompression from "browser-image-compression";
 import ContentWithSkeleton from "../components/Wrappers/ContentWithSkeleton.jsx";
 import { fetchCategories } from "../lib/actions.js";
 
+function SubmitButton({ isDisabled }) {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      id="submitBtn"
+      className={`rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold ${
+        isDisabled &&
+        "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
+      }`}
+      type="submit"
+      aria-disabled={pending || isDisabled}
+      disabled={pending || isDisabled}
+    >
+      {pending ? "Uploading..." : "Upload Recipe"}
+    </button>
+  );
+}
+
 export default function Form() {
   const initialState = { message: null };
 
@@ -61,13 +80,9 @@ export default function Form() {
     overWordCount: [],
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [serverState, formAction] = useActionState(
     async (prevState, formData) => {
-      setIsSubmitting(true);
       const finalFormData = new FormData();
-
       Object.entries(formState).forEach(([key, value]) => {
         if (Array.isArray(value)) {
           value.forEach((item) => finalFormData.append(key, item));
@@ -268,8 +283,6 @@ export default function Form() {
     }
   };
 
-  const { pending } = useFormStatus();
-
   const handlePrevStep = () => {
     setCurrentStep(currentStep - 1);
   };
@@ -304,7 +317,6 @@ export default function Form() {
         e.target.nodeName === "INPUT" &&
         e.target.type === "text"
       ) {
-        console.log(true);
         e.preventDefault();
         if (e.target.name === "ingredients") {
           addIngredientField();
@@ -670,18 +682,7 @@ export default function Form() {
                       >
                         Previous
                       </button>
-                      <button
-                        id="submitBtn"
-                        className={`rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold ${
-                          isSubmitDisabled &&
-                          "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
-                        }`}
-                        type="submit"
-                        aria-disabled={pending || isSubmitDisabled}
-                        disabled={pending || isSubmitDisabled}
-                      >
-                        {pending ? "Uploading..." : "Upload Recipe"}
-                      </button>
+                      <SubmitButton isDisabled={isSubmitDisabled} />
                     </div>
                   </div>
                   {/* Mobile */}
@@ -720,18 +721,7 @@ export default function Form() {
                         >
                           Previous
                         </button>
-                        <button
-                          id="submitBtn"
-                          className={`rounded-full border-1 border-recipe-red text-recipe-red hover:bg-recipe-red hover:text-white mt-6 px-4 py-1 text-sm tracking-widest font-bold ${
-                            isSubmitDisabled &&
-                            "bg-gray-200 text-gray-500 border-gray-500 hover:bg-gray-500"
-                          }`}
-                          type="submit"
-                          aria-disabled={pending || isSubmitDisabled}
-                          disabled={pending || isSubmitDisabled}
-                        >
-                          {pending ? "Uploading..." : "Upload Recipe"}
-                        </button>
+                        <SubmitButton isDisabled={isSubmitDisabled} />
                       </div>
                     </div>
                   </div>
@@ -740,8 +730,6 @@ export default function Form() {
               )}
             </div>
           </form>
-
-          {isSubmitting && <div>Submitting recipe</div>}
 
           {serverState?.status && <div>{serverState?.message}</div>}
           {serverState?.errorMessage && (
