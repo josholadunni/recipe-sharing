@@ -44,7 +44,7 @@ function Navbar({ username }) {
 
   return (
     <nav
-      className={`${navStyles.navbar} flex flex-col text-sm justify-center sticky top-0 z-10 bg-[#F9F9F9] pt-6 relative`}
+      className={`${navStyles.navbar} flex flex-col text-sm justify-center sticky top-0 z-10 bg-[#F9F9F9] pt-6`}
       onMouseLeave={() => {
         setResults([]);
       }}
@@ -77,10 +77,14 @@ function Navbar({ username }) {
               onClick={() => {
                 toggleMenu();
               }}
-              className="relative m-0"
+              className="relative m-0 z-20"
             >
-              <div className="relative">
-                <div className="md:hidden rotate-90">
+              <div className={`relative`}>
+                <div
+                  className={`md:hidden rotate-90 transition-transform ${
+                    isMenuOpen ? "z-30 relative rotate-180" : ""
+                  }`}
+                >
                   <span className="m-1 border border-neutral-900"></span>
                   <span className="m-1 border border-neutral-900"></span>
                   <span className="m-1 border border-neutral-900"></span>
@@ -93,7 +97,7 @@ function Navbar({ username }) {
 
                 {/* Hamburger menu open */}
                 {isMenuOpen && (
-                  <ul className="flex flex-col fixed top-[50px] left-0 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-full bg-white shadow-md rounded-md p-2 w-screen md:w-auto md:min-w-[150px] z-[100]">
+                  <ul className="flex flex-col fixed top-[50px] left-0 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-full bg-white shadow-md rounded-md p-2 w-screen md:w-auto md:min-w-[150px] z-10">
                     <div className="hover:text-orange-500">
                       <MenuItemMobile route="/browse" routeName="Browse" />
                     </div>
