@@ -1,8 +1,13 @@
 import Link from "next/link";
+import { fetchRecipeCategories } from "../lib/data";
+import ContentWithSkeleton from "./Wrappers/ContentWithSkeleton";
+
 export default async function RecipeCategoryGrid(props) {
-  const recipeCategories = (await props.categories).map(
-    (category) => category.dataValues
-  );
+  const categories = await fetchRecipeCategories();
+
+  const serializedCategories = JSON.parse(JSON.stringify(categories));
+
+  const recipeCategories = serializedCategories.map((category) => category);
 
   const categoryElements = recipeCategories.map((category, index) => {
     let bgColor = undefined;
@@ -26,20 +31,24 @@ export default async function RecipeCategoryGrid(props) {
     };
     getCategoryColor();
     return (
-      <div className={`flex flex-col justify-center align-middle rounded-xl `}>
-        <Link
-          key={index}
-          href={`categories/${category.name.toLowerCase()}/${category.id}`}
-          className="flex flex-col"
+      <ContentWithSkeleton data={serializedCategories}>
+        <div
+          className={`flex flex-col justify-center align-middle rounded-xl `}
         >
-          <div
-            className={`${bgColor} w-40 h-40 md:w-52 md:h-52 mx-auto rounded-lg`}
-          ></div>
-          <p className={`font-bold text-lg text-center ${textColor} mt-4`}>
-            {category.name}
-          </p>
-        </Link>
-      </div>
+          <Link
+            key={index}
+            href={`categories/${category.name.toLowerCase()}/${category.id}`}
+            className="flex flex-col"
+          >
+            <div
+              className={`${bgColor} w-40 h-40 md:w-52 md:h-52 mx-auto rounded-lg`}
+            ></div>
+            <p className={`font-bold text-lg text-center ${textColor} mt-4`}>
+              {category.name}
+            </p>
+          </Link>
+        </div>
+      </ContentWithSkeleton>
     );
   });
 
