@@ -81,8 +81,8 @@ function Navbar({ username }) {
             >
               <div className={`relative`}>
                 <div
-                  className={`md:hidden rotate-90 transition-transform ${
-                    isMenuOpen ? "z-30 relative rotate-180" : ""
+                  className={`md:hidden transition-transform z-30 relative  ${
+                    isMenuOpen ? "rotate-180" : "rotate-90"
                   }`}
                 >
                   <span className="m-1 border border-neutral-900"></span>
