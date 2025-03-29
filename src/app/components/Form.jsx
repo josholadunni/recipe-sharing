@@ -61,8 +61,11 @@ export default function Form() {
     overWordCount: [],
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [serverState, formAction] = useActionState(
     async (prevState, formData) => {
+      setIsSubmitting(true);
       const finalFormData = new FormData();
 
       Object.entries(formState).forEach(([key, value]) => {
@@ -72,9 +75,9 @@ export default function Form() {
           finalFormData.append(key, value);
         }
       });
-
       return createRecipe(prevState, finalFormData);
     },
+
     initialState
   );
 
@@ -737,6 +740,8 @@ export default function Form() {
               )}
             </div>
           </form>
+
+          {isSubmitting && <div>Submitting recipe</div>}
 
           {serverState?.status && <div>{serverState?.message}</div>}
           {serverState?.errorMessage && (

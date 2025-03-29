@@ -42,3 +42,7 @@ export function titleCase(string) {
     }
   });
 }
+
+export const updateClient = (state) => {
+  return state;
+};
