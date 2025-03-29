@@ -7,7 +7,7 @@ import RecipeGrid from "../../../components/Home/RecipeGrid";
 import RecipeSection from "../../../components/RecipeSection";
 
 export default async function CategoryPage(params) {
-  const { name, id } = params.params;
+  const { name, id } = await params.params;
 
   try {
     const currentUserId = await findUserIdFromEmail();
