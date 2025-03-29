@@ -29,7 +29,6 @@ export default function InputWithCharLimit({
     <div>
       <div id={id} className="py-2 flex flex-col w-60 mx-auto">
         <label htmlFor={name}>{label}</label>
-        <br />
         <input
           className="border-2"
           type={type}
