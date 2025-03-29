@@ -51,16 +51,16 @@ function Navbar({ username }) {
     >
       <div>
         <div className="flex flex-row justify-between">
-          <div className="flex flex-row text-recipe-red hover:text-red-500 basis-3/12 m-0 items-center ">
+          <div className="flex flex-row text-recipe-red hover:text-red-700 basis-3/12 m-0 items-center ">
             <Link href="/">
               <H1 text="Recipe Sharer" />
             </Link>
           </div>
           <ul className="text-center py-2 gap-4 md:gap-14 lg:gap-24 flex flex-row justify-end flex-wrap basis-9/12 items-center">
-            <li className="hover:text-orange-500 hidden md:block m-0">
+            <li className="hover:text-red-500 hidden md:block m-0">
               <Link href="/browse">Browse</Link>
             </li>
-            <li className="hover:text-orange-500 hidden md:block m-0">
+            <li className="hover:text-red-500 hidden md:block m-0">
               <Link href="/add-recipe">Add Recipe</Link>
             </li>
             {!isAuthenticated && (
@@ -98,10 +98,10 @@ function Navbar({ username }) {
                 {/* Hamburger menu open */}
                 {isMenuOpen && (
                   <ul className="flex flex-col fixed top-[50px] left-0 md:absolute md:left-1/2 md:-translate-x-1/2 md:top-full bg-white shadow-md rounded-md p-2 w-screen md:w-auto md:min-w-[150px] z-10">
-                    <div className="hover:text-orange-500">
+                    <div className="hover:text-red-500">
                       <MenuItemMobile route="/browse" routeName="Browse" />
                     </div>
-                    <div className="hover:text-orange-500">
+                    <div className="hover:text-red-500">
                       <MenuItemMobile
                         route="/add-recipe"
                         routeName="Add Recipe"
@@ -113,7 +113,7 @@ function Navbar({ username }) {
                           <div className="md:hidden flex flex-row justify-center">
                             <ProfileIcon name={username} />
                           </div>
-                          <div className="hover:text-orange-500">
+                          <div className="hover:text-red-500">
                             <MenuItem
                               route="/dashboard"
                               routeName="Dashboard"
