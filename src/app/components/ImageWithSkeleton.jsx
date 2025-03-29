@@ -15,7 +15,7 @@ function ImageWithSkeleton(props) {
         alt={recipe.title + " recipe"}
         fill
         className="object-cover rounded-t-lg"
-        onLoadingComplete={() => {
+        onLoad={() => {
           setIsLoaded(true);
         }}
       />
