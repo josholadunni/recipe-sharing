@@ -124,7 +124,7 @@ const RecipeCard = (props) => {
         <div className="flex flex-row justify-between w-fullflex-none">
           <div className="flex flex-col">
             <Link
-              className="hover:text-orange-600"
+              className="hover:text-red-700"
               href={`/recipes/${props.slug}/${props.id}`}
             >
               <H3 text={formattedTitle} />

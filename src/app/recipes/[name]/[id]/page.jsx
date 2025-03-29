@@ -14,7 +14,7 @@ export default async function RecipePage(params) {
   const { id } = params.params;
 
   return (
-    <div className="flex flex-wrap w-full mt-10 px-8 justify-center bg-red rounded-t-2xl shadow-md">
+    <div className="flex flex-wrap w-full mt-14 px-8 justify-center bg-red rounded-t-2xl shadow-md">
       {/* Recipe Header - Mobile */}
       <RecipeHeader id={id} isMobile={true} />
 

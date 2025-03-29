@@ -19,10 +19,10 @@ export default async function CategoryPage(params) {
 
     return (
       <div className="relative top-12">
-        <H1
-          text={`${decodeURIComponent(capitalizeFirstLetter(name))} Recipes`}
-        ></H1>
-        <div className="mt-10 ">
+        <div className="mt-10">
+          <H1
+            text={`${decodeURIComponent(capitalizeFirstLetter(name))} Recipes`}
+          ></H1>
           <RecipeSection
             currentUserId={currentUserId}
             fetchRecipeLikes={fetchRecipeLikes}

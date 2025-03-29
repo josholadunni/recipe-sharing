@@ -62,7 +62,7 @@ export default function RecipeHeader({ id, isMobile }) {
             </h1>
             <div className="flex">
               <Link
-                className="text-center text-orange-600 underline text-under"
+                className="text-center text-recipe-red hover:text-red-700 underline text-under"
                 href={`/users/${username}`}
               >
                 {username}
@@ -121,7 +121,7 @@ export default function RecipeHeader({ id, isMobile }) {
           <Skeleton isLoaded={isLoaded} className="h-4 w-1/4 rounded-lg">
             {recipe && (
               <Link
-                className="text-center text-orange-600 underline text-under"
+                className="text-center text-recipe-red hover:text-red-700 underline text-under"
                 href={`/users/${username}`}
               >
                 {username}
