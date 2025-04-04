@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { fetchRecipeCategories } from "../lib/data";
 import ContentWithSkeleton from "./Wrappers/ContentWithSkeleton";
+import H1 from "./H1";
 
 export default async function RecipeCategoryGrid(props) {
   const categories = await fetchRecipeCategories();
@@ -31,26 +32,30 @@ export default async function RecipeCategoryGrid(props) {
     };
     getCategoryColor();
     return (
-      <ContentWithSkeleton data={serializedCategories}>
-        <div
-          className={`flex flex-col justify-center align-middle rounded-xl `}
+      <div key={index} className="flex flex-col items-center">
+        <Link
+          href={`categories/${category.name.toLowerCase()}/${category.id}`}
+          className="flex flex-col items-center"
         >
-          <Link
-            key={index}
-            href={`categories/${category.name.toLowerCase()}/${category.id}`}
-            className="flex flex-col"
-          >
-            <div
-              className={`${bgColor} w-40 h-40 md:w-52 md:h-52 mx-auto rounded-lg`}
-            ></div>
-            <p className={`font-bold text-lg text-center ${textColor} mt-4`}>
-              {category.name}
-            </p>
-          </Link>
-        </div>
-      </ContentWithSkeleton>
+          <div
+            className={`${bgColor} w-40 h-40 md:w-52 md:h-52 rounded-lg`}
+          ></div>
+          <p className={`font-bold text-lg text-center ${textColor} mt-4`}>
+            {category.name}
+          </p>
+        </Link>
+      </div>
     );
   });
 
-  return <div className="flex gap-2 w-full">{categoryElements}</div>;
+  return (
+    <ContentWithSkeleton data={serializedCategories}>
+      <div className="w-full">
+        <H1 text="Browse Recipes" />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full">
+          {categoryElements}
+        </div>
+      </div>
+    </ContentWithSkeleton>
+  );
 }
