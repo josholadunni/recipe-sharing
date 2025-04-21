@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import ContentWithSkeleton from "./Wrappers/ContentWithSkeleton";
 import RecipeGrid from "./Home/RecipeGrid";
 import RecipeCarousel from "./Home/RecipeCarousel";
+import { Skeleton } from "@nextui-org/skeleton";
 
 function RecipeSection({
   currentUserId,
@@ -14,6 +15,7 @@ function RecipeSection({
 }) {
   const [recipes, setRecipes] = useState(null);
   const [likes, setLikes] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     //Load recipes and update state once loaded
@@ -32,6 +34,11 @@ function RecipeSection({
         //Update states with serialized data
         setRecipes(serializedData.recipes);
         setLikes(serializedData.allLikes);
+
+        // Add a small delay to make the transition smoother
+        setTimeout(() => {
+          setIsLoaded(true);
+        }, 300);
       } catch (error) {
         console.error("Error loading recipes:", error);
       }
@@ -39,27 +46,32 @@ function RecipeSection({
 
     loadRecipes();
   }, [fetchRecipeLikes, fetchRecipes, categoryId]);
+
   return (
     <div>
-      <ContentWithSkeleton data={(likes, recipes)}>
-        {layout === "grid" ? (
-          <RecipeGrid
-            allLikes={likes}
-            recipes={recipes}
-            currentUserId={currentUserId}
-            deleteButton={isDeletable}
-          />
-        ) : (
-          <div className="flex">
-            <RecipeCarousel
+      {!isLoaded ? (
+        <Skeleton className="w-full rounded-lg min-h-[400px]" />
+      ) : (
+        <ContentWithSkeleton data={{ likes, recipes }}>
+          {layout === "grid" ? (
+            <RecipeGrid
               allLikes={likes}
               recipes={recipes}
               currentUserId={currentUserId}
               deleteButton={isDeletable}
             />
-          </div>
-        )}
-      </ContentWithSkeleton>
+          ) : (
+            <div className="flex">
+              <RecipeCarousel
+                allLikes={likes}
+                recipes={recipes}
+                currentUserId={currentUserId}
+                deleteButton={isDeletable}
+              />
+            </div>
+          )}
+        </ContentWithSkeleton>
+      )}
     </div>
   );
 }
