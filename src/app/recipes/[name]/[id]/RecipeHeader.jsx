@@ -11,6 +11,7 @@ export default function RecipeHeader({ id, isMobile }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    //Load recipe and update state once loaded
     async function loadRecipe() {
       try {
         const recipeData = await getRecipeById(id);

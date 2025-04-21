@@ -14,7 +14,6 @@ function RecipeSection({
 }) {
   const [recipes, setRecipes] = useState(null);
   const [likes, setLikes] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     //Load recipes and update state once loaded
@@ -33,11 +32,6 @@ function RecipeSection({
         //Update states with serialized data
         setRecipes(serializedData.recipes);
         setLikes(serializedData.allLikes);
-
-        // Add a small delay to make the transition smoother
-        setTimeout(() => {
-          setIsLoaded(true);
-        }, 300);
       } catch (error) {
         console.error("Error loading recipes:", error);
       }
