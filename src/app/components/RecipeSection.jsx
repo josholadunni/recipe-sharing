@@ -51,26 +51,22 @@ function RecipeSection({
     <div>
       {!isLoaded ? (
         <Skeleton className="w-full rounded-lg min-h-[400px]" />
+      ) : layout === "grid" ? (
+        <RecipeGrid
+          allLikes={likes}
+          recipes={recipes}
+          currentUserId={currentUserId}
+          deleteButton={isDeletable}
+        />
       ) : (
-        <ContentWithSkeleton data={{ likes, recipes }}>
-          {layout === "grid" ? (
-            <RecipeGrid
-              allLikes={likes}
-              recipes={recipes}
-              currentUserId={currentUserId}
-              deleteButton={isDeletable}
-            />
-          ) : (
-            <div className="flex">
-              <RecipeCarousel
-                allLikes={likes}
-                recipes={recipes}
-                currentUserId={currentUserId}
-                deleteButton={isDeletable}
-              />
-            </div>
-          )}
-        </ContentWithSkeleton>
+        <div className="flex">
+          <RecipeCarousel
+            allLikes={likes}
+            recipes={recipes}
+            currentUserId={currentUserId}
+            deleteButton={isDeletable}
+          />
+        </div>
       )}
     </div>
   );
