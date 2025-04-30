@@ -6,7 +6,7 @@ import {
   fetchRecipeLikes,
   findUserIdFromEmail,
   fetchPopularRecipes,
-} from "./lib/data.js";
+} from "./lib/data";
 import H2 from "./components/H2.jsx";
 
 export default async function Home() {

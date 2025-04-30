@@ -5,7 +5,7 @@ import Image from "next/image";
 import { createLike, removeLike } from "../lib/actions";
 import Link from "next/link";
 import { formatDate, titleCase } from "../lib/utils";
-import H3 from "./H3.jsx";
+import H3 from "./H3";
 import { deleteRecipe } from "../lib/actions";
 import { Skeleton } from "@nextui-org/skeleton";
 

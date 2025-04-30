@@ -5,7 +5,6 @@ import {
   RecipeRecipeCategory,
   User,
   Like,
-  LikedRecipes,
 } from "./models/index.js";
 import { auth } from "../auth";
 import { sequelize } from "./models/index.js";
@@ -172,7 +171,9 @@ export async function fetchAllRecipeIds() {
   }
 }
 
-export const findUserIdFromEmail = async (inputEmail) => {
+export const findUserIdFromEmail = async (
+  inputEmail?: string
+): Promise<{ result: number; message: string } | undefined> => {
   // User lookup function (cached for 1 hour)
   const getCachedUser = unstable_cache(
     async (email) => {

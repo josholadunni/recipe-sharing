@@ -9,7 +9,7 @@ import {
   fetchMyRecipes,
   findUserIdFromEmail,
 } from "../lib/data.js";
-import RecipeSection from "../components/RecipeSection.jsx";
+import RecipeSection from "../components/RecipeSection.js";
 
 export default async function Dashboard() {
   try {

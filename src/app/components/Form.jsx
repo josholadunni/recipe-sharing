@@ -11,7 +11,7 @@ import { useFormStatus } from "react-dom";
 import $ from "jquery";
 import Image from "next/image";
 import H2 from "./H2.jsx";
-import H3 from "./H3.jsx";
+import H3 from "./H3.js";
 import Link from "next/link.js";
 import imageCompression from "browser-image-compression";
 import ContentWithSkeleton from "../components/Wrappers/ContentWithSkeleton.jsx";
