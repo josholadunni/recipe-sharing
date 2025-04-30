@@ -11,6 +11,8 @@ function RecipeSection({
   categoryId,
   isDeletable,
   layout,
+}: {
+  currentUserId: { result: number; message: string };
 }) {
   const [recipes, setRecipes] = useState(null);
   const [likes, setLikes] = useState(null);

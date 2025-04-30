@@ -9,6 +9,7 @@ import {
 import { auth } from "../auth";
 import { sequelize } from "./models/index.js";
 import { unstable_cache } from "next/cache";
+import { LikeType } from "./types/Like.js";
 
 export const fetchRecentRecipes = async () => {
   const getCachedRecentRecipes = unstable_cache(
@@ -101,7 +102,7 @@ export async function fetchMyRecipes() {
   }
 }
 
-export async function fetchRecipeLikes() {
+export async function fetchRecipeLikes(): Promise<LikeType[]> {
   try {
     const likes = await Like.findAll({
       include: [
