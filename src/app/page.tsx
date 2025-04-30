@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/Home.css";
 import RecipeSection from "./components/RecipeSection";
-import { fetchRecentRecipes } from "./lib/data.js";
+import { fetchRecentRecipes } from "./lib/data";
 import {
   fetchRecipeLikes,
   findUserIdFromEmail,

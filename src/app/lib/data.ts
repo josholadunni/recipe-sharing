@@ -10,8 +10,9 @@ import { auth } from "../auth";
 import { sequelize } from "./models/index.js";
 import { unstable_cache } from "next/cache";
 import { LikeType } from "./types/Like.js";
+import { RecipeType } from "./types/Recipe.js";
 
-export const fetchRecentRecipes = async () => {
+export const fetchRecentRecipes = async (): Promise<RecipeType[]> => {
   const getCachedRecentRecipes = unstable_cache(
     async () => {
       try {

@@ -4,6 +4,7 @@ import RecipeGrid from "./Home/RecipeGrid";
 import RecipeCarousel from "./Home/RecipeCarousel";
 import { Skeleton } from "@nextui-org/skeleton";
 import { LikeType } from "../lib/types/Like";
+import { RecipeType } from "../lib/types/Recipe";
 
 function RecipeSection({
   currentUserId,
@@ -14,7 +15,11 @@ function RecipeSection({
   layout,
 }: {
   currentUserId: { result: number; message: string };
-  fetchRecipeLikes: () => LikeType[];
+  fetchRecipeLikes: () => Promise<LikeType[]>;
+  fetchRecipes: () => Promise<RecipeType[]>;
+  categoryId?: number;
+  isDeletable?: boolean;
+  layout: "carousel" | "grid";
 }) {
   const [recipes, setRecipes] = useState(null);
   const [likes, setLikes] = useState(null);
