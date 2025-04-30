@@ -16,7 +16,7 @@ function RecipeSection({
 }: {
   currentUserId: { result: number; message: string };
   fetchRecipeLikes: () => Promise<LikeType[]>;
-  fetchRecipes: () => Promise<RecipeType[]>;
+  fetchRecipes: (categoryId?: number) => Promise<RecipeType[]>;
   categoryId?: number;
   isDeletable?: boolean;
   layout: "carousel" | "grid";
