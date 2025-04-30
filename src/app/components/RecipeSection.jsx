@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ContentWithSkeleton from "./Wrappers/ContentWithSkeleton";
 import RecipeGrid from "./Home/RecipeGrid";
 import RecipeCarousel from "./Home/RecipeCarousel";
 import { Skeleton } from "@nextui-org/skeleton";
