@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import RecipeGrid from "./Home/RecipeGrid";
 import RecipeCarousel from "./Home/RecipeCarousel";
 import { Skeleton } from "@nextui-org/skeleton";
+import { LikeType } from "../lib/types/Like";
 
 function RecipeSection({
   currentUserId,
@@ -13,6 +14,7 @@ function RecipeSection({
   layout,
 }: {
   currentUserId: { result: number; message: string };
+  fetchRecipeLikes: () => LikeType[];
 }) {
   const [recipes, setRecipes] = useState(null);
   const [likes, setLikes] = useState(null);
