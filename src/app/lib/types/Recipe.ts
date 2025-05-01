@@ -1,4 +1,5 @@
 import { LikeType } from "./Like";
+import { UserIdType } from "./User";
 export interface RecipeType {
   id: number;
   name: string;
@@ -10,6 +11,8 @@ export interface RecipeType {
   likes: number;
   username: string;
   isDummy: boolean;
+  createdAt: Date;
+  RecipeCategories: { id: number; name: string }[];
 }
 
 export interface RecipeSectionType {
@@ -19,4 +22,11 @@ export interface RecipeSectionType {
   categoryId?: number;
   isDeletable?: boolean;
   layout: "carousel" | "grid";
+}
+
+export interface RecipeLayoutType {
+  allLikes: LikeType[];
+  recipes: RecipeType[];
+  currentUserId: UserIdType;
+  deleteButton: boolean | undefined;
 }

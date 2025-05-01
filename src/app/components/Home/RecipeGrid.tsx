@@ -2,17 +2,14 @@
 import React, { useEffect, useState } from "react";
 import RecipeCard from "../RecipeCard.jsx";
 import { LikeType } from "../../lib/types/Like.js";
-import { RecipeType } from "../../lib/types/Recipe.js";
+import { RecipeLayoutType } from "../../lib/types/Recipe.js";
 
 export default function RecipeGrid({
   allLikes,
   recipes,
   currentUserId,
   deleteButton,
-}: {
-  allLikes: LikeType[];
-  recipes: RecipeType[];
-}) {
+}: RecipeLayoutType) {
   const [visibleItemCount, setVisibleItemCount] = useState(4);
   const [displayedData, setDisplayedData] = useState(
     recipes.slice(0, visibleItemCount)
