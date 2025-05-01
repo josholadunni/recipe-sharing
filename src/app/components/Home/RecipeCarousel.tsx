@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback } from "react";
 import { useEffect } from "react";
-import RecipeCard from "../RecipeCard.js";
+import RecipeCard from "../RecipeCard";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import "../../../styles/RecipeCarousel.css";

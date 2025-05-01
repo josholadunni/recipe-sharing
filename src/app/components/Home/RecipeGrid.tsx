@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import RecipeCard from "../RecipeCard.jsx";
-import { LikeType } from "../../lib/types/Like.js";
-import { RecipeLayoutType } from "../../lib/types/Recipe.js";
+import RecipeCard from "../RecipeCard";
+import { LikeType } from "../../lib/types/Like";
+import { RecipeLayoutType } from "../../lib/types/Recipe";
 
 export default function RecipeGrid({
   allLikes,
