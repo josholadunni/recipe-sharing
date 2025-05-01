@@ -1,3 +1,4 @@
+import { LikeType } from "./Like";
 export interface RecipeType {
   id: number;
   name: string;
@@ -9,4 +10,13 @@ export interface RecipeType {
   likes: number;
   username: string;
   isDummy: boolean;
+}
+
+export interface RecipeSectionType {
+  currentUserId: { result: number; message: string };
+  fetchRecipeLikes: () => Promise<LikeType[]>;
+  fetchRecipes: (categoryId?: number) => Promise<RecipeType[]>;
+  categoryId?: number;
+  isDeletable?: boolean;
+  layout: "carousel" | "grid";
 }
