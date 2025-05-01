@@ -1,17 +1,18 @@
 "use client";
 import React, { useCallback } from "react";
 import { useEffect } from "react";
-import RecipeCard from "../RecipeCard.jsx";
+import RecipeCard from "../RecipeCard.js";
 import useEmblaCarousel from "embla-carousel-react";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import "../../../styles/RecipeCarousel.css";
+import { RecipeLayoutType } from "../../lib/types/Recipe.js";
 
 export default function RecipeGrid({
   allLikes,
   recipes,
   currentUserId,
   deleteButton,
-}) {
+}: RecipeLayoutType) {
   let renderedRecipeCards = undefined;
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false }, [
