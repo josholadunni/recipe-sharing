@@ -11,6 +11,7 @@ import { sequelize } from "./models/index.js";
 import { unstable_cache } from "next/cache";
 import { LikeType } from "./types/Like.js";
 import { RecipeType } from "./types/Recipe.js";
+import { UserIdType } from "./types/User.js";
 
 export const fetchRecentRecipes = async (): Promise<RecipeType[]> => {
   const getCachedRecentRecipes = unstable_cache(
@@ -175,7 +176,7 @@ export async function fetchAllRecipeIds() {
 
 export const findUserIdFromEmail = async (
   inputEmail?: string
-): Promise<{ result: number; message: string } | undefined> => {
+): Promise<UserIdType | undefined> => {
   // User lookup function (cached for 1 hour)
   const getCachedUser = unstable_cache(
     async (email) => {
