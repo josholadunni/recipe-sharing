@@ -9,7 +9,7 @@ import H3 from "./H3";
 import { deleteRecipe } from "../lib/actions";
 import { Skeleton } from "@nextui-org/skeleton";
 import { RecipeCardType } from "../lib/types/Recipe";
-import { DbResultType } from "../lib/types/DB";
+import { ActionResultType } from "../lib/types/DB";
 
 const RecipeCard = (props: RecipeCardType) => {
   const { allLikes, currentUserId, id, createdAt, deletable, isSmall } = props;
@@ -48,10 +48,10 @@ const RecipeCard = (props: RecipeCardType) => {
   const formattedDate = formatDate(createdAt);
   const formattedTitle = titleCase(props.title);
 
-  const [state, setState] = useState<DbResultType | null>(null);
+  const [state, setState] = useState<ActionResultType | null>(null);
 
   const handleClick = async (id: number) => {
-    let actionResult: DbResultType | null = null;
+    let actionResult: ActionResultType | null = null;
     if (
       window.confirm(
         "Are you sure you want to delete this recipes? This can't be undone."

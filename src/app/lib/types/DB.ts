@@ -1,4 +1,4 @@
-export interface DbResultType {
+export interface ActionResultType {
   status: string;
   message: string;
 }
