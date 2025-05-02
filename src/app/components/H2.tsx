@@ -1,6 +1,7 @@
 import React from "react";
+import { Heading } from "../lib/types/Style";
 
-function H2(props: { color: string; className: string; text: string }) {
+function H2(props: Heading) {
   return (
     <h2
       style={{ fontWeight: 600 }}

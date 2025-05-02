@@ -1,6 +1,7 @@
 import React from "react";
+import { Heading } from "../lib/types/Style";
 
-function H1(props: { text: string; color: string; className: string }) {
+function H1(props: Heading) {
   return (
     <h1
       style={{ fontWeight: 900 }}
