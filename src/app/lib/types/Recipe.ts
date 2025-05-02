@@ -45,4 +45,5 @@ export interface RecipeCardType {
   createdAt: Date;
   deletable: boolean;
   isSmall: boolean;
+  className?: string;
 }
