@@ -25,8 +25,8 @@ export interface RecipeSectionType {
 }
 
 export interface RecipeLayoutType {
-  allLikes: LikeType[];
-  recipes: RecipeType[];
+  allLikes: LikeType[] | null;
+  recipes: RecipeType[] | null;
   currentUserId: UserIdType;
   deleteButton: boolean | undefined;
 }
