@@ -43,4 +43,5 @@ export interface RecipeCardType {
   slug: string;
   createdAt: Date;
   deletable: boolean;
+  isSmall: boolean;
 }
