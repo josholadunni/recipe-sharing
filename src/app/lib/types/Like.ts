@@ -5,4 +5,6 @@ export interface LikeType {
     username: string;
     email: string;
   };
+  //Like and Recipe joins
+  RecipeId?: number;
 }

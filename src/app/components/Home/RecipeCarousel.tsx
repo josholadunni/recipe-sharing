@@ -35,10 +35,10 @@ export default function RecipeGrid({
   if (recipes) {
     const totalRecipes = recipes.length;
     renderedRecipeCards = recipes.map((recipe, index) => {
-      const categories = recipe.RecipeCategories.map((category) => [
-        category.name,
-        category.id,
-      ]);
+      //Map through category object array, creating an array of tuples
+      const categories: [string, number][] = recipe.RecipeCategories.map(
+        (category) => [category.name, category.id]
+      );
 
       if (deleteButton) {
         return (

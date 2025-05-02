@@ -30,3 +30,17 @@ export interface RecipeLayoutType {
   currentUserId: UserIdType;
   deleteButton: boolean | undefined;
 }
+
+export interface RecipeCardType {
+  id: number;
+  title: string;
+  imgFileName: string;
+  description: string;
+  allLikes: LikeType[] | null;
+  currentUserId: UserIdType | null;
+  categories: [string, number][];
+  username: string;
+  slug: string;
+  createdAt: Date;
+  deletable: boolean;
+}

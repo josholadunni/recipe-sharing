@@ -8,8 +8,9 @@ import { formatDate, titleCase } from "../lib/utils";
 import H3 from "./H3";
 import { deleteRecipe } from "../lib/actions";
 import { Skeleton } from "@nextui-org/skeleton";
+import { RecipeCardType } from "../lib/types/Recipe";
 
-const RecipeCard = (props) => {
+const RecipeCard = (props: RecipeCardType) => {
   const { allLikes, currentUserId, id, createdAt, deletable, isSmall } = props;
 
   const likeRecipeId = allLikes ? allLikes.map((like) => like.RecipeId) : [];
