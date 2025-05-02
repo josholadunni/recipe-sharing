@@ -1,6 +1,6 @@
 import React from "react";
 
-function H1(props) {
+function H1(props: { text: string; color: string; className: string }) {
   return (
     <h1
       style={{ fontWeight: 900 }}

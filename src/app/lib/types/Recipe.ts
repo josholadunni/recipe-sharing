@@ -19,9 +19,10 @@ export interface RecipeSectionType {
   currentUserId: { result: number; message: string };
   fetchRecipeLikes: () => Promise<LikeType[]>;
   fetchRecipes: (categoryId?: number) => Promise<RecipeType[]>;
-  categoryId?: number;
   isDeletable?: boolean;
   layout: "carousel" | "grid";
+  //Category joins
+  categoryId?: number;
 }
 
 export interface RecipeLayoutType {

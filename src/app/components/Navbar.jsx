@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import LogInOutBtn from "../components/LogInOutBtn.jsx";
-import SearchBar from "../components/SearchBar.jsx";
+import LogInOutBtn from "../components/LogInOutBtn";
+import SearchBar from "../components/SearchBar";
 import React, { useState, useEffect } from "react";
 import SignUpBtn from "./SignUpBtn.jsx";
 import { useAuth } from "../context/AuthContext";
 import navStyles from "./Navbar.module.css";
-import MenuItem from "../components/MenuItem.jsx";
-import MenuItemMobile from "./MenuItemMobile.jsx";
-import ProfileIcon from "./ProfileIcon.jsx";
-import H1 from "./H1.jsx";
+import MenuItem from "../components/MenuItem";
+import MenuItemMobile from "./MenuItemMobile";
+import ProfileIcon from "./ProfileIcon";
+import H1 from "./H1";
 
 function Navbar({ username }) {
   const { isAuthenticated } = useAuth();
