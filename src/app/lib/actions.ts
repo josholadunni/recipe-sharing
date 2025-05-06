@@ -89,7 +89,7 @@ export async function createRecipe(prevState: any, formData: FormData) {
       where: { name: formData.getAll("categories") },
     });
 
-    let validationError = null;
+    let validationError: string | undefined = undefined;
 
     let isValidated = () => {
       if (categories.length <= 5) {
@@ -101,7 +101,6 @@ export async function createRecipe(prevState: any, formData: FormData) {
     };
 
     if (isValidated()) {
-      console.log("Validated");
       const newRecipe = await user.createRecipe({
         name: formData.get("rname"),
         imageURL:
@@ -120,7 +119,7 @@ export async function createRecipe(prevState: any, formData: FormData) {
     }
     revalidatePath("/");
     return { status: "success", message: "File has been uploaded." };
-  } catch (error) {
+  } catch (error: any) {
     return {
       status: "error",
       message: error.message,
@@ -128,7 +127,7 @@ export async function createRecipe(prevState: any, formData: FormData) {
   }
 }
 
-export async function deleteRecipe(id) {
+export async function deleteRecipe(id: number) {
   try {
     const recipe = await Recipe.findByPk(id);
     await recipe.destroy();
@@ -140,7 +139,7 @@ export async function deleteRecipe(id) {
   }
 }
 
-export async function createUser(prevState, formData) {
+export async function createUser(prevState: any, formData: FormData) {
   const registrationSchema = z
     .object({
       username: z
@@ -208,7 +207,7 @@ export async function createUser(prevState, formData) {
   } catch (error) {
     console.error(error);
     if (error instanceof z.ZodError) {
-      const errors = {};
+      const errors: { [key: string]: string } = {};
       error.errors.forEach((err) => {
         errors[err.path[0]] = err.message;
       });
