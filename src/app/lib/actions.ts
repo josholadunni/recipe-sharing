@@ -4,13 +4,16 @@ import { Recipe, User, RecipeCategory } from "./models/index.js";
 import { revalidatePath } from "next/cache";
 import { signIn, signOut } from "../auth.js";
 import bcrypt from "bcrypt";
-import { findUserIdFromEmail, findUsername } from "./data.js";
+import {
+  findUserIdFromEmail,
+  findUsername,
+  fetchRecipeById,
+  initAndFetchCategories,
+} from "./data";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import z from "zod";
 import { Op } from "sequelize";
 import { redirect } from "next/navigation.js";
-import { fetchRecipeById } from "./data.js";
-import { initAndFetchCategories } from "./data.js";
 
 const region = process.env.NEXT_AWS_S3_REGION;
 const accessKeyId = process.env.NEXT_AWS_S3_ACCESS_KEY_ID;
@@ -28,7 +31,7 @@ const s3Client = new S3Client({
   },
 });
 
-async function uploadFileToS3(file, fileName) {
+async function uploadFileToS3(file: Buffer, fileName: string) {
   const fileBuffer = file;
 
   const params = {
@@ -48,13 +51,13 @@ async function uploadFileToS3(file, fileName) {
   }
 }
 
-export async function createRecipe(prevState, formData) {
+export async function createRecipe(prevState: any, formData: FormData) {
   await Recipe.sync();
   await RecipeCategory.sync();
 
   try {
     const file = formData.get("file");
-    if (!file) {
+    if (!file || !(file instanceof File)) {
       return {
         status: "error",
         message: "Please select a file.",
@@ -76,7 +79,7 @@ export async function createRecipe(prevState, formData) {
 
     const userId = await findUserIdFromEmail();
 
-    const user = await User.findByPk(userId.result);
+    const user = await User.findByPk(userId?.result);
 
     const ingredientFields = formData.getAll("ingredients");
 
