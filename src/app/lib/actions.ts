@@ -4,19 +4,27 @@ import { Recipe, User, RecipeCategory } from "./models/index.js";
 import { revalidatePath } from "next/cache";
 import { signIn, signOut } from "../auth.js";
 import bcrypt from "bcrypt";
-import { findUserIdFromEmail, findUsername } from "./data";
+import { findUserIdFromEmail, findUsername } from "./data.js";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import z from "zod";
 import { Op } from "sequelize";
 import { redirect } from "next/navigation.js";
-import { fetchRecipeById } from "./data";
-import { initAndFetchCategories } from "./data";
+import { fetchRecipeById } from "./data.js";
+import { initAndFetchCategories } from "./data.js";
+
+const region = process.env.NEXT_AWS_S3_REGION;
+const accessKeyId = process.env.NEXT_AWS_S3_ACCESS_KEY_ID;
+const secretAccessKey = process.env.NEXT_AWS_S3_SECRET_ACCESS_KEY;
+
+if (!region || !accessKeyId || !secretAccessKey) {
+  throw new Error("Missing AWS S3 environment variables");
+}
 
 const s3Client = new S3Client({
-  region: process.env.NEXT_AWS_S3_REGION,
+  region,
   credentials: {
-    accessKeyId: process.env.NEXT_AWS_S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.NEXT_AWS_S3_SECRET_ACCESS_KEY,
+    accessKeyId,
+    secretAccessKey,
   },
 });
 
