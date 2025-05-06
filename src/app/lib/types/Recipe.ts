@@ -17,6 +17,11 @@ export interface RecipeType {
   Likes: { id: number; UserId: number; RecipeId: number }[];
 }
 
+export interface RecipeCategoryType {
+  id: number;
+  name: string;
+}
+
 export interface RecipeSectionType {
   currentUserId: { result: number; message: string };
   fetchRecipeLikes: () => Promise<LikeType[]>;

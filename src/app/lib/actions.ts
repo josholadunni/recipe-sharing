@@ -14,6 +14,8 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import z from "zod";
 import { Op } from "sequelize";
 import { redirect } from "next/navigation.js";
+import { RecipeCardType, RecipeCategoryType } from "./types/Recipe.js";
+import { UserIdType } from "./types/User.js";
 
 const region = process.env.NEXT_AWS_S3_REGION;
 const accessKeyId = process.env.NEXT_AWS_S3_ACCESS_KEY_ID;
@@ -217,7 +219,7 @@ export async function createUser(prevState: any, formData: FormData) {
   }
 }
 
-export async function createLike(e) {
+export async function createLike(e: RecipeCardType) {
   const userId = await findUserIdFromEmail();
   if (userId) {
     try {
@@ -241,7 +243,7 @@ export async function createLike(e) {
   }
 }
 
-export async function removeLike(e) {
+export async function removeLike(e: RecipeCardType) {
   const userId = await findUserIdFromEmail();
   try {
     const recipe = await Recipe.findByPk(e.id);
@@ -252,7 +254,7 @@ export async function removeLike(e) {
 
     const like = await recipe.getLikes({
       where: {
-        UserId: userId.result,
+        UserId: userId?.result,
       },
     });
 
@@ -267,7 +269,7 @@ export async function removeLike(e) {
   revalidatePath("/");
 }
 
-export async function authenticate(prevState, formData) {
+export async function authenticate(prevState: any, formData: FormData) {
   console.log("Server: Authentication attempt");
   try {
     const email = formData.get("email");
@@ -299,7 +301,7 @@ export async function logOut() {
   return { isLoggedOut: true };
 }
 
-export async function search(term) {
+export async function search(term: string) {
   const recipes = await Recipe.findAll({
     where: {
       name: {
@@ -311,7 +313,7 @@ export async function search(term) {
   return JSON.parse(JSON.stringify(recipes));
 }
 
-export async function deleteUser(userId) {
+export async function deleteUser(userId: UserIdType) {
   try {
     revalidatePath("/");
     await User.destroy({ where: { id: userId } });
@@ -322,7 +324,7 @@ export async function deleteUser(userId) {
   }
 }
 
-export async function getRecipeById(id) {
+export async function getRecipeById(id: number) {
   "use server";
   try {
     const recipe = await fetchRecipeById(id);
@@ -339,7 +341,7 @@ export async function fetchCategories() {
     //Get the raw object(?) of categories from the DB function
     const categoriesRaw = await initAndFetchCategories();
     //Map through the raw categories and return an array of category obejects
-    const categories = categoriesRaw.map((category) => {
+    const categories = categoriesRaw.map((category: RecipeCategoryType) => {
       return {
         id: category.id,
         name: category.name,
