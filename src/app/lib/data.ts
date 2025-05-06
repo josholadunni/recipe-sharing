@@ -54,7 +54,7 @@ export const fetchPopularRecipes = async () => {
           include: [RecipeCategory, Like],
           limit: 10,
         });
-        const sortedRecipes = recipes.sort((a, b) => {
+        const sortedRecipes = recipes.sort((a: RecipeType, b: RecipeType) => {
           const likesA = a.Likes ? a.Likes.length : 0;
           const likesB = b.Likes ? b.Likes.length : 0;
           return likesB - likesA;

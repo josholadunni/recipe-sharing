@@ -13,6 +13,8 @@ export interface RecipeType {
   isDummy: boolean;
   createdAt: Date;
   RecipeCategories: { id: number; name: string }[];
+  //Like joins
+  Likes: { id: number; UserId: number; RecipeId: number }[];
 }
 
 export interface RecipeSectionType {
