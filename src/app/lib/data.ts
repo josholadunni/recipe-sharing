@@ -147,7 +147,7 @@ export async function fetchLikedRecipes() {
   }
 }
 
-export async function fetchRecipeById(id) {
+export async function fetchRecipeById(id: number) {
   try {
     const recipe = await Recipe.findByPk(id, {
       include: [
@@ -216,7 +216,7 @@ export const findUserIdFromEmail = async (
   return getCachedUser(email);
 };
 
-export async function findUserFromUsername(username) {
+export async function findUserFromUsername(username: string) {
   const user = await User.findAll({
     where: { username: username },
   });
@@ -236,7 +236,7 @@ export async function fetchAllUsers() {
   }
 }
 
-export async function findUsername(username) {
+export async function findUsername(username: string) {
   const user = await User.findAll({
     where: { username: username },
   });
@@ -250,14 +250,14 @@ export async function findUsername(username) {
   }
 }
 
-export async function findUsernameFromEmail(email) {
+export async function findUsernameFromEmail(email: string) {
   const user = await User.findAll({
     where: { email: email },
   });
   return user[0]?.dataValues.username;
 }
 
-export async function fetchRecipesByCategoryId(id) {
+export async function fetchRecipesByCategoryId(id: number) {
   try {
     const recipeIds = await Recipe.findAll({
       attributes: ["id"],
@@ -268,7 +268,7 @@ export async function fetchRecipesByCategoryId(id) {
           through: { attributes: [] },
         },
       ],
-    }).then((recipes) => recipes.map((recipe) => recipe.id));
+    }).then((recipes: RecipeType[]) => recipes.map((recipe) => recipe.id));
 
     const recipes = await Recipe.findAll({
       where: {
@@ -289,7 +289,7 @@ export async function fetchRecipesByCategoryId(id) {
   }
 }
 
-export async function fetchRecipesByUserId(id) {
+export async function fetchRecipesByUserId(id: number) {
   try {
     const recipes = await Recipe.findAll({
       include: [
@@ -309,14 +309,14 @@ export async function fetchRecipesByUserId(id) {
   }
 }
 
-export async function fetchCategoryIdByCategoryName(name) {
+export async function fetchCategoryIdByCategoryName(name: string) {
   const id = await RecipeCategory.findOne({
     where: { name: name },
   });
   return id;
 }
 
-export async function fetchRecipeCategoriesByRecipeId(id) {
+export async function fetchRecipeCategoriesByRecipeId(id: number) {
   const categories = await RecipeRecipeCategory.findAll({
     where: { RecipeId: id },
   });
