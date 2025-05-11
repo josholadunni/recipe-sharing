@@ -26,7 +26,7 @@ interface FormState {
   categories: string[];
   ingredients: string[];
   method: string[];
-  overWordCount: string[];
+  overWordCount: number[];
 }
 
 function SubmitButton({ isDisabled }: { isDisabled: boolean }) {
@@ -79,7 +79,7 @@ export default function Form() {
 
   const [method, setMethodStep] = useState([{ id: 1 }]);
 
-  const [checkedCategories, setCheckedCategory] = useState([]);
+  const [checkedCategories, setCheckedCategory] = useState<string[]>([]);
 
   const [formState, setFormState] = useState<FormState>({
     rname: "",
@@ -258,7 +258,11 @@ export default function Form() {
     setMethodStep([...method, { id: newId }]);
   };
 
-  const removeMethodField = (idNumber, id, name) => {
+  const removeMethodField = (
+    idNumber: number,
+    id: string,
+    name: "ingredients" | "method"
+  ) => {
     if (idNumber !== 1) {
       setMethodStep(method.filter((step) => step.id !== idNumber));
 
@@ -277,7 +281,7 @@ export default function Form() {
     }
   };
 
-  const addCategoryClick = (e) => {
+  const addCategoryClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (checkedCategories.includes(e.target.value)) {
       const updatedCategories = checkedCategories.filter(
         (category) => category !== e.target.value
@@ -309,7 +313,7 @@ export default function Form() {
     setCurrentStep(currentStep + 1);
   };
 
-  const handleWordCountChange = (id, name, index, count, isOverWordCount) => {
+  const handleWordCountChange = (id: number, isOverWordCount: number[]) => {
     if (isOverWordCount) {
       setFormState((prev) => ({
         ...prev,
