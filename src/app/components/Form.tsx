@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Input from "../components/Input.jsx";
+import Input from "./Input.jsx";
 import InputWithCharLimit from "./InputWithCharLimit.jsx";
-import ListInput from "../components/ListInput.jsx";
+import ListInput from "./ListInput.jsx";
 import { createRecipe } from "../lib/actions.js";
 import { useActionState } from "react";
 import { redirect } from "next/navigation.js";
@@ -11,13 +11,25 @@ import { useFormStatus } from "react-dom";
 import $ from "jquery";
 import Image from "next/image";
 import H2 from "./H2.jsx";
-import H3 from "./H3.js";
+import H3 from "./H3.jsx";
 import Link from "next/link.js";
 import imageCompression from "browser-image-compression";
-import ContentWithSkeleton from "../components/Wrappers/ContentWithSkeleton.jsx";
+import ContentWithSkeleton from "./Wrappers/ContentWithSkeleton.jsx";
 import { fetchCategories } from "../lib/actions.js";
+import { RecipeCategoryType } from "../lib/types/Recipe.js";
 
-function SubmitButton({ isDisabled }) {
+interface FormState {
+  rname: string;
+  rdescription: string;
+  srdescription: string;
+  file: File | null;
+  categories: string[];
+  ingredients: string[];
+  method: string[];
+  overWordCount: string[];
+}
+
+function SubmitButton({ isDisabled }: { isDisabled: boolean }) {
   const { pending } = useFormStatus();
 
   return (
@@ -37,7 +49,7 @@ function SubmitButton({ isDisabled }) {
 }
 
 export default function Form() {
-  const initialState = { message: null };
+  const initialState = { status: "", message: null };
 
   const [categories, setCategories] = useState([]);
 
@@ -53,7 +65,7 @@ export default function Form() {
 
   const categoryNames = categories
     ? categories
-        .map((category) => {
+        .map((category: RecipeCategoryType) => {
           const categoryName = category.name;
           const capitalized =
             categoryName.charAt(0).toUpperCase() +
@@ -69,7 +81,7 @@ export default function Form() {
 
   const [checkedCategories, setCheckedCategory] = useState([]);
 
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<FormState>({
     rname: "",
     rdescription: "",
     srdescription: "",
@@ -81,7 +93,7 @@ export default function Form() {
   });
 
   const [serverState, formAction] = useActionState(
-    async (prevState, formData) => {
+    async (state: { status: string; message: any }, formData: FormData) => {
       const finalFormData = new FormData();
       Object.entries(formState).forEach(([key, value]) => {
         if (Array.isArray(value)) {
@@ -90,19 +102,18 @@ export default function Form() {
           finalFormData.append(key, value);
         }
       });
-      return createRecipe(prevState, finalFormData);
+      return createRecipe(state, finalFormData);
     },
-
     initialState
   );
 
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const [imageError, setImageError] = useState(null);
 
   const [currentStep, setCurrentStep] = useState(0);
 
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   let [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
 
@@ -163,7 +174,8 @@ export default function Form() {
     updateButtonState();
   }, [currentStep, formState, checkedCategories, imageError]);
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
     const image = e.target.files[0];
     const options = {
       maxSizeMB: 1,
@@ -189,7 +201,7 @@ export default function Form() {
         const reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onloadend = () => {
-          setImagePreview(reader.result);
+          setImagePreview(reader.result as string);
         };
       } catch (error) {
         console.error(error);
