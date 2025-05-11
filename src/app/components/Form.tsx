@@ -333,16 +333,16 @@ export default function Form() {
 
   //Adding new ingredient and method fields using the enter key
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (
         e.key === "Enter" &&
-        e.target.nodeName === "INPUT" &&
-        e.target.type === "text"
+        (e.target as HTMLElement).nodeName === "INPUT" &&
+        (e.target as HTMLInputElement).type === "text"
       ) {
         e.preventDefault();
-        if (e.target.name === "ingredients") {
+        if ((e.target as HTMLInputElement).name === "ingredients") {
           addIngredientField();
-        } else if (e.target.name === "method") {
+        } else if ((e.target as HTMLInputElement).name === "method") {
           addMethodField();
         }
       }
@@ -360,13 +360,13 @@ export default function Form() {
       const categoryName = category;
 
       return (
-        <div
+        <Link
           key={index}
           className="bg-neutral-200 border-neutral-200 rounded-full border-[1px] py-1 px-4 mr-2 my-1 text-sm text-black text-nowrap"
           href={`/categories/${categoryName.toLowerCase()}`}
         >
           {categoryName}
-        </div>
+        </Link>
       );
     });
   };

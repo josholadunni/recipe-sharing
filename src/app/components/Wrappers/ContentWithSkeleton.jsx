@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@nextui-org/skeleton";
 
-function ContentWithSkeleton({ children, data, fallback, className = "" }) {
+function ContentWithSkeleton({ children, data, className = "" }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
