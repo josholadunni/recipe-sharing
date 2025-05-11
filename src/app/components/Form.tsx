@@ -107,7 +107,9 @@ export default function Form() {
     initialState
   );
 
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | ArrayBuffer | null>(
+    null
+  );
 
   const [imageError, setImageError] = useState(null);
 
@@ -201,7 +203,7 @@ export default function Form() {
         const reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onloadend = () => {
-          setImagePreview(reader.result as string);
+          setImagePreview(reader.result);
         };
       } catch (error) {
         console.error(error);
@@ -220,7 +222,11 @@ export default function Form() {
     setIngredients([...ingredients, { id: newId }]);
   };
 
-  const removeIngredientField = (idNumber, id, name) => {
+  const removeIngredientField = (
+    idNumber: number,
+    id: string,
+    name: "ingredients" | "method"
+  ) => {
     if (idNumber !== 1) {
       setIngredients(
         ingredients.filter((ingredient) => ingredient.id !== idNumber)
