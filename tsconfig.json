@@ -28,7 +28,7 @@
     "**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-  ],
+, "src/app/components/RecipeCardWithDelete.tsx"  ],
   "exclude": [
     "node_modules"
   ]

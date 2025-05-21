@@ -1,24 +1,24 @@
 "use client";
-import React from "react";
 import Image from "next/image";
 import { createLike, removeLike } from "../lib/actions";
 import { useState } from "react";
 import { deleteRecipe } from "../lib/actions";
 import Link from "next/link";
 import { formatDate, titleCase } from "../lib/utils";
+import { RecipeCardType } from "../lib/types/Recipe";
 
-const RecipeCard = (props) => {
+const RecipeCard = (props: RecipeCardType) => {
   const { allLikes, currentUserId, id, createdAt } = props;
 
   const likeRecipeId = allLikes ? allLikes.map((like) => like.RecipeId) : [];
 
   const likes = likeRecipeId.filter((like) => like === id).length;
 
-  const hasLiked = (recipeId) => {
+  const hasLiked = (recipeId: number) => {
     if (allLikes && allLikes.length > 0) {
       return allLikes.some(
         (like) =>
-          like.User.id === currentUserId.result && like.RecipeId === recipeId
+          like.User.id === currentUserId?.result && like.RecipeId === recipeId
       );
     }
     return false;
@@ -43,9 +43,13 @@ const RecipeCard = (props) => {
   const formattedDate = formatDate(createdAt);
   const formattedTitle = titleCase(props.title);
 
-  const [state, setState] = useState(null);
+  const [state, setState] = useState<{
+    status: string;
+    message: string;
+    result?: string;
+  } | null>(null);
 
-  const handleClick = async (id) => {
+  const handleClick = async (id: number) => {
     const actionResult = await deleteRecipe(id);
     setState(actionResult);
   };
