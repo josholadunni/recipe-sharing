@@ -5,9 +5,8 @@ import Input from "./Input.jsx";
 import { createUser } from "../lib/actions.js";
 import { useFormState } from "react-dom";
 import { useRouter } from "next/navigation.js";
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation.js";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext.js";
 import { signIn } from "next-auth/react";
 
 export default function RegisterForm() {
@@ -18,7 +17,9 @@ export default function RegisterForm() {
     errors: {},
   });
 
-  const renderErrors = (errors) => {
+  const renderErrors = (
+    errors: (string | undefined)[] | { [key: string]: string }
+  ) => {
     if (!errors || Object.keys(errors).length === 0) return null;
     return (
       <ul>

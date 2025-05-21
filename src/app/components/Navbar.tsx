@@ -12,7 +12,7 @@ import MenuItemMobile from "./MenuItemMobile";
 import ProfileIcon from "./ProfileIcon";
 import H1 from "./H1";
 
-function Navbar({ username }) {
+function Navbar({ username }: { username: string | null }) {
   const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [results, setResults] = useState([]);

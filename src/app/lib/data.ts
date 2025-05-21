@@ -250,7 +250,9 @@ export async function findUsername(username: string) {
   }
 }
 
-export async function findUsernameFromEmail(email: string) {
+export async function findUsernameFromEmail(
+  email: string
+): Promise<string | undefined> {
   const user = await User.findAll({
     where: { email: email },
   });
