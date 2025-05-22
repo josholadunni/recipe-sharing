@@ -10,7 +10,7 @@ import { auth } from "../auth";
 import { sequelize } from "./models/index.js";
 import { unstable_cache } from "next/cache";
 import { LikeType } from "./types/Like.js";
-import { RecipeType } from "./types/Recipe.js";
+import { RecipeCategoryType, RecipeType } from "./types/Recipe.js";
 import { UserIdType } from "./types/User.js";
 
 export const fetchRecentRecipes = async (): Promise<RecipeType[]> => {
@@ -71,7 +71,7 @@ export const fetchPopularRecipes = async () => {
   return getCachedPopularRecipes();
 };
 
-export async function fetchRecipeCategories() {
+export async function fetchRecipeCategories(): Promise<RecipeCategoryType | undefined> {
   try {
     const categories = await RecipeCategory.findAll({
       order: [["createdAt", "ASC"]],
