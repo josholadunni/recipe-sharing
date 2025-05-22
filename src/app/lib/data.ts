@@ -71,7 +71,9 @@ export const fetchPopularRecipes = async () => {
   return getCachedPopularRecipes();
 };
 
-export async function fetchRecipeCategories(): Promise<RecipeCategoryType | undefined> {
+export async function fetchRecipeCategories(): Promise<
+  RecipeCategoryType | undefined
+> {
   try {
     const categories = await RecipeCategory.findAll({
       order: [["createdAt", "ASC"]],
@@ -259,35 +261,39 @@ export async function findUsernameFromEmail(
   return user[0]?.dataValues.username;
 }
 
-export async function fetchRecipesByCategoryId(id: number) {
-  try {
-    const recipeIds = await Recipe.findAll({
-      attributes: ["id"],
-      include: [
-        {
-          model: RecipeCategory,
-          where: { id: id },
-          through: { attributes: [] },
-        },
-      ],
-    }).then((recipes: RecipeType[]) => recipes.map((recipe) => recipe.id));
+export async function fetchRecipesByCategoryId(
+  id: number
+): Promise<RecipeType[] | undefined> {
+  if (id) {
+    try {
+      const recipeIds = await Recipe.findAll({
+        attributes: ["id"],
+        include: [
+          {
+            model: RecipeCategory,
+            where: { id: id },
+            through: { attributes: [] },
+          },
+        ],
+      }).then((recipes: RecipeType[]) => recipes.map((recipe) => recipe.id));
 
-    const recipes = await Recipe.findAll({
-      where: {
-        id: recipeIds,
-      },
-      include: [
-        {
-          model: RecipeCategory,
-          through: { attributes: [] },
+      const recipes = await Recipe.findAll({
+        where: {
+          id: recipeIds,
         },
-      ],
-    });
+        include: [
+          {
+            model: RecipeCategory,
+            through: { attributes: [] },
+          },
+        ],
+      });
 
-    return recipes;
-  } catch (error) {
-    console.error("Couldn't fetch recipes", error);
-    throw error;
+      return recipes;
+    } catch (error) {
+      console.error("Couldn't fetch recipes", error);
+      throw error;
+    }
   }
 }
 
