@@ -14,7 +14,11 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import z from "zod";
 import { Op } from "sequelize";
 import { redirect } from "next/navigation.js";
-import { RecipeCardType, RecipeCategoryType } from "./types/Recipe.js";
+import {
+  RecipeCardType,
+  RecipeCategoryType,
+  RecipeType,
+} from "./types/Recipe.js";
 import { UserIdType } from "./types/User.js";
 
 const region = process.env.NEXT_AWS_S3_REGION;
@@ -301,7 +305,7 @@ export async function logOut() {
   return { isLoggedOut: true };
 }
 
-export async function search(term: string) {
+export async function search(term: string): Promise<RecipeType[]> {
   const recipes = await Recipe.findAll({
     where: {
       name: {

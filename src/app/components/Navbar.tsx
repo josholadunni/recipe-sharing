@@ -11,11 +11,12 @@ import MenuItem from "../components/MenuItem";
 import MenuItemMobile from "./MenuItemMobile";
 import ProfileIcon from "./ProfileIcon";
 import H1 from "./H1";
+import { RecipeType } from "../lib/types/Recipe";
 
 function Navbar({ username }: { username: string | null }) {
   const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<RecipeType[]>([]);
   const [isScrolledUp, setIsScrolledUp] = useState(true);
 
   let lastScrollTop = 0;

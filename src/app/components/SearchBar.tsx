@@ -1,18 +1,27 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SetStateAction } from "react";
 import { useRouter } from "next/navigation";
 import { search } from "../lib/actions";
 import Link from "next/link";
 import searchStyles from "./SearchBar.module.css";
 import H3 from "./H3";
+import { RecipeType } from "../lib/types/Recipe";
 
-export default function SearchBar({ placeholder, setResults, results }) {
-  const [timeoutId, setTimeoutId] = useState(null);
+export default function SearchBar({
+  placeholder,
+  setResults,
+  results,
+}: {
+  placeholder: string;
+  setResults: React.Dispatch<SetStateAction<never[] | RecipeType[]>>;
+  results: RecipeType[];
+}) {
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState<string | null>("");
   const [isSearchTerm, setIsSearchTerm] = useState(false);
-  let [isResults, setIsResults] = useState(undefined);
+  let [isResults, setIsResults] = useState<boolean | undefined>(undefined);
   const router = useRouter();
 
   useEffect(() => {
@@ -50,7 +59,7 @@ export default function SearchBar({ placeholder, setResults, results }) {
     }
   }, [searchTerm]);
 
-  function handleInputChange(term) {
+  function handleInputChange(term: string) {
     //Clears the timeout if it exists
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -63,10 +72,16 @@ export default function SearchBar({ placeholder, setResults, results }) {
     }
   }
 
-  function handleSubmit(e) {
+  interface HandleSubmitEvent extends React.FormEvent<HTMLFormElement> {
+    target: EventTarget & HTMLFormElement;
+  }
+
+  function handleSubmit(e: HandleSubmitEvent): void {
     e.preventDefault();
-    const input = e.target.firstChild;
-    router.push(`/search/${input.value}`);
+    const input = e.target.firstChild as HTMLInputElement | null;
+    if (input) {
+      router.push(`/search/${input.value}`);
+    }
   }
 
   let exitButton = () => {
